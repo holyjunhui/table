@@ -7,7 +7,7 @@
                 <DetectAssetView></DetectAssetView>
             </div>
             <div class="middle-map">
-                <div>Map</div>
+                <Map />
             </div>
             <div class="right-side">
                 <Example />
@@ -26,6 +26,7 @@
 
 <script>
 import Overview from "./Overview";
+import Map from "./Map";
 import Example from "./Example";
 import CertHeader from "./Header";
 import DetectAssetView from "../detect-asset-view"
@@ -35,6 +36,7 @@ export default {
     components: {
         DetectAssetView,
         Overview,
+        Map,
         Example,
         CertHeader
     }
@@ -54,7 +56,7 @@ export default {
     }
 
     .left-side, .middle-map, .right-side {
-        flex: auto;
+        flex: 1;
     }
 
     .bottom-layout {
