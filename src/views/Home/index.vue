@@ -4,7 +4,7 @@
         <div class="main-layout">
             <div class="left-side">
                 <Overview />
-                <Example />
+                <DetectAssetView></DetectAssetView>
             </div>
             <div class="middle-map">
                 <div>Map</div>
@@ -28,10 +28,12 @@
 import Overview from "./Overview";
 import Example from "./Example";
 import CertHeader from "./Header";
+import DetectAssetView from "../detect-asset-view"
 
 export default {
     name: "Home",
     components: {
+        DetectAssetView,
         Overview,
         Example,
         CertHeader
