@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+}
+
+.text-gradient {
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#00fefb), to(#0380ff));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@font-face {
+    font-family: "汉仪菱心体";
+    src: url("../assets/fonts/hanyi-lingxin.ttf");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "张海山草泥马体";
+    src: url("../assets/fonts/zhanghaishan-cnm.ttf");
+    font-weight: normal;
+}
