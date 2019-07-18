@@ -7,6 +7,7 @@
 </template>
 
 <script>
+let chart;
 import G2 from "@antv/g2";
 import Widget from "@/components/Widget";
 export default {
@@ -89,76 +90,69 @@ export default {
   },
 
   mounted() {
-    var chart = new G2.Chart({
-      container: this.$refs.mountNode,
-      height: 305,
-      padding: [60, 10, 20, 50]
-    });
-
-    chart.source(this.mockData, {
-      time: {
-        alias: "时间",
-        // 如果数据是时间戳的话，打开这个注释
-        //   type: 'time',
-        mask: "MM:ss",
-        nice: false
-      },
-      value: {
-        alias: "占用率",
-        min: 0,
-        max: 1000
-      },
-      type: {
-        type: "cat"
-      }
-    });
-
-    chart.axis("value", {
-      label: {
-        textStyle: {
-          fill: "white"
-        }
-      },
-      grid: {
-        lineStyle: {
-          stroke: "rgb(36,44,68)", // 坐标轴线的颜色
-          lineDash: [2, 3],
-          lineWidth: 3
-        }
-      }
-    });
-
-    chart.axis("time", {
-      label: {
-        textStyle: {
-          fill: "white"
-        }
-      },
-      tickLine: null,
-      line: {
+    this.initChart();
+  },
+  methods: {
+    getAxisLineStyle() {
+      return {
         stroke: "rgb(36,44,68)", // 坐标轴线的颜色
         lineDash: [2, 3],
         lineWidth: 3
-      }
-    });
+      };
+    },
+    getAxisLabelOptions() {
+      return {
+        textStyle: {
+          fill: "white"
+        }
+      };
+    },
+    setAxis() {
+      // 纵坐标轴
+      chart.axis("value", {
+        label: this.getAxisLabelOptions(),
+        grid: {
+          lineStyle: this.getAxisLineStyle()
+        }
+      });
 
-    chart
-      .line()
-      .position("time*value")
-      .shape("smooth")
-      .color("type", ["rgb(250,192,62)", "rgb(63,205,215)"])
-      .size(4);
-
-    chart.legend({
-      position: "right-top",
-      useHtml: true,
-      hoverable:false,
-      containerTpl:
-        '<div class="g2-legend">' +
-        '<div class="g2-legend-list" style="display:flex;"  > ' +
-        "</div>",
-      itemTpl: (value, color, checked, index) => {
-        return `
+      // 横坐标轴
+      chart.axis("time", {
+        label: this.getAxisLabelOptions(),
+        tickLine: null,
+        line: this.getAxisLineStyle()
+      });
+    },
+    setSource() {
+      chart.source(this.mockData, {
+        time: {
+          alias: "时间",
+          // 如果数据是时间戳的话，打开这个注释
+          //   type: 'time',
+          mask: "MM:ss",
+          nice: false
+        },
+        value: {
+          alias: "占用率",
+          min: 0,
+          max: 1000
+        },
+        type: {
+          type: "cat"
+        }
+      });
+    },
+    setLegend() {
+      chart.legend({
+        position: "right-top",
+        useHtml: true,
+        hoverable: false,
+        containerTpl:
+          '<div class="g2-legend">' +
+          '<div class="g2-legend-list" style="display:flex;"  > ' +
+          "</div>",
+        itemTpl: (value, color, checked, index) => {
+          return `
                 <div>
                     <div style="display:flex;align-items:center;">
                         <div style="width:13px;height:13px;background:${color};border-radius: 50%" ></div>
@@ -166,17 +160,38 @@ export default {
                     </div>
                 </d>
               `;
-      },
-      offsetX: -100,
-      offsetY: -20,
-      "g2-legend": {
-      },
-      "g2-legend-list": {
-        border: "none"
-      }
-    });
-
-    chart.render();
+        },
+        offsetX: -100,
+        offsetY: -20,
+        "g2-legend": {},
+        "g2-legend-list": {
+          border: "none"
+        }
+      });
+    },
+    createChart() {
+      chart = new G2.Chart({
+        container: this.$refs.mountNode,
+        height: 305,
+        padding: [60, 10, 20, 50]
+      });
+    },
+    handleChart() {
+      chart
+        .line()
+        .position("time*value")
+        .shape("smooth")
+        .color("type", ["rgb(250,192,62)", "rgb(63,205,215)"])
+        .size(4);
+    },
+    initChart() {
+      this.createChart();
+      this.setAxis();
+      this.setSource();
+      this.setLegend();
+      this.handleChart();
+      chart.render();
+    }
   }
 };
 </script>
