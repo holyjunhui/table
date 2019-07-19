@@ -1,25 +1,41 @@
 <template>
     <div class="map-widget" v-loading="loading">
-        <CertCountTo :end-val="data.count" :duration="4000" :format="formatNumber" />
+        <CertCountTo
+            ref="countTo"
+            :start-val="startValue"
+            :end-val="endValue"
+            :duration="3000"
+            :format="formatNumber"
+            :autoplay="false"
+        />
+        <Mapbox />
     </div>
 </template>
 
 <script>
 import CertCountTo from "@/components/CertCountTo";
+import Mapbox from "./mapbox";
 export default {
-    name: "Map",
-    components: {CertCountTo},
+    name: "MapWidget",
+    components: {CertCountTo, Mapbox},
     data() {
         return {
             loading: false,
+            startValue: 0,
+            endValue: 0,
             data: {}
         };
     },
 
-    created() {
+    async created() {
         this.loading = true;
-        this.fetchData();
+        await this.fetchData();
         this.loading = false;
+        this.updateView();
+        setInterval(async () => {
+            await this.fetchData();
+            this.updateView();
+        }, 10000);
     },
 
     methods: {
@@ -27,12 +43,20 @@ export default {
             const data = await new Promise(resolve => {
                 setTimeout(() => {
                     resolve({
-                        count: Math.round(Math.random() * 40000 + 100)
+                        count: Math.round(Math.random() * 50000 + 100000)
                     });
-                }, 1000);
+                }, 500);
             });
 
             this.data = data;
+        },
+
+        updateView() {
+            this.startValue = this.endValue;
+            this.endValue = this.data.count;
+            this.$nextTick(() => {
+                this.$refs.countTo.start();
+            });
         },
 
         formatNumber(value) {

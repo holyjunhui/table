@@ -1,76 +1,75 @@
 <template>
-  <div class="main-container">
-    <CertHeader />
-    <div class="main-layout">
-      <div class="left-side">
-        <Overview />
-        <DetectAssetView></DetectAssetView>
-      </div>
-      <div class="middle-map">
-        <Map />
-      </div>
-      <div class="right-side">
-        <Example />
-        <OperationalStatisticsView/>
-        <Example />
-      </div>
+    <div class="main-container">
+        <CertHeader />
+        <div class="main-layout">
+            <div class="left-side">
+                <Overview />
+                <DetectAssetView />
+            </div>
+            <div class="middle-map">
+                <MapWidget />
+            </div>
+            <div class="right-side">
+                <Example />
+                <OperationalStatisticsView />
+                <Example />
+            </div>
+        </div>
+        <div class="bottom-layout">
+            <Example />
+            <Example />
+            <Example />
+            <Example />
+        </div>
     </div>
-    <div class="bottom-layout">
-      <Example />
-      <Example />
-      <Example />
-      <Example />
-    </div>
-  </div>
 </template>
 
 <script>
 import Overview from "./Overview";
-import Map from "./Map";
+import MapWidget from "../map-widget";
 import Example from "./Example";
 import CertHeader from "./Header";
 import DetectAssetView from "../detect-asset-view";
 import OperationalStatisticsView from "../operational-statistics-view";
 
 export default {
-  name: "Home",
-  components: {
-    OperationalStatisticsView,
-    DetectAssetView,
-    Overview,
-    Map,
-    Example,
-    CertHeader
-  }
+    name: "Home",
+    components: {
+        OperationalStatisticsView,
+        DetectAssetView,
+        Overview,
+        MapWidget,
+        Example,
+        CertHeader
+    }
 };
 </script>
 
 <style lang="scss" scoped>
 .main-container {
-  background: #03091b url("../../assets/images/page-background.png") center
-    no-repeat;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-
-  .main-layout {
-    flex: auto;
+    background: #03091B url("../../assets/images/page-background.png") center no-repeat;
+    min-height: 100vh;
     display: flex;
-  }
+    flex-direction: column;
 
-  .left-side,
-  .middle-map,
-  .right-side {
-    flex: 1;
-  }
-
-  .bottom-layout {
-    flex: auto;
-    display: flex;
-
-    .widget {
-      flex: auto;
+    .main-layout {
+        flex: auto;
+        display: flex;
     }
-  }
+
+    .left-side,
+    .middle-map,
+    .right-side {
+        flex: 1;
+    }
+
+    .bottom-layout {
+        flex: auto;
+        display: flex;
+
+        .widget {
+            flex: auto;
+        }
+    }
 }
 </style>
