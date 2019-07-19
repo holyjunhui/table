@@ -61,7 +61,8 @@ export default {
                 center: config.center,
                 zoom: config.zoom,
                 pitch: 20,
-                bearing: 0
+                bearing: 0,
+                interactive: false
             });
 
             return new Promise(resolve => this.map.on("load", resolve));

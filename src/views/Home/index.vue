@@ -10,7 +10,7 @@
                 <MapWidget />
             </div>
             <div class="right-side">
-                <Example />
+                <ClockWidget />
                 <OperationalStatisticsView />
                 <Example />
             </div>
@@ -27,6 +27,7 @@
 <script>
 import Overview from "./Overview";
 import MapWidget from "../map-widget";
+import ClockWidget from "../clock-widget";
 import Example from "./Example";
 import CertHeader from "./Header";
 import DetectAssetView from "../detect-asset-view";
@@ -39,6 +40,7 @@ export default {
         DetectAssetView,
         Overview,
         MapWidget,
+        ClockWidget,
         Example,
         CertHeader
     }
