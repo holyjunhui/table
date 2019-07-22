@@ -48,7 +48,7 @@ export default {
 	data() {
 		return {
 			showDataList: [],
-			itemHeight: 41
+			itemHeight: 40
 		};
 	},
 	computed: {
@@ -135,8 +135,8 @@ export default {
 		position: absolute;
 		width: 630px - 80px;
 		.stripe {
-			margin-bottom: 41px;
-			height: 41px;
+			margin-bottom: 40px;
+			height: 40px;
 			background: rgb(2, 33, 77);
 		}
 	}

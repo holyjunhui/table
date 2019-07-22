@@ -24,6 +24,7 @@ export default {
 		text-align: center;
 
 		p {
+			height: 20px;
 			user-select: none;
 			margin: 10px 0;
 		}
