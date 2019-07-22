@@ -1,36 +1,35 @@
 <template>
-  <div class="radio" @click="onClick">
-    <div class="radio-button" :class="isActivate ? 'isActivate': ''">
-      <span class="radio-button-label">{{label}}</span>
+    <div class="radio" @click="onClick">
+        <div class="radio-button" :class="isActivate ? 'isActivate' : ''">
+            <span class="radio-button-label">{{ label }}</span>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
-  props: {
-    isActivate: {
-      type: Boolean,
-      default: false
+    props: {
+        isActivate: {
+            type: Boolean,
+            "default": false
+        },
+        label: {
+            type: String,
+            "default": false
+        },
+        name: {
+            type: Number,
+            "default": true
+        }
     },
-    label: {
-      type: String,
-      default: false
-    },
-    name:{
-        type:Number,
-        default:true
+    methods: {
+        onClick() {
+            this.$emit("click", {
+                name: this.name,
+                label: this.label
+            });
+        }
     }
-  },
-  methods: {
-      onClick(){
-        console.log(this.name)
-          this.$emit('click',{
-            name:this.name,
-            label:this.label
-          });
-      }
-  },
 };
 </script>
 

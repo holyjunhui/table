@@ -17,9 +17,9 @@
         </div>
         <div class="bottom-layout">
             <Example />
+            <AlarmDetectionView></AlarmDetectionView>
             <Example />
-            <Example />
-            <Example />
+            <SiteBlackChainView></SiteBlackChainView>
         </div>
     </div>
 </template>
@@ -32,46 +32,51 @@ import Example from "./Example";
 import CertHeader from "./header";
 import DetectAssetView from "./detect-asset-view";
 import OperationalStatisticsView from "./operational-statistics-view";
+import AlarmDetectionView from "./alarm-detection-view";
+import SiteBlackChainView from "./site-black-chain-view";
 
 export default {
-    name: "Home",
-    components: {
-        OperationalStatisticsView,
-        DetectAssetView,
-        Overview,
-        MapWidget,
-        ClockWidget,
-        Example,
-        CertHeader
-    }
+	name: "Home",
+	components: {
+		SiteBlackChainView,
+		AlarmDetectionView,
+		OperationalStatisticsView,
+		DetectAssetView,
+		Overview,
+		MapWidget,
+		ClockWidget,
+		Example,
+		CertHeader
+	}
 };
 </script>
 
 <style lang="scss" scoped>
 .main-container {
-    background: #03091B url("../assets/images/page-background.png") center no-repeat;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+	background: #03091b url("../assets/images/page-background.png") center
+		no-repeat;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 
-    .main-layout {
-        flex: auto;
-        display: flex;
-    }
+	.main-layout {
+		flex: auto;
+		display: flex;
+	}
 
-    .left-side,
-    .middle-map,
-    .right-side {
-        flex: 1;
-    }
+	.left-side,
+	.middle-map,
+	.right-side {
+		flex: 1;
+	}
 
-    .bottom-layout {
-        flex: auto;
-        display: flex;
+	.bottom-layout {
+		flex: auto;
+		display: flex;
 
-        .widget {
-            flex: auto;
-        }
-    }
+		.widget {
+			flex: auto;
+		}
+	}
 }
 </style>
