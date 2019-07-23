@@ -3,7 +3,7 @@
         <CertHeader />
         <div class="main-layout">
             <div class="left-side">
-                <Overview />
+                <OverviewWidget />
                 <DetectAssetView />
             </div>
             <div class="middle-map">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Overview from "./Overview";
+import OverviewWidget from "./overview-widget";
 import MapWidget from "./map-widget";
 import ClockWidget from "./clock-widget";
 import AlarmRankWidget from "./alarm-rank-widget";
@@ -45,7 +45,7 @@ export default {
         AlarmDetectionView,
         OperationalStatisticsView,
         DetectAssetView,
-        Overview,
+        OverviewWidget,
         MapWidget,
         ClockWidget,
         AlarmRankWidget,
