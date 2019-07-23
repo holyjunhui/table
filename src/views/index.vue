@@ -11,15 +11,15 @@
             </div>
             <div class="right-side">
                 <ClockWidget />
-                <Example />
+                <AlarmRankWidget />
                 <OperationalStatisticsView />
             </div>
         </div>
         <div class="bottom-layout">
             <Example />
-            <AlarmDetectionView></AlarmDetectionView>
-            <AlarmTypeView></AlarmTypeView>
-            <SiteBlackChainView></SiteBlackChainView>
+            <AlarmDetectionView />
+            <AlarmTypeView />
+            <SiteBlackChainView />
         </div>
     </div>
 </template>
@@ -28,6 +28,7 @@
 import Overview from "./Overview";
 import MapWidget from "./map-widget";
 import ClockWidget from "./clock-widget";
+import AlarmRankWidget from "./alarm-rank-widget";
 import Example from "./Example";
 import CertHeader from "./header";
 import DetectAssetView from "./detect-asset-view";
@@ -37,48 +38,49 @@ import SiteBlackChainView from "./site-black-chain-view";
 import AlarmTypeView from "./alarm-type-view";
 
 export default {
-	name: "Home",
-	components: {
-		AlarmTypeView,
-		SiteBlackChainView,
-		AlarmDetectionView,
-		OperationalStatisticsView,
-		DetectAssetView,
-		Overview,
-		MapWidget,
-		ClockWidget,
-		Example,
-		CertHeader
-	}
+    name: "Home",
+    components: {
+        AlarmTypeView,
+        SiteBlackChainView,
+        AlarmDetectionView,
+        OperationalStatisticsView,
+        DetectAssetView,
+        Overview,
+        MapWidget,
+        ClockWidget,
+        AlarmRankWidget,
+        Example,
+        CertHeader
+    }
 };
 </script>
 
 <style lang="scss" scoped>
 .main-container {
-	background: #03091b url("../assets/images/page-background.png") center
-		no-repeat;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
+    background: #03091B url("../assets/images/page-background.png") center
+        no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 
-	.main-layout {
-		flex: auto;
-		display: flex;
-	}
+    .main-layout {
+        flex: auto;
+        display: flex;
+    }
 
-	.left-side,
-	.middle-map,
-	.right-side {
-		flex: 1;
-	}
+    .left-side,
+    .middle-map,
+    .right-side {
+        flex: 1;
+    }
 
-	.bottom-layout {
-		flex: auto;
-		display: flex;
+    .bottom-layout {
+        flex: auto;
+        display: flex;
 
-		.widget {
-			flex: auto;
-		}
-	}
+        .widget {
+            flex: auto;
+        }
+    }
 }
 </style>
