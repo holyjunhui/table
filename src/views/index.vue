@@ -18,7 +18,7 @@
         <div class="bottom-layout">
             <Example />
             <AlarmDetectionView></AlarmDetectionView>
-            <Example />
+            <AlarmTypeView></AlarmTypeView>
             <SiteBlackChainView></SiteBlackChainView>
         </div>
     </div>
@@ -34,10 +34,12 @@ import DetectAssetView from "./detect-asset-view";
 import OperationalStatisticsView from "./operational-statistics-view";
 import AlarmDetectionView from "./alarm-detection-view";
 import SiteBlackChainView from "./site-black-chain-view";
+import AlarmTypeView from "./alarm-type-view";
 
 export default {
 	name: "Home",
 	components: {
+		AlarmTypeView,
 		SiteBlackChainView,
 		AlarmDetectionView,
 		OperationalStatisticsView,
