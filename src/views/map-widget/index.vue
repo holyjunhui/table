@@ -85,7 +85,7 @@ export default {
         margin: 0 auto;
         font-size: 56px;
         color: #FFF;
-        text-shadow: rgba(255, 255, 255, 0.35) 0 0 7px;
+        text-shadow: rgba(255, 255, 255, 0.6) 0 0 7px;
         font-family: "张海山草泥马体", serif;
         display: flex;
     }

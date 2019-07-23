@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .clock-widget {
-    margin: 15px 70px 15px 0;
+    margin: 15px 30px;
 
     .time-title {
         display: flex;
