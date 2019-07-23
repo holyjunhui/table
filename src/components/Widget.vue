@@ -12,11 +12,11 @@ export default {
     props: {
         title: {
             type: String,
-            "default": ""
+            default: ""
         },
         loading: {
             type: Boolean,
-            "default": false
+            default: false
         }
     }
 };
@@ -27,14 +27,14 @@ export default {
     border-image: url("../assets/images/widget-frame.png") round;
     border-image-slice: 45 fill;
     border-image-width: 45px;
-    padding: 24px 40px;
+    padding: 24px 30px;
     flex-grow: auto;
     position: relative;
     z-index: 200;
     margin: 8px;
 
     h4 {
-        color: #FFF;
+        color: #fff;
         font-size: 24px;
         line-height: 30px;
         height: 30px;
@@ -44,7 +44,7 @@ export default {
 
     .widget-container {
         min-height: 100px;
-        color: #FFF;
+        color: #fff;
     }
 }
 </style>

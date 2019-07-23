@@ -83,15 +83,16 @@ export default {
         createChart() {
             chart = new G2.Chart({
                 container: this.$refs.mountNode,
-                height: 230,
-                width: 400,
-                padding: [20, 100, 20, -20]
+                height: 200,
+                width: 347,
+                padding: [30, 100, 0, -20]
             });
         },
 
         getLabelInfo() {
+            return {};
             return {
-                offset: 40,
+                offset: 25,
                 htmlTemplate(text, item, index) {
                     const number = item.point.num;
                     const percent = item.point.population + "%";
@@ -142,17 +143,18 @@ export default {
 
 <style lang="scss" scoped>
 .alarmTypeView {
+    position: relative;
+    top: 10px;
+    height: 200px;
     .mountNode {
-        height: 265px;
-        padding-top: 50px;
         box-sizing: border-box;
         background-repeat: no-repeat;
-        background-position: 45px 67px;
-        background-image: url("../../assets/images/circle.png");
+        background-position: 19px 19px;
+        background-image: url("../../assets/images/type_circle.png");
     }
     .maskBox {
-        top: -130px;
-        left: 111px;
+        top: -115px;
+        left: 85px;
         display: flex;
         justify-content: center;
         align-items: center;

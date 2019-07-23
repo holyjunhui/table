@@ -95,9 +95,9 @@ export default {
     methods: {
         getAxisLineStyle() {
             return {
-                stroke: "rgb(36,44,68)", // 坐标轴线的颜色
-                lineDash: [2, 3],
-                lineWidth: 3
+                stroke: "rgba(3,128,255,0.4)", // 坐标轴线的颜色
+                lineDash: [2, 2],
+                lineWidth: 1
             };
         },
         getAxisLabelOptions() {
@@ -148,13 +148,15 @@ export default {
                 useHtml: true,
                 hoverable: false,
                 containerTpl:
-                    '<div class="g2-legend">' + '<div class="g2-legend-list" style="display:flex;"  > ' + "</div>",
+                    '<div class="g2-legend">' +
+                    '<div class="g2-legend-list" style="display:flex;"  > ' +
+                    "</div>",
                 itemTpl: (value, color, checked, index) => {
                     return `
                 <div>
-                    <div style="display:flex;align-items:center;">
-                        <div style="width:13px;height:13px;background:${color};border-radius: 50%" ></div>
-                        <p style="padding-left:5px;color:white;">${value}</p>
+                    <div style="display:flex;align-items:center;width:80px;">
+                        <div style="width:12px;height:12px;background:${color};border-radius: 50%" ></div>
+                        <p style="padding-left:10px;color:white;font-size:14px;">${value}</p>
                     </div>
                 </d>
               `;
@@ -170,7 +172,7 @@ export default {
         createChart() {
             chart = new G2.Chart({
                 container: this.$refs.mountNode,
-                height: 305,
+                height: 275,
                 padding: [60, 10, 20, 50]
             });
         },
@@ -179,7 +181,7 @@ export default {
                 .line()
                 .position("time*value")
                 .shape("smooth")
-                .color("type", ["rgb(250,192,62)", "rgb(63,205,215)"])
+                .color("type", ["rgb(0,255,255)", "rgb(255,100,115)"])
                 .size(4);
         },
         initChart() {

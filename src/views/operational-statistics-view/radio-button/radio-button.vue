@@ -11,15 +11,15 @@ export default {
     props: {
         isActivate: {
             type: Boolean,
-            "default": false
+            default: false
         },
         label: {
             type: String,
-            "default": false
+            default: false
         },
         name: {
             type: Number,
-            "default": true
+            default: true
         }
     },
     methods: {
@@ -35,21 +35,22 @@ export default {
 
 <style lang="scss" scoped>
 .radio {
-  user-select: none;
-  cursor: pointer;
-  .radio-button {
-    width: 70px;
-    line-height: 40px;
-    background: rgb(6, 8, 24);
-    color: rgb(40, 80, 150);
-    text-align: center;
-    border: 1px solid rgb(40, 80, 150);
-  }
+    user-select: none;
+    cursor: pointer;
+    .radio-button {
+        width: 66px;
+        line-height: 32px;
+        background: rgb(6, 8, 24);
+        color: rgb(3, 128, 255);
+        text-align: center;
+        font-size: 14px;
+        border: 1px solid rgb(3, 128, 255);
+    }
 
-  .isActivate {
-    color: #fff;
-    background: rgb(5, 81, 162);
-  }
+    .isActivate {
+        color: #fff;
+        background: rgb(3, 128, 255);
+    }
 }
 </style>
 

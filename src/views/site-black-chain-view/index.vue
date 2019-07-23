@@ -11,19 +11,19 @@ import Widget from "@/components/Widget";
 import RollTabel from "@/components/roll-table";
 import mockData from "./mockdata.js";
 export default {
-	components: {Widget, RollTabel},
-	data() {
-		return {
-			headData: ["网站", "时间", "URL数量"],
-			bodyData: mockData.itemList
-		};
-	}
+    components: {Widget, RollTabel},
+    data() {
+        return {
+            headData: ["网站", "时间", "URL数量"],
+            bodyData: mockData.itemList
+        };
+    }
 };
 </script>
 
 <style lang="scss" scoped>
 .siteBlackChainView {
-	margin-top: 15px;
+    margin-top: 15px;
 }
 </style>
 

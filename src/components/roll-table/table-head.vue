@@ -1,14 +1,14 @@
 <template>
     <div class="tableHead">
-        <Item :item-data="headData" font="text-gradient"></Item>
+        <Item :item-data="headData" font="text-gradient" :font-size="14"></Item>
     </div>
 </template>
 
 <script>
 import Item from "./table-item.vue";
 export default {
-	components: {Item},
-	props: ["headData"]
+    components: {Item},
+    props: ["headData"]
 };
 </script>
 

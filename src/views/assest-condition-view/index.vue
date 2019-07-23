@@ -58,13 +58,14 @@ export default {
     },
     methods: {
         getLabelInfo() {
+            return {};
             return {
                 offset: 40,
                 htmlTemplate(text, item, index) {
                     const count = item.point.count;
                     const percent = item.point.percent + "%";
                     return `
-								<div style="color:${item.color};width: 75px;text-align: center;">
+								<div style="color:${item.color};width: 75px;text-align: center;font-size:14px;">
 								<span class="title" style=" display: inline-block; width: 50px">
 									${percent}
 								</span>
@@ -82,8 +83,9 @@ export default {
             chart = new G2.Chart({
                 container: this.$refs.mountNode,
                 animate: false,
-                height: 300,
-                width: 400
+                height: 220,
+                width: 347,
+                padding: [30, 0, 0, 180]
             });
         },
         setChartSource() {
@@ -99,8 +101,8 @@ export default {
 
         setChartCoord() {
             chart.coord("theta", {
-                radius: 0.75,
-                innerRadius: 0.8
+                radius: 0.99,
+                innerRadius: 0.75
             });
         },
         setChartTooltip() {
@@ -114,9 +116,9 @@ export default {
         getChartColorList() {
             return [
                 "rgba(0,0,0,0)",
-                "rgb(15,220,220)",
+                "rgb(66,237,248)",
                 "rgba(0,0,0,0)",
-                "rgb(65,130,250)"
+                "rgb(3,128,255)"
             ];
         },
         handleChart() {
@@ -136,7 +138,7 @@ export default {
         setChartLegend() {
             chart.legend({
                 position: "left",
-                offsetX: 107,
+                offsetX: 75,
                 offsetY: -33,
                 hoverable: false,
                 useHtml: true,
@@ -169,15 +171,15 @@ export default {
 
 <style lang="scss" scoped>
 .assestConditionView {
+    min-width: 380px;
     position: relative;
     .mountNode {
         position: relative;
         left: -85px;
-        padding-top: 50px;
         box-sizing: border-box;
         background-repeat: no-repeat;
-        background-position: 133px 68px;
-        background-image: url("../../assets/images/circle.png");
+        background-position: 162px 25px;
+        background-image: url("../../assets/images/assest_circle.png");
     }
     .descriptionContainer {
         position: absolute;
@@ -185,7 +187,7 @@ export default {
         top: -8px;
         font-size: 12px;
         .item-value {
-            font-size: 22px;
+            font-size: 30px;
             font-weight: bold;
             line-height: 36px;
             font-family: "汉仪菱心体", sans-serif;
@@ -196,7 +198,7 @@ export default {
         }
 
         .item-unit {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             line-height: 36px;
             font-family: "汉仪菱心体", sans-serif;
