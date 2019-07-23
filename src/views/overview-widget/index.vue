@@ -47,8 +47,8 @@ export default {
         const chart = new G2.Chart({
             container: this.$refs.chart,
             forceFit: true,
-            height: 180,
-            padding: [5, 10, 25, 10]
+            height: 188,
+            padding: [5, 0, 25, 0]
         });
         chart.source(this.list);
         chart.axis("date", {
@@ -96,18 +96,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.overview-widget {
+    margin-top: -12px;
+}
+
 .switch-line {
     height: 32px;
     text-align: right;
     position: relative;
     z-index: 100;
-    margin-bottom: 26px;
+    margin: 7px 0 26px;
 }
 
 .status-list {
     display: flex;
     justify-content: center;
-    margin: 0;
+    margin: 0 0 -10px;
     padding: 0;
     list-style-type: none;
 

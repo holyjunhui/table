@@ -27,7 +27,7 @@ export default {
     border-image: url("../assets/images/widget-frame.png") round;
     border-image-slice: 45 fill;
     border-image-width: 45px;
-    padding: 30px 45px;
+    padding: 24px 40px;
     flex-grow: auto;
     position: relative;
     z-index: 200;
