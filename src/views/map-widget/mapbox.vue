@@ -19,7 +19,7 @@ import markerComponent from "./marker";
 const config = {
     token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
     style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
-    zoom: 8.8,
+    zoom: 9.5,
     center: [106.325, 30.11]
 };
 
@@ -60,7 +60,7 @@ export default {
                 maxZoom: config.zoom + 0.1,
                 center: config.center,
                 zoom: config.zoom,
-                pitch: 20,
+                pitch: 50,
                 bearing: 0,
                 interactive: false
             });
@@ -69,7 +69,7 @@ export default {
         },
 
         initMapLayer(map) {
-            this.addLineLayer(map);
+            // this.addLineLayer(map);
             this.addFillLayer(map);
             this.addMaskLayer(map);
             this.addSymbolLayer(map);
@@ -109,7 +109,7 @@ export default {
                 "layout": {},
                 "paint": {
                     "fill-color": "#4da3f6",
-                    "fill-opacity": 0.35
+                    "fill-opacity": 0.3
                 }
             });
         },
@@ -203,7 +203,7 @@ export default {
     width: 640px;
 
     canvas {
-        -webkit-mask-image: radial-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0));
+        -webkit-mask-image: radial-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0));
     }
 
     // 中心点
