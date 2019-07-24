@@ -111,6 +111,7 @@ export default {
             chart = new G2.Chart({
                 container: this.$refs.mountNode,
                 height: 257,
+                forceFit: true,
                 padding: [60, 0, 40, 0]
             });
         },

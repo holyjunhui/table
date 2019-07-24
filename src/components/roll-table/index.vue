@@ -129,7 +129,7 @@ export default {
     box-sizing: border-box;
     padding: 9px 20px;
     width: 422px;
-    background: rgb(7, 27, 66);
+    background: rgba(3, 128, 255, 0.1);
 
     .rollTabel-stripeContainer {
         position: absolute;

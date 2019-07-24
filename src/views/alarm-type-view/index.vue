@@ -63,6 +63,7 @@ export default {
             chart.legend({
                 position: "right",
                 offsetY: 0,
+                offsetX: 5,
                 useHtml: true,
                 hoverable: false,
                 itemTpl: (value, color, checked, index) => {
@@ -93,23 +94,9 @@ export default {
         },
 
         getLabelInfo() {
-            return {};
             return {
-                offset: 25,
-                htmlTemplate(text, item, index) {
-                    const number = item.point.num;
-                    const percent = item.point.population + "%";
-                    return `
-								<div style="color:${item.color};width: 75px;text-align: center;">
-								<span class="title" style=" display: inline-block; width: 50px">
-									${percent}
-								</span>
-								<div style="background:${item.color};width:100%;height:1px;margin:0px auto;padding:0px;overflow:hidden;"></div>
-								<span >
-									${number}
-								</span>
-								</div>
-							`;
+                formatter() {
+                    return "";
                 }
             };
         },
