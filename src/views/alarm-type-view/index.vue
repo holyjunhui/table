@@ -85,7 +85,7 @@ export default {
                 container: this.$refs.mountNode,
                 height: 200,
                 width: 347,
-                padding: [30, 100, 0, -20]
+                padding: [10, 100, 10, -20]
             });
         },
 
@@ -149,11 +149,11 @@ export default {
     .mountNode {
         box-sizing: border-box;
         background-repeat: no-repeat;
-        background-position: 19px 19px;
+        background-position: 19px 6px;
         background-image: url("../../assets/images/type_circle.png");
     }
     .maskBox {
-        top: -115px;
+        top: -135px;
         left: 85px;
         display: flex;
         justify-content: center;

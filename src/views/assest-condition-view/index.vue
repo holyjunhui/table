@@ -92,8 +92,9 @@ export default {
             chart.source(this.mockData, {
                 percent: {
                     formatter: function formatter(val) {
-                        val = val * 100 + "%";
-                        return val;
+						//TODO
+                        // val = val * 100 + "%";
+                        // return val;
                     }
                 }
             });
