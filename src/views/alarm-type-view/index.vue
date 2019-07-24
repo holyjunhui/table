@@ -16,7 +16,10 @@
 <script>
 let chart;
 import G2 from "@antv/g2";
+import DataSet from "@antv/data-set";
 import Widget from "@/components/Widget";
+import utils from "./utils";
+
 export default {
     components: {Widget},
     data() {
@@ -52,7 +55,7 @@ export default {
     },
 
     mounted() {
-        //TODO  2.调整坐标
+        // TODO  2.调整坐标
         this.initChart();
     },
     methods: {
@@ -131,16 +134,28 @@ export default {
                 .interval()
                 .position("type*population")
                 .color("type", this.getColorList())
-                .label("year", this.getLabelInfo());
+                .opacity(1);
         },
         initChart() {
             this.createChart();
             this.setChartLegend();
             this.setChartCoord();
-            chart.source(this.mockData);
+            const ds = new DataSet();
+            const dv = ds.createView().source(this.mockData);
+            dv.transform({
+                type: "percent",
+                field: "population",
+                dimension: "type",
+                as: "percent"
+            });
+            chart.source(dv);
             chart.axis(false);
             this.handleChart();
             chart.render();
+            this.renderLabel();
+        },
+        renderLabel() {
+            utils.drawPieLabel(chart, this.getColorList());
         }
     }
 };
@@ -151,12 +166,14 @@ export default {
     position: relative;
     top: 10px;
     height: 200px;
+
     .mountNode {
         box-sizing: border-box;
         background-repeat: no-repeat;
         background-position: 19px 6px;
         background-image: url("../../assets/images/type_circle.png");
     }
+
     .maskBox {
         top: -135px;
         left: 85px;
@@ -187,6 +204,7 @@ export default {
             background: rgb(115, 200, 250);
             border-radius: 50%;
         }
+
         .circle3 {
             width: 35px;
             height: 35px;

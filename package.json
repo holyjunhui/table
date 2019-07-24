@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@antv/data-set": "^0.10.2",
     "@antv/g2": "^3.5.8-beta.1",
     "@turf/turf": "^5.1.6",
     "animejs": "^3.0.1",
