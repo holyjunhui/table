@@ -83,6 +83,7 @@ export default {
         createChart() {
             chart = new G2.Chart({
                 container: this.$refs.mountNode,
+                // forceFit: true,
                 height: 200,
                 width: 347,
                 padding: [10, 100, 10, -20]
@@ -90,7 +91,11 @@ export default {
         },
 
         getLabelInfo() {
-            return {};
+            return {
+                formatter() {
+                    return "";
+                }
+            };
             return {
                 offset: 25,
                 htmlTemplate(text, item, index) {
