@@ -14,6 +14,7 @@
 
 <script>
 import CertCountTo from "@/components/CertCountTo";
+import {getAlertsTotal} from "@/api";
 import Mapbox from "./mapbox";
 export default {
     name: "MapWidget",
@@ -40,20 +41,13 @@ export default {
 
     methods: {
         async fetchData() {
-            const data = await new Promise(resolve => {
-                setTimeout(() => {
-                    resolve({
-                        count: Math.round(Math.random() * 50000 + 100000)
-                    });
-                }, 500);
-            });
-
-            this.data = data;
+            const res = await getAlertsTotal();
+            this.data = res;
         },
 
         updateView() {
             this.startValue = this.endValue;
-            this.endValue = this.data.count;
+            this.endValue = this.data.data;
             this.$nextTick(() => {
                 this.$refs.countTo.start();
             });

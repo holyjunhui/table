@@ -11,5 +11,16 @@ module.exports = {
     chainWebpack(config) {
         config.plugins.delete("preload-index");
         config.plugins.delete("prefetch-index");
+    },
+
+    devServer: {
+        open: "true",
+        proxy: {
+            "/v1": {
+                target: "http://10.145.79.28:8080/api",
+                ws: true,
+                changOrigin: true
+            }
+        }
     }
 };
