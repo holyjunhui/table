@@ -19,6 +19,7 @@
     "dayjs": "^1.8.15",
     "element-ui": "^2.10.1",
     "mapbox-gl": "^1.1.1",
+    "url-parse": "^1.4.7",
     "vue": "^2.6.10",
     "vue-count-to": "^1.0.13",
     "vue-router": "^3.0.7",

@@ -22,6 +22,7 @@
 </template>
 
 <script>
+let timeoutId;
 import anime from "animejs";
 import Item from "./table-item.vue";
 import tabelHead from "./table-head.vue";
@@ -51,6 +52,12 @@ export default {
             itemHeight: 26
         };
     },
+    watch: {
+        bodyData(newData) {
+            this.bodyData = newData;
+            this.update();
+        }
+    },
     computed: {
         rollContainerHeight() {
             return this.itemHeight * this.showNum;
@@ -65,6 +72,9 @@ export default {
             const itemHeight = this.itemHeight;
             const containerHeight = itemHeight * this.showNum;
             const showItems = this.$refs.rollContainer.children;
+
+            // 总数据不足时 不在滚动
+            if (self.bodyData.length <= self.showNum) return;
 
             const setTopItemTranslateY = () => {
                 const topItem = showItems[currentIndex];
@@ -82,7 +92,8 @@ export default {
                 currentIndex = (currentIndex + 1) % (self.showNum + 1);
             };
             const f = () => {
-                setTimeout(() => {
+                self.reset();
+                timeoutId = setTimeout(() => {
                     for (let i = 0; i < showItems.length; i++) {
                         const itemDom = showItems[i];
                         const translateY = self.getTranslateY(itemDom);
@@ -114,12 +125,19 @@ export default {
         },
         initShowData() {
             this.showDataList = this.bodyData.slice(0, this.showNum + 1);
+        },
+        reset() {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        },
+        update() {
+            this.initShowData();
+            this.rollItem();
         }
     },
-
     mounted() {
-        this.initShowData();
-        this.rollItem();
+        this.update();
     }
 };
 </script>

@@ -9,14 +9,31 @@
 <script>
 import Widget from "@/components/Widget";
 import RollTabel from "@/components/roll-table";
-import mockData from "./mockdata.js";
+import {getAlertsSpamlink} from "@/api";
+import Url from "url-parse";
+import {formatTime} from "@/utils";
 export default {
     components: {Widget, RollTabel},
+    async created() {
+        await this.updata();
+    },
     data() {
         return {
             headData: ["网站", "时间", "URL数量"],
-            bodyData: mockData.itemList
+            bodyData: []
         };
+    },
+    methods: {
+        async updata() {
+            let spamlinkData = await getAlertsSpamlink();
+            let rawData = spamlinkData.data;
+            if (rawData) {
+                this.bodyData = rawData.map(info => {
+                    const url = Url(info.asset.url);
+                    return [url.host, formatTime(info.created_at), info.count];
+                });
+            }
+        }
     }
 };
 </script>
