@@ -1,6 +1,7 @@
 <template>
     <Widget title="资产情况">
         <div class="assestConditionView">
+            <div class="assestConditionView-bg"></div>
             <div class="mountNode" ref="mountNode"></div>
             <div class="descriptionContainer">
                 <div>
@@ -57,11 +58,15 @@ export default {
         this.initChart();
     },
     methods: {
+        isClosedItem(info) {
+            return info.item.includes("closed");
+        },
         getLabelInfo() {
-            return {};
+            let self = this;
             return {
                 offset: 40,
                 htmlTemplate(text, item, index) {
+                    if (self.isClosedItem(item.point)) return "<div></div>";
                     const count = item.point.count;
                     const percent = item.point.percent + "%";
                     return `
@@ -84,8 +89,8 @@ export default {
                 container: this.$refs.mountNode,
                 animate: false,
                 height: 220,
-                width: 347,
-                padding: [30, 0, 0, 180]
+                width: 380,
+                padding: [60, 0, 0, 50]
             });
         },
         setChartSource() {
@@ -132,14 +137,15 @@ export default {
             chart.tooltip(false);
         },
         setChartLegend() {
+            let self = this;
             chart.legend({
                 position: "left",
-                offsetX: 75,
-                offsetY: -33,
+                offsetX: 115,
+                offsetY: -25,
                 hoverable: false,
                 useHtml: true,
                 itemTpl: function(value, color, checked, index) {
-                    if (value.includes("closed")) return "<div></div>";
+                    if (self.isClosedItem({item: value})) return "<div></div>";
                     return `
 						<div class="g2-legend-list-item" data-value="${value}">
 							<div style="display:flex;margin-bottom: 5px;align-items: center;font-size:11px;">
@@ -160,6 +166,10 @@ export default {
             this.setChartLegend();
             this.handleChart();
             chart.render();
+        },
+
+        renderLabel() {
+            utils.drawPieLabel(chart, this.getChartColorList());
         }
     }
 };
@@ -167,19 +177,24 @@ export default {
 
 <style lang="scss" scoped>
 .assestConditionView {
-    // min-width: 380px;
     position: relative;
     .mountNode {
         position: relative;
-        left: -135px;
+        left: -40px;
+        top: -20px;
         box-sizing: border-box;
+    }
+    .assestConditionView-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
         background-repeat: no-repeat;
-        background-position: 162px 25px;
+        background-position: 83px 22px;
         background-image: url("../../assets/images/assest_circle.png");
     }
     .descriptionContainer {
         position: absolute;
-        right: 20px;
+        right: 0px;
         top: -8px;
         font-size: 12px;
         .item-value {
