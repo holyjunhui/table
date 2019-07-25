@@ -92,7 +92,7 @@ export default {
             chart.source(this.mockData, {
                 percent: {
                     formatter: function formatter(val) {
-						//TODO
+                        //TODO
                         // val = val * 100 + "%";
                         // return val;
                     }
@@ -127,14 +127,9 @@ export default {
                 .intervalStack()
                 .position("percent")
                 .color("item", this.getChartColorList())
-                .label("percent", this.getLabelInfo())
-                .tooltip("item*percent", function(item, percent) {
-                    percent = percent * 100 + "%";
-                    return {
-                        name: item,
-                        value: percent
-                    };
-                });
+                .label("percent", this.getLabelInfo());
+
+            chart.tooltip(false);
         },
         setChartLegend() {
             chart.legend({
@@ -172,11 +167,11 @@ export default {
 
 <style lang="scss" scoped>
 .assestConditionView {
-    min-width: 380px;
+    // min-width: 380px;
     position: relative;
     .mountNode {
         position: relative;
-        left: -85px;
+        left: -135px;
         box-sizing: border-box;
         background-repeat: no-repeat;
         background-position: 162px 25px;
@@ -184,7 +179,7 @@ export default {
     }
     .descriptionContainer {
         position: absolute;
-        right: 0px;
+        right: 20px;
         top: -8px;
         font-size: 12px;
         .item-value {

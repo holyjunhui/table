@@ -144,7 +144,6 @@ export default {
         },
         setLegend() {
             chart.legend({
-                position: "right-top",
                 useHtml: true,
                 hoverable: false,
                 containerTpl:
@@ -161,8 +160,8 @@ export default {
                 </div>
               `;
                 },
-                offsetX: -100,
-                offsetY: -20,
+                offsetX: 100,
+                offsetY: -120,
                 "g2-legend": {},
                 "g2-legend-list": {
                     border: "none"

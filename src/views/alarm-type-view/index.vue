@@ -62,14 +62,15 @@ export default {
         setChartLegend() {
             chart.legend({
                 position: "right",
-                offsetY: 0,
+                offsetY: -10,
                 offsetX: 5,
                 useHtml: true,
                 hoverable: false,
                 itemTpl: (value, color, checked, index) => {
+                    color = this.getLegendColorList()[index];
                     return `
 						<div class="g2-legend-list-item" data-value="${value}">
-							<div style="display:flex;margin-bottom: 15px;align-items: center;">
+							<div style="display:flex;margin-bottom: 10px;align-items: center;">
 								<div class=" g2-legend-item-icon" style="background:${color};width:10px;height:10px;"></div>
 								<div style="margin-left:10px; color:white;">${value}</div>
 							</div>
@@ -89,8 +90,8 @@ export default {
                 container: this.$refs.mountNode,
                 // forceFit: true,
                 height: 200,
-                width: 347,
-                padding: [10, 100, 10, -20]
+                width: 350,
+                padding: [35, 100, 10, -30]
             });
         },
 
@@ -100,6 +101,15 @@ export default {
                     return "";
                 }
             };
+        },
+        getLegendColorList() {
+            return [
+                "rgb(249,147,51)",
+                "rgb(3,128,255)",
+                "rgb(41,220,135)",
+                "rgb(255,216,46)",
+                "rgb(50,224,200)"
+            ];
         },
 
         getColorList() {
@@ -118,6 +128,8 @@ export default {
                 .position("type*population")
                 .color("type", this.getColorList())
                 .opacity(1);
+
+            chart.tooltip(false);
         },
         initChart() {
             this.createChart();
@@ -153,13 +165,13 @@ export default {
     .mountNode {
         box-sizing: border-box;
         background-repeat: no-repeat;
-        background-position: 19px 6px;
+        background-position: 12px 12px;
         background-image: url("../../assets/images/type_circle.png");
     }
 
     .maskBox {
-        top: -135px;
-        left: 85px;
+        top: -123px;
+        left: 80px;
         display: flex;
         justify-content: center;
         align-items: center;
