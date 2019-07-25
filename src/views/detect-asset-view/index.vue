@@ -148,17 +148,17 @@ export default {
                 useHtml: true,
                 hoverable: false,
                 containerTpl:
-                    '<div class="g2-legend">' +
+                    '<div class="g2-legend" style="">' +
                     '<div class="g2-legend-list" style="display:flex;"  > ' +
                     "</div>",
                 itemTpl: (value, color, checked, index) => {
                     return `
-                <div>
+				<div>
                     <div style="display:flex;align-items:center;width:80px;">
                         <div style="width:12px;height:12px;background:${color};border-radius: 50%" ></div>
                         <p style="padding-left:10px;color:white;font-size:14px;">${value}</p>
                     </div>
-                </d>
+                </div>
               `;
                 },
                 offsetX: -100,
@@ -172,9 +172,9 @@ export default {
         createChart() {
             chart = new G2.Chart({
                 container: this.$refs.mountNode,
-                height: 275,
+                height: 225,
                 forceFit: true,
-                padding: [60, 10, 20, 50]
+                padding: [60, 0, 30, 50]
             });
         },
         handleChart() {
@@ -198,5 +198,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mountNode {
+    position: relative;
+    left: -15px;
+}
 </style>
+
+
 

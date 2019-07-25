@@ -23,7 +23,7 @@ export default {
 
 <style lang="scss" scoped>
 .alarmDetectionView {
-    margin-top: 15px;
+    margin-top: 11px;
 }
 </style>
 

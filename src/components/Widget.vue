@@ -27,13 +27,14 @@ export default {
     border-image: url("../assets/images/widget-frame.png") round;
     border-image-slice: 45 fill;
     border-image-width: 45px;
-    padding: 24px 30px;
+    padding: 5px 30px 20px 30px;
     flex-grow: auto;
     position: relative;
     z-index: 200;
-    margin: 8px;
+    margin: 0 8px;
 
     h4 {
+        padding-top: 20px;
         color: #fff;
         font-size: 24px;
         line-height: 30px;

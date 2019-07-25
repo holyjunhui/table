@@ -10,7 +10,7 @@
         <div class="event-summary">
             <div class="summary-item" v-for="(item, index) in events" :key="index">
                 <p class="item-title">{{ item.title }}</p>
-                <CountTo class="item-value text-gradient" :end-val="item.value" separator="" />
+                <CountTo class="item-value text-gradient" :end-val="item.value" separator />
             </div>
         </div>
     </div>
@@ -50,11 +50,11 @@ export default {
 
 <style lang="scss" scoped>
 .clock-widget {
-    margin: 15px 30px;
+    margin: 0px 30px;
 
     .time-title {
         display: flex;
-        color: #FFF;
+        color: #fff;
     }
 
     .now-datetime {
@@ -84,7 +84,8 @@ export default {
             height: 38px;
             top: 0;
             right: -48px;
-            background: url("../../assets/images/lines.svg") center bottom no-repeat;
+            background: url("../../assets/images/lines.svg") center bottom
+                no-repeat;
         }
     }
 
@@ -96,7 +97,8 @@ export default {
         padding: 0 16px 0 48px;
         border: 1px solid rgba(255, 255, 255, 0.6);
         border-radius: 3px;
-        background: rgba(255, 255, 255, 0.05) url("../../assets/images/icon-clock.png") 14px center no-repeat;
+        background: rgba(255, 255, 255, 0.05)
+            url("../../assets/images/icon-clock.png") 14px center no-repeat;
     }
 
     .event-summary {
@@ -110,11 +112,16 @@ export default {
             margin: 0 30px 5px 0;
             min-width: 30%;
             flex: 1;
-            color: #FFF;
+            color: #fff;
             height: 34px;
             padding: 0 8px 0 40px;
             border-radius: 4px;
-            background: linear-gradient(90deg, rgba(238, 238, 238, 0.05) 0%, rgba(198, 224, 253, 0.05) 100%), url("../../assets/images/icon-1.svg") 12px center no-repeat;
+            background: linear-gradient(
+                    90deg,
+                    rgba(238, 238, 238, 0.05) 0%,
+                    rgba(198, 224, 253, 0.05) 100%
+                ),
+                url("../../assets/images/icon-1.svg") 12px center no-repeat;
         }
 
         .item-title {
