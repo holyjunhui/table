@@ -8,91 +8,53 @@
 
 <script>
 let chart;
+const FLUSH_TIME = 1000 * 60 * 10;
 import G2 from "@antv/g2";
+import {getAssetsRecent} from "@/api";
 import Widget from "@/components/Widget";
 export default {
     components: {Widget},
     data() {
         return {
-            mockData: [
-                {
-                    time: 7.1,
-                    value: 190,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.1,
-                    value: 320,
-                    type: "高危资产"
-                },
-                {
-                    time: 7.2,
-                    value: 290,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.2,
-                    value: 300,
-                    type: "高危资产"
-                },
-                {
-                    time: 7.3,
-                    value: 590,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.3,
-                    value: 790,
-                    type: "高危资产"
-                },
-                {
-                    time: 7.4,
-                    value: 90,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.4,
-                    value: 190,
-                    type: "高危资产"
-                },
-                {
-                    time: 7.5,
-                    value: 490,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.5,
-                    value: 890,
-                    type: "高危资产"
-                },
-                {
-                    time: 7.6,
-                    value: 590,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.6,
-                    value: 490,
-                    type: "高危资产"
-                },
-                {
-                    time: 7.7,
-                    value: 290,
-                    type: "在线资产"
-                },
-                {
-                    time: 7.7,
-                    value: 100,
-                    type: "高危资产"
-                }
-            ]
+            chartData: []
         };
+    },
+    async created() {
+        this.updateChart();
+        setInterval(async () => {
+            this.updateChart();
+        }, FLUSH_TIME);
     },
 
     mounted() {
         this.initChart();
     },
     methods: {
+        async updateChart() {
+            let assetsRecentData = await getAssetsRecent();
+            this.chartData = this.processData(assetsRecentData.data);
+            this.setSource();
+            chart.changeData(this.chartData);
+        },
+        processData(rawData) {
+            if (!rawData) return [];
+            let tempArr = [];
+            let typeMap = {
+                high: "高危资产",
+                online: "在线资产"
+            };
+            for (let i = 0, len = rawData.length; i < len; i++) {
+                let item = rawData[i];
+                let dateList = item.date.match(/\d+\-(\d+)\-(\d+)/);
+                const date = `${dateList[1]}.${dateList[2]}`;
+                ["high", "online"].forEach(key => {
+                    const value = item[key];
+                    const type = typeMap[key];
+                    tempArr.push({date, value, type});
+                });
+            }
+            return tempArr;
+        },
         getAxisLineStyle() {
             return {
                 stroke: "rgba(3,128,255,0.4)", // 坐标轴线的颜色
@@ -117,30 +79,35 @@ export default {
             });
 
             // 横坐标轴
-            chart.axis("time", {
+            chart.axis("date", {
                 label: this.getAxisLabelOptions(),
                 tickLine: null,
                 line: this.getAxisLineStyle()
             });
         },
         setSource() {
-            chart.source(this.mockData, {
-                time: {
-                    alias: "时间",
-                    // 如果数据是时间戳的话，打开这个注释
-                    //   type: 'time',
-                    mask: "MM:ss",
+            chart.source(this.chartData, {
+                date: {
+                    alias: "日期",
                     nice: false
                 },
                 value: {
                     alias: "占用率",
                     min: 0,
-                    max: 1000
+                    max: this.getMaxValue() + 200
                 },
                 type: {
                     type: "cat"
                 }
             });
+        },
+
+        getMaxValue() {
+            let maxNum = 0;
+            this.chartData.forEach(item => {
+                if (item.value > maxNum) maxNum = item.value;
+            });
+            return maxNum;
         },
         setLegend() {
             chart.legend({
@@ -179,7 +146,7 @@ export default {
         handleChart() {
             chart
                 .line()
-                .position("time*value")
+                .position("date*value")
                 .shape("smooth")
                 .color("type", ["rgb(0,255,255)", "rgb(255,100,115)"])
                 .size(4);
@@ -187,7 +154,6 @@ export default {
         initChart() {
             this.createChart();
             this.setAxis();
-            this.setSource();
             this.setLegend();
             this.handleChart();
             chart.render();
