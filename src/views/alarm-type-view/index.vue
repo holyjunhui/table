@@ -70,7 +70,7 @@ export default {
                     color = this.getLegendColorList()[index];
                     return `
 						<div class="g2-legend-list-item" data-value="${value}">
-							<div style="display:flex;margin-bottom: 10px;align-items: center;">
+							<div style="display:flex;margin-bottom: 10px;align-items: center;width:80px;">
 								<div class=" g2-legend-item-icon" style="background:${color};width:10px;height:10px;"></div>
 								<div style="margin-left:10px; color:white;">${value}</div>
 							</div>
