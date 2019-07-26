@@ -6,12 +6,20 @@
             <div class="descriptionContainer">
                 <div>
                     <p>累计执行扫描数</p>
-                    <CountTo class="item-value text-gradient" :end-val="scanNum" separator />
+                    <CountTo
+                        class="item-value text-gradient"
+                        :end-val="totalMonitorCount"
+                        separator
+                    />
                     <span class="text-gradient item-unit">次</span>
                 </div>
                 <div>
                     <p>累计监测页面</p>
-                    <CountTo class="item-value text-gradient" :end-val="monitorNum" separator />
+                    <CountTo
+                        class="item-value text-gradient"
+                        :end-val="totalMonitorPage"
+                        separator
+                    />
                     <span class="text-gradient item-unit">个</span>
                 </div>
             </div>
@@ -21,44 +29,61 @@
 
 <script>
 let chart;
+const FLUSH_TIME = 1000 * 60 * 60;
 import G2 from "@antv/g2";
 import Widget from "@/components/Widget";
+import {getAssetsSummary} from "@/api";
 export default {
     components: {Widget},
     data() {
         return {
-            scanNum: 9856,
-            monitorNum: 568,
-            mockData: [
-                {
-                    item: "other1.closed",
-                    count: 21,
-                    percent: 0.1
-                },
-                {
-                    item: "未开启检测",
-                    count: 40,
-                    percent: 0.4
-                },
-                {
-                    item: "other2.closed",
-                    count: 21,
-                    percent: 0.1
-                },
-                {
-                    item: "已开启检测",
-                    count: 21,
-                    percent: 0.4
-                }
-            ]
+            chartData: [],
+            totalMonitorCount: 0,
+            totalMonitorPage: 0
         };
+    },
+    async created() {
+        this.updateChart();
+        setInterval(() => {
+            this.updateChart();
+        }, FLUSH_TIME);
     },
 
     mounted() {
         this.initChart();
     },
     methods: {
+        async updateChart() {
+            let assetsSummaryData = await getAssetsSummary();
+            let data = assetsSummaryData.data;
+
+            this.totalMonitorCount = data.total_monitor_count;
+            this.totalMonitorPage = data.total_monitor_page;
+            this.chartData = this.processData(data);
+            chart.changeData(this.chartData);
+        },
+        getTotalCount(data) {
+            return data.monitoring + data.unmonitoring;
+        },
+        processData(rawData) {
+            let tempArr = [];
+            let map = {
+                monitoring: "已开启监测",
+                unmonitoring: "未开启监测"
+            };
+            let totalCount = this.getTotalCount(rawData);
+            return ["monitoring", "unmonitoring"].map(key => {
+                const count = rawData[key];
+                const percent = +(count / totalCount).toFixed(2);
+                return {
+                    item: map[key],
+                    count,
+                    percent
+                };
+            });
+        },
         isClosedItem(info) {
+            return false;
             return info.item.includes("closed");
         },
         getLabelInfo() {
@@ -68,7 +93,7 @@ export default {
                 htmlTemplate(text, item, index) {
                     if (self.isClosedItem(item.point)) return "<div></div>";
                     const count = item.point.count;
-                    const percent = item.point.percent + "%";
+                    const percent = item.point.percent * 100 + "%";
                     return `
 								<div style="color:${item.color};width: 75px;text-align: center;font-size:14px;">
 								<span class="title" style=" display: inline-block; width: 50px">
@@ -94,15 +119,7 @@ export default {
             });
         },
         setChartSource() {
-            chart.source(this.mockData, {
-                percent: {
-                    formatter: function formatter(val) {
-                        //TODO
-                        // val = val * 100 + "%";
-                        // return val;
-                    }
-                }
-            });
+            chart.source(this.chartData);
         },
 
         setChartCoord() {
@@ -120,6 +137,7 @@ export default {
         },
 
         getChartColorList() {
+            return ["rgb(66,237,248)", "rgb(3,128,255)"];
             return [
                 "rgba(0,0,0,0)",
                 "rgb(66,237,248)",
@@ -166,10 +184,6 @@ export default {
             this.setChartLegend();
             this.handleChart();
             chart.render();
-        },
-
-        renderLabel() {
-            utils.drawPieLabel(chart, this.getChartColorList());
         }
     }
 };
@@ -181,7 +195,7 @@ export default {
     .mountNode {
         position: relative;
         left: -40px;
-        top: -20px;
+        top: -30px;
         box-sizing: border-box;
     }
     .assestConditionView-bg {
@@ -189,7 +203,7 @@ export default {
         width: 100%;
         height: 100%;
         background-repeat: no-repeat;
-        background-position: 83px 22px;
+        background-position: 78px 12px;
         background-image: url("../../assets/images/assest_circle.png");
     }
     .descriptionContainer {

@@ -15,50 +15,69 @@
 
 <script>
 let chart;
+const FLUSH_TIME = 1000 * 60 * 60;
 import G2 from "@antv/g2";
 import DataSet from "@antv/data-set";
 import Widget from "@/components/Widget";
 import utils from "./utils";
+import {getAlertsHighSeveritySummary} from "@/api";
+import {shuffle} from "../../utils";
 
 export default {
     components: {Widget},
     data() {
         return {
-            mockData: [
-                {
-                    type: "内容变更",
-                    num: "2788",
-                    population: 50.1
-                },
-                {
-                    type: "违规内容",
-                    num: "2788",
-                    population: 36.1
-                },
-                {
-                    type: "黑链",
-                    num: "2788",
-                    population: 34.05
-                },
-                {
-                    type: "可用性",
-                    num: "2788",
-                    population: 34.05
-                },
-                {
-                    type: "木马",
-                    num: "2788",
-                    population: 30.7
-                }
-            ]
+            chartData: []
         };
     },
 
+    async created() {
+        await this.updateChart();
+        setInterval(() => {
+            this.updateChart();
+        }, FLUSH_TIME);
+    },
     mounted() {
-        // TODO  2.调整坐标
         this.initChart();
     },
     methods: {
+        async updateChart() {
+            var highSeveritySummaryData = await getAlertsHighSeveritySummary();
+            let data = highSeveritySummaryData.data;
+            this.chartData = this.processData(data);
+            // 乱序
+            this.chartData = shuffle(this.chartData);
+            this.chartData = this.chartData.slice(0, 5);
+            const ds = new DataSet();
+            const dv = ds.createView().source(this.chartData);
+            dv.transform({
+                type: "percent",
+                field: "population",
+                dimension: "type",
+                as: "percent"
+            });
+            chart.source(dv);
+            chart.render();
+            this.renderLabel();
+        },
+        processData(rawData) {
+            let tempArr = [];
+            let totalCount = this.getTotalCount(rawData);
+            return rawData.map(info => {
+                const num = info.count;
+                const population = +(num / totalCount).toFixed(2);
+                return {
+                    type: info.category,
+                    num,
+                    population
+                };
+            });
+        },
+        getTotalCount(data) {
+            return data.reduce((total, info) => {
+                return (total += info.count);
+            }, 0);
+        },
         setChartLegend() {
             chart.legend({
                 position: "right",
@@ -70,7 +89,7 @@ export default {
                     color = this.getLegendColorList()[index];
                     return `
 						<div class="g2-legend-list-item" data-value="${value}">
-							<div style="display:flex;margin-bottom: 10px;align-items: center;width:80px;">
+							<div style="display:flex;margin-bottom: 10px;align-items: center;width:120px;">
 								<div class=" g2-legend-item-icon" style="background:${color};width:10px;height:10px;"></div>
 								<div style="margin-left:10px; color:white;">${value}</div>
 							</div>
@@ -90,7 +109,7 @@ export default {
                 container: this.$refs.mountNode,
                 // forceFit: true,
                 height: 200,
-                width: 350,
+                width: 380,
                 padding: [35, 100, 10, -30]
             });
         },
@@ -135,19 +154,8 @@ export default {
             this.createChart();
             this.setChartLegend();
             this.setChartCoord();
-            const ds = new DataSet();
-            const dv = ds.createView().source(this.mockData);
-            dv.transform({
-                type: "percent",
-                field: "population",
-                dimension: "type",
-                as: "percent"
-            });
-            chart.source(dv);
             chart.axis(false);
             this.handleChart();
-            chart.render();
-            this.renderLabel();
         },
         renderLabel() {
             utils.drawPieLabel(chart, this.getColorList());
@@ -163,15 +171,16 @@ export default {
     height: 200px;
 
     .mountNode {
+        position: relative;
         box-sizing: border-box;
         background-repeat: no-repeat;
-        background-position: 12px 12px;
+        background-position: 30px 12px;
         background-image: url("../../assets/images/type_circle.png");
     }
 
     .maskBox {
-        top: -123px;
-        left: 80px;
+        top: -120px;
+        left: 96px;
         display: flex;
         justify-content: center;
         align-items: center;

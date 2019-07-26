@@ -22,7 +22,6 @@
 </template>
 
 <script>
-let timeoutId;
 import anime from "animejs";
 import Item from "./table-item.vue";
 import tabelHead from "./table-head.vue";
@@ -30,11 +29,15 @@ export default {
     props: {
         headData: {
             type: Array,
-            default: []
+            default: () => {
+                return [];
+            }
         },
         bodyData: {
             type: Array,
-            default: []
+            default: () => {
+                return [];
+            }
         },
         showNum: {
             type: Number,
@@ -48,6 +51,7 @@ export default {
     components: {Item, tabelHead},
     data() {
         return {
+            timeoutId: null,
             showDataList: [],
             itemHeight: 26
         };
@@ -93,7 +97,7 @@ export default {
             };
             const f = () => {
                 self.reset();
-                timeoutId = setTimeout(() => {
+                self.timeoutId = setTimeout(() => {
                     for (let i = 0; i < showItems.length; i++) {
                         const itemDom = showItems[i];
                         const translateY = self.getTranslateY(itemDom);
@@ -127,8 +131,8 @@ export default {
             this.showDataList = this.bodyData.slice(0, this.showNum + 1);
         },
         reset() {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId);
             }
         },
         update() {

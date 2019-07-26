@@ -1,3 +1,4 @@
+let oldLabelGroup = null;
 const drawPieLabel = function drawPieLabel(chart, colors) {
     // draw label
     const startAngle = -Math.PI / 2 - Math.PI / 4;
@@ -10,7 +11,12 @@ const drawPieLabel = function drawPieLabel(chart, colors) {
     const canvas = chart.get("canvas");
     const canvasWidth = chart.get("width");
     const canvasHeight = chart.get("height");
+    if (oldLabelGroup) {
+        canvas.removeChild(oldLabelGroup);
+        oldLabelGroup = null;
+    }
     const labelGroup = canvas.addGroup();
+    oldLabelGroup = labelGroup;
     const labels = [];
 
     const getEndPoint = function getEndPoint(center, angle, r) {
@@ -209,6 +215,7 @@ const drawPieLabel = function drawPieLabel(chart, colors) {
         } // end of for
 
         const maxCountForOneSide = parseInt(canvasHeight / LINEHEIGHT, 10);
+        // debugger;
         halves.forEach((half, index) => {
             // step 2: reduce labels
             if (half.length > maxCountForOneSide) {

@@ -10,62 +10,79 @@
 </template>
 <script>
 let chart;
+const FLUSH_TIME = 1000 * 60 * 60;
 import G2 from "@antv/g2";
 import Widget from "@/components/Widget";
 import RadioGroup from "./radio-button/radio-group.vue";
+import {getOperationSummary, getMeta} from "@/api";
 export default {
     components: {Widget, RadioGroup},
     data() {
         return {
-            radio: "待验证",
-            mockData: [
-                {
-                    type: "金融业",
-                    value: 3500
-                },
-                {
-                    type: "农林牧业",
-                    value: 3000
-                },
-                {
-                    type: "电力水产业",
-                    value: 2500
-                },
-                {
-                    type: "建筑业",
-                    value: 2000
-                },
-                {
-                    type: "批发零售业",
-                    value: 1500
-                },
-                {
-                    type: "交通运输业",
-                    value: 800
-                },
-                {
-                    type: "嘿嘿运输业",
-                    value: 400
-                },
-                {
-                    type: "啦啦运输业",
-                    value: 200
-                },
-                {
-                    type: "哈哈运输业",
-                    value: 700
-                },
-                {
-                    type: "呵呵运输业",
-                    value: 900
-                }
-            ]
+            dataList: [],
+            chartData: [],
+            radioIndex: 0
         };
+    },
+
+    async created() {
+        this.updateChart();
+        setInterval(() => {
+            this.updateChart();
+        }, FLUSH_TIME);
     },
     mounted() {
         this.initChart();
     },
     methods: {
+        async updateChart() {
+            let operationSummaryData = await getOperationSummary();
+            let metaData = await getMeta();
+            this.dataList = this.processData(
+                operationSummaryData.data,
+                metaData.data.industry
+            );
+
+            this.updateChartData();
+        },
+        getNameByType(data) {
+            return codeId => {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].code === codeId) {
+                        return data[i];
+                    }
+                }
+            };
+        },
+        processData(rawData, mapInfo) {
+            if (!rawData) return [];
+            //注入数据
+            const findCodeInfo = this.getNameByType(mapInfo);
+            let tempArr = [];
+            let validated = [];
+            let waitValidated = [];
+            tempArr.push(validated);
+            tempArr.push(waitValidated);
+            let typeMap = {
+                validated_count: "已验证",
+                wait_validated_count: "待验证"
+            };
+            for (let i = 0, len = rawData.length; i < len; i++) {
+                let item = rawData[i];
+                let typeInfo = findCodeInfo(item.industry_code);
+                let type = typeInfo.name;
+                validated.push({
+                    type,
+                    value: item.validated_count
+                });
+
+                waitValidated.push({
+                    type,
+                    value: item.wait_validated_count
+                });
+            }
+            return tempArr;
+        },
         setChartAxis() {
             // 设置横坐标轴
             chart.axis("type", {
@@ -132,7 +149,12 @@ export default {
                 });
         },
         onRadioGroupSelect(item) {
-            // TODO  这里需要切换数据
+            this.radioIndex = item.name;
+            this.updateChartData();
+        },
+        updateChartData() {
+            this.chartData = this.dataList[this.radioIndex];
+            chart.changeData(this.chartData);
         },
         getAxisLineStyle() {
             return {
