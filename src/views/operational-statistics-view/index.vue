@@ -91,18 +91,8 @@ export default {
                         fill: "#fff"
                     },
                     htmlTemplate(text) {
-                        if (text.length > 3) {
-                            const preText = text.slice(0, 2);
-                            const laterText = text.slice(2);
-                            return `
-            <div class="g-label-container" style="text-align:center;width:50px;">
-              <p style="font-size:12px;margin-bottom:0">${preText}</p>
-              <p style="font-size:12px;margin:0">${laterText}</p>
-            </div>
-            `;
-                        }
                         return `
-            <p style="width:50px;font-size:12px;text-align:center;">${text}</p>
+            <p class="line-limit-length" title="${text}" style="width:50px;font-size:12px;text-align:center;">${text}</p>
           `;
                     }
                 }
@@ -176,3 +166,12 @@ export default {
     }
 }
 </style>
+
+<style>
+.line-limit-length {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
+
