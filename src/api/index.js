@@ -2,8 +2,9 @@ import axios from "axios";
 import {Message as message} from "element-ui";
 
 const service = axios.create({
-    baseURL: "",
-    timeout: 16000,
+    baseURL: process.env.VUE_APP_BASE_API, // api的base_url
+    timeout: process.env.VUE_APP_REQUEST_TOME_OUT, // request timeout
+    withCredentials: true,
     headers: {
         "Content-type": "application/json",
         "Access-Control-Allow-Origin": "*"

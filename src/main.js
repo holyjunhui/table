@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import {Select, Option, Loading, Message} from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./style/style.scss";
-
+import "normalize.css";
 import countTo from "vue-count-to";
 Vue.component("CountTo", countTo);
 
