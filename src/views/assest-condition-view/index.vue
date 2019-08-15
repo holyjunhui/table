@@ -54,8 +54,8 @@ export default {
     },
     methods: {
         async updateChart() {
-            let assetsSummaryData = await getAssetsSummary();
-            let data = assetsSummaryData.data;
+            const assetsSummaryData = await getAssetsSummary();
+            const data = assetsSummaryData.data;
 
             this.totalMonitorCount = data.total_monitor_count;
             this.totalMonitorPage = data.total_monitor_page;
@@ -66,12 +66,12 @@ export default {
             return data.monitoring + data.unmonitoring;
         },
         processData(rawData) {
-            let tempArr = [];
-            let map = {
+            const tempArr = [];
+            const map = {
                 monitoring: "已开启监测",
                 unmonitoring: "未开启监测"
             };
-            let totalCount = this.getTotalCount(rawData);
+            const totalCount = this.getTotalCount(rawData);
             return ["monitoring", "unmonitoring"].map(key => {
                 const count = rawData[key];
                 const percent = +(count / totalCount).toFixed(2);
@@ -87,13 +87,13 @@ export default {
             return info.item.includes("closed");
         },
         getLabelInfo() {
-            let self = this;
+            const self = this;
             return {
                 offset: 40,
                 htmlTemplate(text, item, index) {
-                    if (self.isClosedItem(item.point)) return "<div></div>";
+                    if (self.isClosedItem(item.point)) { return "<div></div>"; }
                     const count = item.point.count;
-                    const percent = item.point.percent * 100 + "%";
+                    const percent = (item.point.percent * 100).toFixed(2) + "%";
                     return `
 								<div style="color:${item.color};width: 75px;text-align: center;font-size:14px;">
 								<span class="title" style=" display: inline-block; width: 50px">
@@ -146,7 +146,7 @@ export default {
             ];
         },
         handleChart() {
-            var interval = chart
+            const interval = chart
                 .intervalStack()
                 .position("percent")
                 .color("item", this.getChartColorList())
@@ -155,15 +155,15 @@ export default {
             chart.tooltip(false);
         },
         setChartLegend() {
-            let self = this;
+            const self = this;
             chart.legend({
                 position: "left",
                 offsetX: 115,
                 offsetY: -25,
                 hoverable: false,
                 useHtml: true,
-                itemTpl: function(value, color, checked, index) {
-                    if (self.isClosedItem({item: value})) return "<div></div>";
+                itemTpl(value, color, checked, index) {
+                    if (self.isClosedItem({item: value})) { return "<div></div>"; }
                     return `
 						<div class="g2-legend-list-item" data-value="${value}">
 							<div style="display:flex;margin-bottom: 5px;align-items: center;font-size:11px;">

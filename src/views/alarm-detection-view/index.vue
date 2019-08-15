@@ -24,14 +24,19 @@ export default {
     async created() {
         await this.updata();
     },
+    computed: {
+        categories() {
+            return this.$store.state.meta.alert_category || [];
+        }
+    },
     methods: {
         async updata() {
-            let highSeverityData = await getAlertsHighSeverity();
-            let rawData = highSeverityData.data;
+            const highSeverityData = await getAlertsHighSeverity();
+            const rawData = highSeverityData.data;
             if (rawData) {
                 this.bodyData = rawData.map(info => {
                     const url = Url(info.affected_url);
-                    const category = info.category;
+                    const category = (this.categories.find(item => item.code === info.category) || {}).name;
                     const time = formatTime(info.created_at);
                     return [url.host, category, time];
                 });

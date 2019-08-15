@@ -1,6 +1,6 @@
 import axios from "axios";
 import {Message as message} from "element-ui";
-
+import {getToken} from "../utils/auth";
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, // api的base_url
     timeout: process.env.VUE_APP_REQUEST_TOME_OUT, // request timeout
@@ -12,7 +12,7 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(config => {
-    config.headers.Authorization = "Bearer 360";
+    config.headers.Authorization = process.env.NODE_ENV === "development" ? `Bearer ${getToken()}` : "Bearer 360";
     return config;
 });
 

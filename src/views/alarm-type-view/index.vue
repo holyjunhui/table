@@ -40,10 +40,15 @@ export default {
     mounted() {
         this.initChart();
     },
+    computed: {
+        categories() {
+            return this.$store.state.meta.alert_category || [];
+        }
+    },
     methods: {
         async updateChart() {
-            var highSeveritySummaryData = await getAlertsHighSeveritySummary();
-            let data = highSeveritySummaryData.data;
+            let highSeveritySummaryData = await getAlertsHighSeveritySummary();
+            const data = highSeveritySummaryData.data;
             this.chartData = this.processData(data);
             // 乱序
             this.chartData = shuffle(this.chartData);
@@ -61,13 +66,13 @@ export default {
             this.renderLabel();
         },
         processData(rawData) {
-            let tempArr = [];
-            let totalCount = this.getTotalCount(rawData);
+            const tempArr = [];
+            const totalCount = this.getTotalCount(rawData);
             return rawData.map(info => {
                 const num = info.count;
                 const population = +(num / totalCount).toFixed(2);
                 return {
-                    type: info.category,
+                    type: (this.categories.find(item => item.code === info.category) || {}).name,
                     num,
                     population
                 };
@@ -75,7 +80,7 @@ export default {
         },
         getTotalCount(data) {
             return data.reduce((total, info) => {
-                return (total += info.count);
+                return total += info.count;
             }, 0);
         },
         setChartLegend() {
