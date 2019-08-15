@@ -2,7 +2,7 @@
     <div class="tableItem">
         <template v-for="(item,index) in itemData">
             <div :key="index">
-                <p :class="font" :style="{fontSize:(fontSize?fontSize:12)+'px'}">{{ item }}</p>
+                <p :class="font" :style="{fontSize: (fontSize ? fontSize : 12) + 'px'}">{{ item }}</p>
             </div>
         </template>
     </div>
@@ -29,6 +29,15 @@ export default {
             user-select: none;
             margin: 0px 0;
         }
+    }
+    div:first-child {
+        width: 45%;
+    }
+    div:first-child p{
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 </style>

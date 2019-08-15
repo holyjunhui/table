@@ -58,7 +58,8 @@ export default {
 .main-container {
     background: #03091b url("../assets/images/page-background.png") center
         no-repeat;
-    min-height: 100vh;
+    min-width: 1920px;
+    min-height: 1048px;
     display: flex;
     flex-direction: column;
     .main-layout {

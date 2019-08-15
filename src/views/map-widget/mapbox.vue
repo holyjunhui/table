@@ -10,7 +10,7 @@ import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import hechuanGeo from "@/data/china.json";
+import hechuanGeo from "@/data/hechuan.json";
 import coordArray from "@/data/coord.js";
 
 import popupComponent from "./popup";
@@ -19,8 +19,8 @@ import markerComponent from "./marker";
 const config = {
     token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
     style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
-    zoom: 3.2,
-    center: [113.628887, 34.755086]
+    zoom: 9.5,
+    center: [106.325, 30.11]
 };
 
 export default {
