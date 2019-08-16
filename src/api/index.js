@@ -20,19 +20,19 @@ service.interceptors.response.use(response => {
     const body = response.data;
     if (!body.ok) {
         const msg = body.messages.join(",");
-        message({message: `接口返回错误: ${msg}`, type: "error"});
-        return Promise.reject(new Error(`接口返回错误: ${msg}`));
+        message({message: ` ${msg}`, type: "error"});
+        return Promise.reject(new Error(`${msg}`));
     }
 
     return body;
 }, error => {
     const msg = error.response.data.msg || error.toString();
-    message({message: `接口请求失败: ${msg}`, type: "error"});
-    return Promise.reject(new Error("请求接口失败: " + msg));
+    message({message: `${msg}`, type: "error"});
+    return Promise.reject(new Error(msg));
 });
 
 const getMeta = () => service.get("/v1/meta");
-const getAlertsTotal = () => service.get("/v1/situation/alerts/total");
+const getAlertsTotal = () => service.get("/v1/situation-test/alerts/total");
 const getAlertsStatsByLocation = locationCode => service.get(`/v1/situation/alerts/stats-by-location/${locationCode}`);
 const getAlertsRecent = range => service.get("/v1/situation/alerts/recent", {params: {range}});
 const getAlertsHighSeverity = () => service.get("/v1/situation/alerts/high-severity");

@@ -15,13 +15,15 @@ import G2 from "@antv/g2";
 import Widget from "@/components/Widget";
 import RadioGroup from "./radio-button/radio-group.vue";
 import {getOperationSummary, getMeta} from "@/api";
+import list from "./data";
 export default {
     components: {Widget, RadioGroup},
     data() {
         return {
             dataList: [],
             chartData: [],
-            radioIndex: 0
+            radioIndex: 0,
+            list
         };
     },
 
@@ -36,12 +38,10 @@ export default {
     },
     methods: {
         async updateChart() {
-            let operationSummaryData = await getOperationSummary();
-            let metaData = await getMeta();
-            this.dataList = this.processData(
-                operationSummaryData.data,
-                metaData.data.industry
-            );
+            const operationSummaryData = await getOperationSummary();
+            const metaData = await getMeta();
+            this.dataList = this.processData(this.list,
+                metaData.data.industry);
 
             this.updateChartData();
         },
@@ -55,22 +55,23 @@ export default {
             };
         },
         processData(rawData, mapInfo) {
-            if (!rawData) return [];
-            //注入数据
+            if (!rawData) 
+return [];
+            // 注入数据
             const findCodeInfo = this.getNameByType(mapInfo);
-            let tempArr = [];
-            let validated = [];
-            let waitValidated = [];
+            const tempArr = [];
+            const validated = [];
+            const waitValidated = [];
             tempArr.push(validated);
             tempArr.push(waitValidated);
-            let typeMap = {
+            const typeMap = {
                 validated_count: "已验证",
                 wait_validated_count: "待验证"
             };
             for (let i = 0, len = rawData.length; i < len; i++) {
-                let item = rawData[i];
-                let typeInfo = findCodeInfo(item.industry_code);
-                let type = typeInfo.name;
+                const item = rawData[i];
+                const typeInfo = findCodeInfo(item.industry_code);
+                const type = typeInfo.name;
                 validated.push({
                     type,
                     value: item.validated_count

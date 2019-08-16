@@ -1,0 +1,41 @@
+export default [{
+    "industry_code": "04",
+    "validated_count": 117,
+    "wait_validated_count": 27
+}, {
+    "industry_code": "06",
+    "validated_count": 146,
+    "wait_validated_count": 23
+}, {
+    "industry_code": "03",
+    "validated_count": 126,
+    "wait_validated_count": 21
+}, {
+    "industry_code": "10",
+    "validated_count": 139,
+    "wait_validated_count": 19
+}, {
+    "industry_code": "02",
+    "validated_count": 179,
+    "wait_validated_count": 18
+}, {
+    "industry_code": "01",
+    "validated_count": 135,
+    "wait_validated_count": 17
+}, {
+    "industry_code": "09",
+    "validated_count": 194,
+    "wait_validated_count": 17
+}, {
+    "industry_code": "08",
+    "validated_count": 72,
+    "wait_validated_count": 17
+}, {
+    "industry_code": "07",
+    "validated_count": 94,
+    "wait_validated_count": 14
+}, {
+    "industry_code": "05",
+    "validated_count": 191,
+    "wait_validated_count": 14
+}];

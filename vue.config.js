@@ -23,7 +23,7 @@ module.exports = {
         open: "true",
         proxy: {
             "/v1": {
-                target: "http://10.145.79.28:8080/api", // 这里后台的地址
+                target: "https://yzt.360.cn/api", // 这里后台的地址
                 ws: false,
                 changOrigin: true, // 允许跨域
                 pathRewrite: {
