@@ -108,7 +108,7 @@ export default {
                 },
                 "layout": {},
                 "paint": {
-                    "fill-color": "#4da3f6",
+                    "fill-color": "#4890f6",
                     "fill-opacity": 0.3
                 }
             });

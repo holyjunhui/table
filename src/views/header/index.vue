@@ -1,5 +1,5 @@
 <template>
-    <h1>重庆合川网站监测资产态势感知平台</h1>
+    <h1>重庆网站监测资产态势感知平台</h1>
 </template>
 
 <style lang="scss" scoped>

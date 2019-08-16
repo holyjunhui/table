@@ -25,10 +25,10 @@ export default {
             time: "",
             timer: null,
             events: [
-                {title: "今日处理事件", value: 8966},
-                {title: "今日探查告警量", value: 4358},
-                {title: "今日事件通报", value: 3247},
-                {title: "当前正在处理事件", value: 9651}
+                {title: "今日处理事件", value: 3966},
+                {title: "今日探查告警量", value: 3358},
+                {title: "今日事件通报", value: 4247},
+                {title: "当前正在处理事件", value: 6651}
             ]
         };
     },

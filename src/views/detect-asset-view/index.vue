@@ -12,40 +12,43 @@ const FLUSH_TIME = 1000 * 60 * 10;
 import G2 from "@antv/g2";
 import {getAssetsRecent} from "@/api";
 import Widget from "@/components/Widget";
+import list from "./data";
 export default {
     components: {Widget},
     data() {
         return {
-            chartData: []
+            chartData: [],
+            list
         };
     },
-    async created() {
-        this.updateChart();
-        setInterval(async () => {
-            this.updateChart();
-        }, FLUSH_TIME);
-    },
+    // async created() {
+    //     this.updateChart();
+    //     setInterval(async () => {
+    //         this.updateChart();
+    //     }, FLUSH_TIME);
+    // },
 
     mounted() {
         this.initChart();
+        this.updateChart();
     },
     methods: {
-        async updateChart() {
-            let assetsRecentData = await getAssetsRecent();
-            this.chartData = this.processData(assetsRecentData.data);
+        updateChart() {
+            // const assetsRecentData = await getAssetsRecent();
+            this.chartData = this.processData(this.list);
             this.setSource();
             chart.changeData(this.chartData);
         },
         processData(rawData) {
-            if (!rawData) return [];
-            let tempArr = [];
-            let typeMap = {
+            if (!rawData) { return []; }
+            const tempArr = [];
+            const typeMap = {
                 high: "高危资产",
                 online: "在线资产"
             };
             for (let i = 0, len = rawData.length; i < len; i++) {
-                let item = rawData[i];
-                let dateList = item.date.match(/\d+\-(\d+)\-(\d+)/);
+                const item = rawData[i];
+                const dateList = item.date.match(/\d+\-(\d+)\-(\d+)/);
                 const date = `${dateList[1]}.${dateList[2]}`;
                 ["high", "online"].forEach(key => {
                     const value = item[key];
@@ -105,7 +108,7 @@ export default {
         getMaxValue() {
             let maxNum = 0;
             this.chartData.forEach(item => {
-                if (item.value > maxNum) maxNum = item.value;
+                if (item.value > maxNum) { maxNum = item.value; }
             });
             return maxNum;
         },
@@ -114,9 +117,7 @@ export default {
                 useHtml: true,
                 hoverable: false,
                 containerTpl:
-                    '<div class="g2-legend" style="">' +
-                    '<div class="g2-legend-list" style="display:flex;"  > ' +
-                    "</div>",
+                    '<div class="g2-legend" style="">' + '<div class="g2-legend-list" style="display:flex;"  > ' + "</div>",
                 itemTpl: (value, color, checked, index) => {
                     return `
 				<div>
@@ -148,7 +149,7 @@ export default {
                 .line()
                 .position("date*value")
                 .shape("smooth")
-                .color("type", ["rgb(0,255,255)", "rgb(255,100,115)"])
+                .color("type", ["rgb(0,255,255)", "#FACC14"])
                 .size(4);
         },
         initChart() {
@@ -168,6 +169,4 @@ export default {
     left: -15px;
 }
 </style>
-
-
 

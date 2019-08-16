@@ -32,7 +32,16 @@ export default {
             height: 163,
             padding: 0
         });
-        chart.source(this.list);
+        chart.source(this.list, {
+            x: {
+                min: -200,
+                max: 200
+            },
+            y: {
+                min: -1000,
+                max: 1000
+            }
+        });
         chart.axis("x", false);
         chart.axis("y", false);
         chart.tooltip({
@@ -58,7 +67,7 @@ export default {
         });
         chart.guide().text({
             position: ["0%", "50%"],
-            content: "长沙市",
+            content: "盐井街道",
             style: {
                 fill: "#FFF",
                 textAlign: "left",
@@ -68,7 +77,7 @@ export default {
         });
         chart.guide().text({
             position: ["0%", "50%"],
-            content: "湘潭市",
+            content: "云门街道",
             style: {
                 fill: "#FFF",
                 textAlign: "left",
@@ -78,7 +87,7 @@ export default {
         });
         chart.guide().text({
             position: ["100%", "50%"],
-            content: "永州市",
+            content: "草街街道",
             style: {
                 fill: "#FFF",
                 textAlign: "right",
@@ -88,7 +97,7 @@ export default {
         });
         chart.guide().text({
             position: ["100%", "50%"],
-            content: "岳阳市",
+            content: "大石街道",
             style: {
                 fill: "#FFF",
                 textAlign: "right",
@@ -97,7 +106,7 @@ export default {
             offsetY: 13
         });
         chart.legend(false);
-        chart.point().position("x*y").size("size", [1, 8]).color("region", val => {
+        chart.point().position("x*y").size("size", [1, 10]).color("region", val => {
             return colorMap[val];
         })
             .shape("circle");

@@ -31,15 +31,15 @@ export default {
         return {
             list: data,
             status: [
-                {name: "未确认", value: 8},
-                {name: "已确认", value: 9},
-                {name: "待相应", value: 2},
-                {name: "待处理", value: 7},
-                {name: "已处理", value: 13},
-                {name: "已超时", value: 12}
+                {name: "未确认", value: 7929},
+                {name: "已确认", value: 6000},
+                {name: "待相应", value: 8239},
+                {name: "待处理", value: 4943},
+                {name: "已处理", value: 7343},
+                {name: "已超时", value: 5292}
             ],
-            category: "",
-            range: ""
+            category: "week",
+            range: "week"
         };
     },
 

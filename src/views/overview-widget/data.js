@@ -1,38 +1,30 @@
 export default [
     {
         date: "7.1",
-        value: 6000
+        value: 7140
     },
     {
         date: "7.2",
-        value: 16100
+        value: 9190
     },
     {
         date: "7.3",
-        value: 5900
+        value: 8960
     },
     {
         date: "7.4",
-        value: 17409
+        value: 9009
     },
     {
         date: "7.5",
-        value: 7000
+        value: 8124
     },
     {
         date: "7.6",
-        value: 21056
+        value: 8856
     },
     {
         date: "7.7",
-        value: 19829
-    },
-    {
-        date: "7.8",
-        value: 22040
-    },
-    {
-        date: "7.9",
-        value: 3233
+        value: 8169
     }
 ];

@@ -23,22 +23,25 @@ import utils from "./utils";
 import {getAlertsHighSeveritySummary} from "@/api";
 import {shuffle} from "../../utils";
 
+import list from "./data";
 export default {
     components: {Widget},
     data() {
         return {
-            chartData: []
+            chartData: [],
+            list
         };
     },
 
-    async created() {
-        await this.updateChart();
-        setInterval(() => {
-            this.updateChart();
-        }, FLUSH_TIME);
-    },
+    // async created() {
+    //     await this.updateChart();
+    //     setInterval(() => {
+    //         this.updateChart();
+    //     }, FLUSH_TIME);
+    // },
     mounted() {
         this.initChart();
+        this.updateChart();
     },
     computed: {
         categories() {
@@ -47,11 +50,12 @@ export default {
     },
     methods: {
         async updateChart() {
-            let highSeveritySummaryData = await getAlertsHighSeveritySummary();
-            const data = highSeveritySummaryData.data;
+            const highSeveritySummaryData = await getAlertsHighSeveritySummary();
+            // const data = highSeveritySummaryData.data;
+            const data = this.list;
             this.chartData = this.processData(data);
             // 乱序
-            this.chartData = shuffle(this.chartData);
+            // this.chartData = shuffle(this.chartData);
             this.chartData = this.chartData.slice(0, 5);
             const ds = new DataSet();
             const dv = ds.createView().source(this.chartData);
