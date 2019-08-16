@@ -12,7 +12,7 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(config => {
-    config.headers.Authorization = process.env.NODE_ENV === "development" ? `Bearer ${getToken()}` : "Bearer 360";
+    config.headers.Authorization = process.env.NODE_ENV === "production" ? `Bearer ${getToken()}` : "Bearer 360";
     return config;
 });
 
