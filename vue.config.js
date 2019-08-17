@@ -21,9 +21,19 @@ module.exports = {
 
     devServer: {
         open: "true",
-        proxy: {
+        // proxy: {
+        //     "/v1": {
+        //         target: "https://yzt.360.cn/api", // 这里后台的地址
+        //         ws: false,
+        //         changOrigin: true, // 允许跨域
+        //         pathRewrite: {
+        //             "^/v1": "" // 请求的时候使用这个api就可以
+        //         }
+        //     }
+        // },
+        proxy: {// 配置跨域
             "/v1": {
-                target: "https://yzt.360.cn/api", // 这里后台的地址
+                target: "http://10.145.79.28:8080/api", // 这里后台的地址
                 ws: false,
                 changOrigin: true, // 允许跨域
                 pathRewrite: {
