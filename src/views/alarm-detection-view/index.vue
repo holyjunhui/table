@@ -7,6 +7,7 @@
 </template>
 
 <script>
+const FLUSH_TIME = 1000 * 60 * 60;
 import Widget from "@/components/Widget";
 import RollTabel from "@/components/roll-table";
 import mockData from "./mockdata.js";
@@ -23,8 +24,11 @@ export default {
             list
         };
     },
-    async created() {
-        await this.updata();
+    created() {
+        this.updata();
+        setInterval(() => {
+            this.updata();
+        }, FLUSH_TIME);
     },
     computed: {
         categories() {

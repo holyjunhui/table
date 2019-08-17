@@ -7,6 +7,7 @@
 </template>
 
 <script>
+const FLUSH_TIME = 1000 * 60 * 60;
 import Widget from "@/components/Widget";
 import RollTabel from "@/components/roll-table";
 import {getAlertsSpamlink} from "@/api";
@@ -15,8 +16,11 @@ import {formatTime} from "@/utils";
 import list from "./data";
 export default {
     components: {Widget, RollTabel},
-    async created() {
-        await this.updata();
+    created() {
+        this.updata();
+        setInterval(() => {
+            this.updata();
+        }, FLUSH_TIME);
     },
     data() {
         return {
