@@ -12,6 +12,7 @@ import RollTabel from "@/components/roll-table";
 import {getAlertsSpamlink} from "@/api";
 import Url from "url-parse";
 import {formatTime} from "@/utils";
+import list from "./data";
 export default {
     components: {Widget, RollTabel},
     async created() {
@@ -19,18 +20,19 @@ export default {
     },
     data() {
         return {
-            headData: ["网站", "时间", "URL数量"],
-            bodyData: []
+            headData: ["网站", "URL数量", "时间"],
+            bodyData: [],
+            list
         };
     },
     methods: {
-        async updata() {
-            let spamlinkData = await getAlertsSpamlink();
-            let rawData = spamlinkData.data;
+        updata() {
+            // const spamlinkData = await getAlertsSpamlink();
+            const rawData = this.list;
             if (rawData) {
                 this.bodyData = rawData.map(info => {
                     const url = Url(info.asset.url);
-                    return [url.host, formatTime(info.created_at), info.count];
+                    return [url.host, info.count, formatTime(info.created_at)];
                 });
             }
         }

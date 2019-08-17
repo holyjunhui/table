@@ -42,19 +42,20 @@ export default {
             totalMonitorPage: 0
         };
     },
-    async created() {
-        this.updateChart();
-        setInterval(() => {
-            this.updateChart();
-        }, FLUSH_TIME);
-    },
+    // async created() {
+    //     this.updateChart();
+    //     setInterval(() => {
+    //         this.updateChart();
+    //     }, FLUSH_TIME);
+    // },
 
     mounted() {
         this.initChart();
+        this.updateChart();
     },
     methods: {
-        async updateChart() {
-            const assetsSummaryData = await getAssetsSummary();
+        updateChart() {
+            // const assetsSummaryData = await getAssetsSummary();
             // const data = assetsSummaryData.data;
 
             const data = {"total_monitor_count": 1560, "total_monitor_page": 1421, "monitoring": 950, "unmonitoring": 9900};

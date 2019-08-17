@@ -1,7 +1,7 @@
 <template>
     <div class="tableItem">
         <template v-for="(item,index) in itemData">
-            <div :key="index">
+            <div :key="index" :class="{font,[`table-${index}`]: true}">
                 <p :class="font" :style="{fontSize: (fontSize ? fontSize : 12) + 'px'}">{{ item }}</p>
             </div>
         </template>
@@ -30,10 +30,28 @@ export default {
             margin: 0px 0;
         }
     }
-    div:first-child {
+    .table-0 {
         width: 45%;
     }
-    div:first-child p{
+    .table-0 p {
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .table-1 {
+        width: 18%;
+    }
+    .table-1 p{
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+       .table-2 {
+        width: 37%;
+    }
+    .table-2 p {
         width:100%;
         overflow: hidden;
         text-overflow: ellipsis;

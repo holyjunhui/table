@@ -38,10 +38,9 @@ export default {
     },
     methods: {
         async updateChart() {
-            const operationSummaryData = await getOperationSummary();
+            // const operationSummaryData = await getOperationSummary();
             const metaData = await getMeta();
-            this.dataList = this.processData(this.list,
-                                             metaData.data.industry);
+            this.dataList = this.processData(this.list, metaData.data.industry);
 
             this.updateChartData();
         },
@@ -55,8 +54,7 @@ export default {
             };
         },
         processData(rawData, mapInfo) {
-            if (!rawData)
-                                {return [];}
+            if (!rawData) { return []; }
             // 注入数据
             const findCodeInfo = this.getNameByType(mapInfo);
             const tempArr = [];

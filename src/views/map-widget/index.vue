@@ -59,8 +59,9 @@ export default {
             while (rgx.test(num)) {
                 num = num.replace(rgx, "$1,$2");
             }
-
+            console.log("num", num);
             num = num.substr(-7);
+            console.log("numsub", num);
             return num.split("").map(item => {
                 return `<div class="${item === "," ? "separator" : "digital"}"><span>${item}</span></div>`;
             }).join("");

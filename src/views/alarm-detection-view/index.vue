@@ -1,5 +1,5 @@
 <template>
-    <Widget title="高危告警检测">
+    <Widget title="高危告警监测">
         <div class="alarmDetectionView">
             <RollTabel :head-data="headData" :body-data="bodyData" :show-num="6" />
         </div>
@@ -11,6 +11,7 @@ import Widget from "@/components/Widget";
 import RollTabel from "@/components/roll-table";
 import mockData from "./mockdata.js";
 import {getAlertsHighSeverity} from "@/api";
+import list from "./data";
 import Url from "url-parse";
 import {formatTime} from "@/utils";
 export default {
@@ -18,7 +19,8 @@ export default {
     data() {
         return {
             headData: ["网站", "类型", "时间"],
-            bodyData: []
+            bodyData: [],
+            list
         };
     },
     async created() {
@@ -30,9 +32,9 @@ export default {
         }
     },
     methods: {
-        async updata() {
-            const highSeverityData = await getAlertsHighSeverity();
-            const rawData = highSeverityData.data;
+        updata() {
+            // const highSeverityData = await getAlertsHighSeverity();
+            const rawData = this.list;
             if (rawData) {
                 this.bodyData = rawData.map(info => {
                     const url = Url(info.affected_url);
