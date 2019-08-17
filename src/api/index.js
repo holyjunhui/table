@@ -26,6 +26,11 @@ service.interceptors.response.use(response => {
 
     return body;
 }, error => {
+
+    // StatusPreconditionFailed 没有登陆权限就重新登陆
+    if (error.response.status === 412) {
+        window.location = "https://yzt.360.cn";
+    }
     const msg = error.response.data.msg || error.toString();
     message({message: `${msg}`, type: "error"});
     return Promise.reject(new Error(msg));
