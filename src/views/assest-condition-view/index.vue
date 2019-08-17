@@ -58,7 +58,7 @@ export default {
             // const assetsSummaryData = await getAssetsSummary();
             // const data = assetsSummaryData.data;
 
-            const data = {"total_monitor_count": 1560, "total_monitor_page": 1421, "monitoring": 950, "unmonitoring": 9900};
+            const data = {"total_monitor_count": 9560, "total_monitor_page": 9214, "monitoring": 30950, "unmonitoring": 9900};
             this.totalMonitorCount = data.total_monitor_count;
             this.totalMonitorPage = data.total_monitor_page;
             this.chartData = this.processData(data);
