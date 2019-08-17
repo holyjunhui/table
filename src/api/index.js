@@ -1,5 +1,9 @@
 import axios from "axios";
-import {Message as message} from "element-ui";
+import {
+    Message as message,
+    Notification as notification
+} from "element-ui";
+
 import {getToken} from "../utils/auth";
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, // api的base_url
@@ -26,13 +30,19 @@ service.interceptors.response.use(response => {
 
     return body;
 }, error => {
-
     // StatusPreconditionFailed 没有登陆权限就重新登陆
-    if (error.response.status === 412) {
-        window.location = "https://yzt.360.cn";
-    }
     const msg = error.response.data.msg || error.toString();
-    message({message: `${msg}`, type: "error"});
+    if (error.response.status === 412) {
+        message({
+            message: "登录失效，请重新登录，即将跳转到登录",
+            type: "error"
+        });
+        setTimeout(() => {
+            window.location = "https://yzt.360.cn";
+        }, 3000);
+    } else {
+        message({message: `${msg}`, type: "error"});
+    }
     return Promise.reject(new Error(msg));
 });
 
