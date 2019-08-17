@@ -36,6 +36,7 @@ export default {
             // const highSeverityData = await getAlertsHighSeverity();
             const rawData = this.list;
             if (rawData) {
+                rawData.sort((a, b) => b.created_at - a.created_at);
                 this.bodyData = rawData.map(info => {
                     const url = Url(info.affected_url);
                     const category = (this.categories.find(item => item.code === info.category) || {}).name;

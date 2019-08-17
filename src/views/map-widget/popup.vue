@@ -2,7 +2,7 @@
     <div class="popup">
         <h4>{{ value.area }}</h4>
         <p>网址: {{ value.address }}</p>
-        <p>漏洞名称: {{ value.name }}</p>
+        <p>告警状态: {{ value.name }}</p>
         <p>漏洞等级: {{ value.level }}</p>
         <p>漏洞类型: {{ value.type }}</p>
     </div>

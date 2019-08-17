@@ -30,6 +30,7 @@ export default {
             // const spamlinkData = await getAlertsSpamlink();
             const rawData = this.list;
             if (rawData) {
+                rawData.sort((a, b) => b.created_at - a.created_at);
                 this.bodyData = rawData.map(info => {
                     const url = Url(info.asset.url);
                     return [url.host, info.count, formatTime(info.created_at)];
