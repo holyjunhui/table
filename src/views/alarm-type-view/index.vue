@@ -91,7 +91,7 @@ export default {
             chart.legend({
                 position: "right",
                 offsetY: -10,
-                offsetX: 5,
+                offsetX: 17,
                 useHtml: true,
                 hoverable: false,
                 itemTpl: (value, color, checked, index) => {
