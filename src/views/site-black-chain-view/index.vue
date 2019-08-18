@@ -30,9 +30,9 @@ export default {
         };
     },
     methods: {
-        updata() {
-            // const spamlinkData = await getAlertsSpamlink();
-            const rawData = this.list;
+        async updata() {
+            const spamlinkData = await getAlertsSpamlink();
+            const rawData = spamlinkData.data;
             if (rawData) {
                 rawData.sort((a, b) => b.created_at - a.created_at);
                 this.bodyData = rawData.map(info => {

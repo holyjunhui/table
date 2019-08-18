@@ -54,11 +54,16 @@ export default {
         this.updateChart();
     },
     methods: {
-        updateChart() {
-            // const assetsSummaryData = await getAssetsSummary();
-            // const data = assetsSummaryData.data;
+        async updateChart() {
+            const assetsSummaryData = await getAssetsSummary();
+            const data = assetsSummaryData.data;
 
-            const data = {"total_monitor_count": 9560, "total_monitor_page": 9214, "monitoring": 30950, "unmonitoring": 9900};
+            /*const data = {
+                total_monitor_count: 9560,
+                total_monitor_page: 9214,
+                monitoring: 30950,
+                unmonitoring: 9900
+            };*/
             this.totalMonitorCount = data.total_monitor_count;
             this.totalMonitorPage = data.total_monitor_page;
             this.chartData = this.processData(data);
@@ -93,7 +98,9 @@ export default {
             return {
                 offset: 40,
                 htmlTemplate(text, item, index) {
-                    if (self.isClosedItem(item.point)) { return "<div></div>"; }
+                    if (self.isClosedItem(item.point)) {
+                        return "<div></div>";
+                    }
                     const count = item.point.count;
                     const percent = (item.point.percent * 100).toFixed(2) + "%";
                     return `
@@ -165,7 +172,9 @@ export default {
                 hoverable: false,
                 useHtml: true,
                 itemTpl(value, color, checked, index) {
-                    if (self.isClosedItem({item: value})) { return "<div></div>"; }
+                    if (self.isClosedItem({item: value})) {
+                        return "<div></div>";
+                    }
                     return `
 						<div class="g2-legend-list-item" data-value="${value}">
 							<div style="display:flex;margin-bottom: 5px;align-items: center;font-size:11px;">
