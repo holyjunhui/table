@@ -33,14 +33,16 @@ export default {
         this.updateChart();
     },
     methods: {
-        updateChart() {
-            // const assetsRecentData = await getAssetsRecent();
-            this.chartData = this.processData(this.list);
+        async updateChart() {
+            const assetsRecentData = await getAssetsRecent();
+            this.chartData = this.processData(assetsRecentData.data);
             this.setSource();
             chart.changeData(this.chartData);
         },
         processData(rawData) {
-            if (!rawData) { return []; }
+            if (!rawData) {
+                return [];
+            }
             const tempArr = [];
             const typeMap = {
                 high: "高危资产",
@@ -108,7 +110,9 @@ export default {
         getMaxValue() {
             let maxNum = 0;
             this.chartData.forEach(item => {
-                if (item.value > maxNum) { maxNum = item.value; }
+                if (item.value > maxNum) {
+                    maxNum = item.value;
+                }
             });
             return maxNum;
         },
@@ -117,7 +121,9 @@ export default {
                 useHtml: true,
                 hoverable: false,
                 containerTpl:
-                    '<div class="g2-legend" style="">' + '<div class="g2-legend-list" style="display:flex;"  > ' + "</div>",
+                    '<div class="g2-legend" style="">' +
+                    '<div class="g2-legend-list" style="display:flex;"  > ' +
+                    "</div>",
                 itemTpl: (value, color, checked, index) => {
                     return `
 				<div>

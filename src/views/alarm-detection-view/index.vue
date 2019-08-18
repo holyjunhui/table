@@ -36,14 +36,18 @@ export default {
         }
     },
     methods: {
-        updata() {
-            // const highSeverityData = await getAlertsHighSeverity();
-            const rawData = this.list;
+        async updata() {
+            const highSeverityData = await getAlertsHighSeverity();
+            const rawData = highSeverityData.data;
             if (rawData) {
                 rawData.sort((a, b) => b.created_at - a.created_at);
                 this.bodyData = rawData.map(info => {
                     const url = Url(info.affected_url);
-                    const category = (this.categories.find(item => item.code === info.category) || {}).name;
+                    const category = (
+                        this.categories.find(
+                            item => item.code === info.category
+                        ) || {}
+                    ).name;
                     const time = formatTime(info.created_at);
                     return [url.host, category, time];
                 });
