@@ -57,10 +57,8 @@ export default {
 <style lang="scss" scoped>
 .main-container {
     background: #03091b url("../assets/images/page-background.png") center no-repeat;
-    width: 100vw;
-    height: 100vh;
     min-width: 1920px;
-    min-height: 1048px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     .main-layout {
