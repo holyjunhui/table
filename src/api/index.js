@@ -38,7 +38,7 @@ service.interceptors.response.use(response => {
             type: "error"
         });
         setTimeout(() => {
-            window.location = "https://yzt.360.cn";
+            window.location = "https://yuntan.360.cn";
         }, 3000);
     } else {
         message({message: `${msg}`, type: "error"});
