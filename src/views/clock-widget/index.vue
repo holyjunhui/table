@@ -17,6 +17,9 @@
 </template>
 
 <script>
+const FLUSH_TIME = 1000 * 60 * 60;
+import {getAlertsSummaryToday} from "@/api/";
+
 export default {
     components: {},
     data() {
@@ -32,11 +35,40 @@ export default {
             ]
         };
     },
-
+    computed: {
+        alert_status() {
+            return this.$store.state.meta.alert_status || [];
+        }
+    },
+    created() {
+        this.initData();
+        setInterval(() => {
+            this.initData();
+        }, FLUSH_TIME);
+    },
     mounted() {
         this.initClock();
     },
     methods: {
+        async initData() {
+            const arrayData = await getAlertsSummaryToday();
+            const data = arrayData.data;
+            const dealEvent = data.processed;
+            const alarmTotalValue = data.new + data.confirmed + data.processed + data["wait-process"] + data["wait-response"];
+            const event = data["wait-response"];
+            const dealing = data["wait-process"];
+            this.events.map(item => {
+                if (item.title === "今日处理事件") {
+                    item.value = dealEvent;
+                } else if (item.title === "今日探查告警量") {
+                    item.value = alarmTotalValue;
+                } else if (item.title === "今日事件通报") {
+                    item.value = event;
+                } else if (item.title === "当前正在处理事件") {
+                    item.value = dealing;
+                }
+            });
+        },
         initClock() {
             this.timer = setInterval(() => {
                 const now = new Date();
@@ -140,4 +172,13 @@ export default {
         }
     }
 }
+</style>
+<style lang="scss">
+     .text-gradient {
+                display: inline-block;
+                width: 40px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space:nowrap;
+            }
 </style>

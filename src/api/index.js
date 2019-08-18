@@ -38,7 +38,7 @@ service.interceptors.response.use(response => {
             type: "error"
         });
         setTimeout(() => {
-            window.location = "https://yuntan.360.cn";
+            window.location = "./";
         }, 3000);
     } else {
         message({message: `${msg}`, type: "error"});
@@ -47,12 +47,14 @@ service.interceptors.response.use(response => {
 });
 
 const getMeta = () => service.get("/v1/meta");
-const getAlertsTotal = () => service.get("/v1/situation-test/alerts/total");
+const getAlertsTotal = () => service.get("/v1/situation/alerts/total");
+// 中间地图接口
 const getAlertsStatsByLocation = locationCode => service.get(`/v1/situation/alerts/stats-by-location/${locationCode}`);
 const getAlertsRecent = range => service.get("/v1/situation/alerts/recent", {params: {range}});
 const getAlertsHighSeverity = () => service.get("/v1/situation/alerts/high-severity");
 const getAlertsHighSeveritySummary = () => service.get("/v1/situation/alerts/high-severity/summary");
 const getAlertsSpamlink = () => service.get("/v1/situation/alerts/spamlink");
+// 地区告警排名
 const getAlertsRank = location_code => service.get("/v1/situation/alerts/rank", {params: {location_code}});
 const getAlertsSummaryToday = () => service.get("/v1/situation/alerts/summary-today");
 const getAssetsRecent = () => service.get("/v1/situation/assets/recent");

@@ -9,13 +9,13 @@ const formatTime = timeStr => {
         return n < 10 ? `0${n}` : n;
     };
 
-    let date = new Date(timeStr);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let d = date.getDate();
-    let hour = format(date.getHours());
-    let minute = format(date.getMinutes());
-    let second = format(date.getSeconds());
+    const date = new Date(timeStr);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const d = date.getDate();
+    const hour = format(date.getHours());
+    const minute = format(date.getMinutes());
+    const second = format(date.getSeconds());
     return `${year}-${month}-${d} ${hour}:${minute}:${second}`;
 };
 
@@ -24,7 +24,9 @@ const formatTime = timeStr => {
  * @param {} a
  */
 const shuffle = a => {
-    var j, x, i;
+    let j, 
+x, 
+i;
     for (i = a.length; i; i--) {
         j = Math.floor(Math.random() * i);
         x = a[i - 1];
@@ -32,4 +34,26 @@ const shuffle = a => {
         a[j] = x;
     }
     return a;
+};
+/* eslint-disable require-unicode-regexp */
+export const dateFormatter = (date, fmt) => {
+    const o = {
+        "M+": date.getMonth() + 1, // 月份
+        "d+": date.getDate(), // 日
+        "h+": date.getHours(), // 小时
+        "m+": date.getMinutes(), // 分
+        "s+": date.getSeconds(), // 秒
+        "q+": Math.floor((date.getMonth() + 3) / 3), // 季度
+        "S": date.getMilliseconds() // 毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+
+    for (const k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+        }
+    }
+    return fmt;
 };

@@ -5,13 +5,14 @@
 </template>
 
 <script>
+import {getAlertsStatsByLocation} from "@/api/";
 import Vue from "vue";
 import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import hechuanGeo from "@/data/hechuan.json";
-import coordArray from "@/data/coord.js";
+// import coordArray from "@/data/coord.js";
 
 import popupComponent from "./popup";
 import markerComponent from "./marker";
@@ -28,6 +29,7 @@ export default {
     data() {
         return {
             data: [],
+            mapList: [],
             map: null,
             timer: null,
             pauseAnimate: false,
@@ -36,21 +38,54 @@ export default {
             currentIndex: 0
         };
     },
-    async mounted() {
+    created() {
         this.fetchData();
+
+    },
+    async mounted() {
+        await this.fetchData();
         await this.initMap();
         this.initMapLayer(this.map);
         this.startAnimate();
     },
-
+    computed: {
+        categories() {
+            return this.$store.state.meta.alert_category || [];
+        },
+        alert_status() {
+            return this.$store.state.meta.alert_status || [];
+        },
+        severity() {
+            return this.$store.state.meta.severity || [];
+        }
+    },
     beforeDestroy() {
         window.clearInterval(this.timer);
     },
     methods: {
-        fetchData() {
-            this.data = coordArray;
+        async fetchData() {
+            const formatterList = [];
+            const data = await getAlertsStatsByLocation("500117");
+            const list = this.formatter(data.data);
+            formatterList.push(list);
+            this.data = formatterList;
+            // console.log("this.data", this.data);
         },
+        formatter(data) {
+            // console.log("data4444444zC", data);
+            const list = {};
+            const alerts = data.alerts;
+            const location = data.location;
+            list.coordinates = [+location.lng, +location.lat];
+            list.area = location.name;
 
+            list.name = (this.alert_status.find(item => item.code === alerts.status) || {}).name;
+            list.level = (this.severity.find(item => item.code === alerts.severity) || {}).name;
+            list.type = (this.categories.find(item => item.code === alerts.category) || {}).name;
+            list.address = alerts.affected_url;
+            // console.log("lislislisli", list);
+            return list;
+        },
         initMap() {
             mapboxgl.accessToken = config.token;
             this.map = new mapboxgl.Map({

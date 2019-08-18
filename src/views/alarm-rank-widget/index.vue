@@ -5,9 +5,14 @@
 </template>
 
 <script>
+const FLUSH_TIME = 1000 * 60 * 60;
+
 import G2 from "@antv/g2";
 import Widget from "@/components/Widget";
-import list from "./data";
+// import list from "./data";
+// import dataset from "./dataset";
+import {getIndustryOrCityName} from "./chart";
+import {getAlertsRank} from "@/api/";
 
 const colorMap = {
     "Asia": G2.Global.colors[0],
@@ -18,101 +23,191 @@ const colorMap = {
 
 export default {
     components: {Widget},
-
+    mixins: [getIndustryOrCityName],
     data() {
         return {
-            list
+            list: [],
+            // dataset,
+            areaChart: "",
+            cityNameList: []
         };
     },
+    computed: {
+        cityList() {
+            return this.$store.state.meta.location || [];
+        }
+    },
 
+    async created() {
+        const data = await getAlertsRank("5001");
+        const arrayList = data.data;
+        const list = this.formatter(arrayList);
+        this.createdChart(list);
+    },
     mounted() {
-        const chart = new G2.Chart({
-            container: this.$refs.chart,
-            forceFit: true,
-            height: 163,
-            padding: 0
-        });
-        chart.source(this.list, {
-            x: {
-                min: -200,
-                max: 200
-            },
-            y: {
-                min: -1000,
-                max: 1000
-            }
-        });
-        chart.axis("x", false);
-        chart.axis("y", false);
-        chart.tooltip({
-            showTitle: false
-        });
-        chart.guide().line({
-            start: ["0%", "50%"], // 使用对象格式
-            end: ["100%", "50%"],
-            lineStyle: {
-                stroke: "#C9C9C9", // 线的颜色
-                lineDash: [0], // 虚线的设置
-                lineWidth: 1 // 线的宽度
-            }
-        });
-        chart.guide().line({
-            start: ["50%", "0%"], // 使用对象格式
-            end: ["50%", "100%"],
-            lineStyle: {
-                stroke: "#C9C9C9", // 线的颜色
-                lineDash: [0], // 虚线的设置
-                lineWidth: 1 // 线的宽度
-            }
-        });
-        chart.guide().text({
-            position: ["0%", "50%"],
-            content: "盐井街道",
-            style: {
-                fill: "#FFF",
-                textAlign: "left",
-                fontSize: 12
-            },
-            offsetY: 13
-        });
-        chart.guide().text({
-            position: ["0%", "50%"],
-            content: "云门街道",
-            style: {
-                fill: "#FFF",
-                textAlign: "left",
-                fontSize: 12
-            },
-            offsetY: -13
-        });
-        chart.guide().text({
-            position: ["100%", "50%"],
-            content: "草街街道",
-            style: {
-                fill: "#FFF",
-                textAlign: "right",
-                fontSize: 12
-            },
-            offsetY: -13
-        });
-        chart.guide().text({
-            position: ["100%", "50%"],
-            content: "大石街道",
-            style: {
-                fill: "#FFF",
-                textAlign: "right",
-                fontSize: 12
-            },
-            offsetY: 13
-        });
-        chart.legend(false);
-        chart.point().position("x*y").size("size", [1, 10]).color("region", val => {
-            return colorMap[val];
-        })
-            .shape("circle");
+        // this.updateData();
+        setInterval(() => {
+            this.updateData();
+        }, FLUSH_TIME);
+    },
+    methods: {
+        async updateData() {
+            const data = await getAlertsRank("5001");
+            const arrayList = data.data;
+            const list = this.formatter(arrayList);
+            // this.list = list;
+            this.$nextTick(() => {
+                this.areaChart.changeData(list);
+                this.areaChart.repaint();
+            //    chart.changeData(this.formatter())
+            });
+        },
+        formatter(dataset) {
 
-        chart.render();
+            // 根据code得到城市名称
+            const cityNameList = dataset.map(item => {
+                return this.getItemName(item.location_code);
+            });
+            this.cityNameList = cityNameList;
+
+            // 得到坐标系和大小
+            const listArray = dataset.map((item, index) => {
+                const array = [];
+
+                for (const type in item.count) {
+                    const typeCount = Math.floor(item.count[type] / 100 + 1);
+
+                    for (let i = 0; i <= typeCount; i++) {
+                        const locationList = {};
+                        locationList.region = this.getItemName(item.location_code);
+                        // 根据index做象限处理
+                        if (index === 0) {
+                            locationList.x = -Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
+                            locationList.y = Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                        } else if (index === 1) {
+                            locationList.x = Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
+                            locationList.y = Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                        } else if (index === 2) {
+                            locationList.x = -Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
+                            locationList.y = -Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                        } else {
+                            locationList.x = Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
+                            locationList.y = -Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                        }
+                        if (type === "high") {
+                            locationList.size = 800;
+                        } else if (type === "middle") {
+                            locationList.size = 600;
+                        } else if (type === "low") {
+                            locationList.size = 400;
+                        } else if (type === "info") {
+                            locationList.size = 200;
+                        }
+                        array.push(locationList);
+                    }
+
+                }
+                return array;
+            });
+            return listArray.flat();
+
+        },
+        createdChart(data) {
+
+            const chart = new G2.Chart({
+                container: this.$refs.chart,
+                forceFit: true,
+                height: 163,
+                padding: 0
+            });
+            chart.source(data, {
+                x: {
+                    min: -500,
+                    max: 500
+                },
+                y: {
+                    min: -1000,
+                    max: 1000
+                }
+            });
+            chart.axis("x", false);
+            chart.axis("y", false);
+            chart.tooltip({
+                showTitle: false
+            });
+            chart.guide().line({
+                start: ["0%", "50%"], // 使用对象格式
+                end: ["100%", "50%"],
+                lineStyle: {
+                    stroke: "#C9C9C9", // 线的颜色
+                    lineDash: [0], // 虚线的设置
+                    lineWidth: 1 // 线的宽度
+                }
+            });
+            chart.guide().line({
+                start: ["50%", "0%"], // 使用对象格式
+                end: ["50%", "100%"],
+                lineStyle: {
+                    stroke: "#C9C9C9", // 线的颜色
+                    lineDash: [0], // 虚线的设置
+                    lineWidth: 1 // 线的宽度
+                }
+            });
+            // 左上角象限
+            chart.guide().text({
+                position: ["0%", "50%"],
+                content: this.cityNameList[0],
+                style: {
+                    fill: "#FFF",
+                    textAlign: "left",
+                    fontSize: 12
+                },
+                offsetY: -13
+            });
+            // 右上角
+            chart.guide().text({
+                position: ["100%", "50%"],
+                content: this.cityNameList[1],
+                style: {
+                    fill: "#FFF",
+                    textAlign: "right",
+                    fontSize: 12
+                },
+                offsetY: -13
+            });
+            // 左下角
+            chart.guide().text({
+                position: ["0%", "50%"],
+                content: this.cityNameList[2],
+                style: {
+                    fill: "#FFF",
+                    textAlign: "left",
+                    fontSize: 12
+                },
+                offsetY: 13
+            });
+            // 右下角
+            chart.guide().text({
+                position: ["100%", "50%"],
+                content: this.cityNameList[3],
+                style: {
+                    fill: "#FFF",
+                    textAlign: "right",
+                    fontSize: 12
+                },
+                offsetY: 13
+            });
+            chart.legend(false);
+            chart.point().position("x*y").size("size", [1, 10]).color("region", val => {
+                return colorMap[val];
+            })
+                .shape("circle");
+
+            chart.render();
+            this.areaChart = chart;
+        }
     }
+
 };
 </script>
 

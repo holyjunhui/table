@@ -1,98 +1,314 @@
 <template>
     <Widget title="近一周告警统计总览" class="overview-widget">
         <div class="switch-line">
-            <el-select v-model="category" placeholder="请选择" size="small">
-                <el-option label="事件总览" value="week" size="small" />
-                <el-option label="近一月" value="month" size="small" />
+            <el-select
+                v-model="alertCategory"
+                placeholder="请选择"
+                size="small"
+                @change="handleCategoryChange"
+            >
+                <el-option label="事件总览" value="all" />
+                <el-option
+                    v-for="item in categories"
+                    :key="item.code"
+                    :label="item.name"
+                    :value="item.code"
+                />
             </el-select>
-            <el-select v-model="range" placeholder="请选择" size="small">
+            <!-- <el-select
+                v-model="range"
+                placeholder="请选择"
+                size="small"
+                @change="handleTiemChange"
+            >
                 <el-option label="近一周" value="week" size="small" />
                 <el-option label="近一月" value="month" size="small" />
-            </el-select>
+            </el-select> -->
         </div>
         <div class="chart" ref="chart"></div>
         <ul class="status-list">
-            <li class="status-item" v-for="item in status" :key="item.name">
-                <h5>{{ item.name }}</h5>
-                <p class="text-gradient">{{ item.value }}</p>
+            <li class="status-item" v-for="item in status" :key="item.status">
+                <h5>{{ (alert_status.find(l => l.code === item.status) || {}).name }}</h5>
+                <p class="text-gradient">{{ item.count }}</p>
             </li>
         </ul>
     </Widget>
 </template>
 
 <script>
+const FLUSH_TIME = 1000 * 60 * 60;
+
 import G2 from "@antv/g2";
 import Widget from "@/components/Widget";
-import data from "./data";
+// import data from "./data";
+import {dateFormatter} from "@/utils/";
 
+import {getAlertsRecent} from "@/api/";
 export default {
     components: {Widget},
     data() {
         return {
-            list: data,
-            status: [
-                {name: "未确认", value: 7929},
-                {name: "已确认", value: 6000},
-                {name: "待相应", value: 8239},
-                {name: "待处理", value: 4943},
-                {name: "已处理", value: 7343},
-                {name: "已超时", value: 5292}
-            ],
-            category: "week",
-            range: "week"
+            list: [],
+            areaData: [],
+            ticks: [],
+            status: [],
+            alertCategory: "all",
+            range: "week",
+            categories: [
+                {
+                    "code": "availability",
+                    "name": "可用性"
+                },
+                {
+                    "code": "content-change",
+                    "name": "页面变更"
+                },
+                {
+                    "code": "ddos",
+                    "name": "DDoS攻击"
+                },
+                {
+                    "code": "illegal-content",
+                    "name": "违规内容"
+                },
+                {
+                    "code": "spamlink",
+                    "name": "黑链"
+                },
+                {
+                    "code": "phishing",
+                    "name": "钓鱼网站"
+                },
+                {
+                    "code": "threat",
+                    "name": "威胁情报"
+                },
+                {
+                    "code": "trojan",
+                    "name": "网页木马"
+                },
+                {
+                    "code": "vul",
+                    "name": "安全漏洞"
+                }
+            ]
         };
     },
+    computed: {
+        alert_status() {
+            return this.$store.state.meta.alert_status || [];
+        }
+    },
+    async created() {
+        const data = await getAlertsRecent("week");
+        // 告警线形图
+        const arrayData = data.data.by_date;
+        // 列表
+        const arrayType = data.data.by_status;
+        this.status = arrayType;
+        const monitorData = this.formatter(arrayData);
+        this.initAreaChart(monitorData);
 
+    },
     mounted() {
-        const chart = new G2.Chart({
-            container: this.$refs.chart,
-            forceFit: true,
-            height: 188,
-            padding: [5, 0, 25, 0]
-        });
-        chart.source(this.list);
-        chart.axis("date", {
-            line: {
-                lineWidth: 1,
-                stroke: "#02387E",
-                lineDash: [2, 3]
-            },
-            label: {
-                textStyle: {
-                    fontSize: 12,
-                    fill: "#FFF"
+        this.updata();
+        setInterval(() => {
+            this.updata();
+        }, FLUSH_TIME);
+    },
+    methods: {
+        async updata() {
+            const data = await getAlertsRecent("week");
+            const arrayData = data.data.by_date;
+            this.areaData = arrayData;
+            const monitorData = this.formatter(arrayData);
+            // this.initAreaChart(monitorData);
+            this.$nextTick(() => {
+                this.areaChart.changeData(monitorData);
+                this.areaChart.repaint();
+            //    chart.changeData(this.formatter())
+            });
+        },
+        initAreaChart(data) {
+            const chart = new G2.Chart({
+                container: this.$refs.chart,
+                forceFit: true,
+                height: 188,
+                padding: [30, 20, 30, 20]
+            });
+            chart.source(data, {
+                value: {min: 0},
+                date_time: {
+                    type: "time",
+                    range: [0, 1],
+                    ticks: this.ticks
+                },
+                availability: {
+                    alias: "可用性"
+                },
+                "content-change": {
+                    alias: "页面变更"
+                },
+                ddos: {
+                    alias: "DDos攻击"
+                },
+                "illegal-content": {
+                    alias: "违规内容"
+                },
+                phishing: {
+                    alias: "钓鱼网站"
+                },
+                spamlink: {
+                    alias: "黑链"
+                },
+                threat: {
+                    alias: "威胁情报"
+                },
+                trojan: {
+                    alias: "网页木马"
+                },
+                vul: {
+                    alias: "安全漏洞"
                 }
-            },
-            tickLine: null
-        });
-        chart.axis("value", {
-            line: false,
-            title: false,
-            label: false,
-            grid: {
-                type: "line",
-                lineStyle: {
+            });
+
+            // chart.source(this.list);
+            chart.axis("date_time", {
+                line: {
                     lineWidth: 1,
                     stroke: "#02387E",
                     lineDash: [2, 3]
+                },
+                label: {
+                    formatter: val => val.substr(5).replace("-", "."),
+                    textStyle: {
+                        fontSize: 12,
+                        fill: "#FFF"
+                    }
+                },
+                tickLine: null
+            });
+            chart.axis("totalValue", {
+                line: false,
+                title: false,
+                label: false,
+                grid: {
+                    type: "line",
+                    lineStyle: {
+                        lineWidth: 1,
+                        stroke: "#02387E",
+                        lineDash: [2, 3]
+                    }
                 }
-            }
-        });
-        chart.tooltip({showTitle: false});
-        chart.area().position("date*value").shape("smooth").color("l(90) 0:#0380FF 1:rgba(0, 0, 0, 0)")
-            .opacity(1)
-            .tooltip(false);
-        chart.point().position("date*value").size(3).style({
-            fill: "#FFF",
-            lineWidth: 7,
-            stroke: "rgba(255, 255, 255, 0.3)"
-        })
-            .label("value", {
-                htmlTemplate: text => `<span class="value-label">${text}</span>`
+            });
+            // chart.tooltip({showTitle: false});
+
+            chart.tooltip({
+                showTitle: true,
+                crosshairs: {type: "y"},
+                itemTpl: "<li data-index={index}>{name}: {value}</li>",
+                follow: true,
+                shared: true
+            });
+            const tooltipFields = "availability*ddos*spamlink*content-change*illegal-content*phishing*threat*trojan*vul";
+
+            chart.area().position("date_time*totalValue").shape("smooth").color("l(90) 0:#0380FF 1:rgba(0, 0, 0, 0)")
+                .opacity(1)
+                .tooltip(false);
+            chart.point().position("date_time*totalValue").size(3).style({
+                fill: "#FFF",
+                lineWidth: 7,
+                stroke: "rgba(255, 255, 255, 0.3)"
             })
-            .active(false);
-        chart.render();
+                .opacity("date_time", value => {
+                    return this.ticks.indexOf(value) > -1 ? 1 : 0;
+                })
+                .label("date_time*totalValue", (date, value) => {
+                    return this.ticks.indexOf(date) > -1 ? value : "";
+                }, {
+                    htmlTemplate: text => `<span class="value-label">${text}</span>`
+                })
+                .active(false);
+            chart.line().position("date_time*totalValue").shape("smooth").opacity(0)
+                .size(1.5)
+                .tooltip(tooltipFields);
+            chart.render();
+            this.areaChart = chart;
+        },
+        handleCategoryChange() {
+            const data = this.formatter(this.areaData);
+            this.$nextTick(() => {
+                this.areaChart.changeData(data);
+                this.areaChart.repaint();
+            //    chart.changeData(this.formatter())
+            });
+        },
+        handleTiemChange(val) {
+            // 貌似当前的时间监控数据没有，只能获取到当前时间前天的数据
+            // const currentTime = new Date();
+            // const oneWeekTime = 24 * 3600 * 7 * 1000;
+            // const oneMonthTime = 24 * 3600 * 30 * 1000;
+            // const computTime = val === "week" ? currentTime - oneWeekTime : currentTime - oneMonthTime;
+            // const time =  {
+            //     start: new Date(computTime),
+            //     end: new Date(currentTime)
+            // };
+
+            getAlertsRecent(val).then(res => {
+                this.areaData = res.data;
+                const data = this.formatter(res.data.by_date);
+                this.$nextTick(() => {
+                    this.areaChart.source(data, {
+                        date_time: {
+                            type: "time",
+                            range: [0, 1],
+                            ticks: this.ticks
+                        }
+                    });
+                    this.areaChart.changeData(data);
+                    this.areaChart.repaint();
+                });
+            });
+
+        },
+        formatter(data) {
+            // 深复制防止修改源数据
+            const parseData = JSON.parse(JSON.stringify(data));
+            if (data.length === 0) {
+                return;
+            }
+            this.updateTicks(parseData);
+            const formatData = parseData.map(item => {
+                if (this.alertCategory !== "all") {
+                    item.data = {
+                        [this.alertCategory]: item.data[this.alertCategory]
+                    };
+                }
+                const total = Object.values(item.data);
+                item.totalValue = total.reduce((pre, next) => pre + next);
+                item = {...item.data, ...item};
+
+                return item;
+            });
+            return formatData;
+        },
+        updateTicks(data) {
+            const tickCount = 7;
+            const day = 1000 * 86400;
+            const dateList = data.map(item => new Date(item.date_time)).sort((a, b) => a - b);
+            const startDate = dateList[0];
+            const endDate = dateList[dateList.length - 1];
+
+            const dateGap = Math.max(Math.floor((endDate - startDate) / (tickCount - 1) / day), 1);
+            this.ticks = new Array(tickCount).fill(0).map((_, index) => {
+                return dateFormatter(new Date(+startDate + index * dateGap * day), "yyyy-MM-dd");
+            });
+        },
+        dateFormat(value) {
+            return dateFormatter(new Date(value), "yyyy-MM-dd hh:mm:ss");
+        }
     }
+
 };
 </script>
 <style lang="scss" scoped>
@@ -122,6 +338,12 @@ export default {
         height: 58px;
         background-color: rgba(3, 128, 255, 0.1);
         margin: 0 6px;
+        .text-gradient {
+            width: 66px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     h5 {
@@ -143,6 +365,7 @@ export default {
 
 <style lang="scss">
 .overview-widget {
+
     .switch-line {
         .el-select {
             width: 120px;
