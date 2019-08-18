@@ -51,7 +51,13 @@ export default {
         }, FLUSH_TIME);
     },
     methods: {
+        // 求n-m之间的随机数
+        mathRandom(n, m) {
+            const c = m - n + 1;
+            return Math.floor(Math.random() * c + n);
+        },
         async updateData() {
+            // 求重庆的排名
             const data = await getAlertsRank("5001");
             const arrayList = data.data;
             const list = this.formatter(arrayList);
@@ -82,17 +88,17 @@ export default {
                         locationList.region = this.getItemName(item.location_code);
                         // 根据index做象限处理
                         if (index === 0) {
-                            locationList.x = -Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
-                            locationList.y = Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                            locationList.x = -this.mathRandom(50, 470);
+                            locationList.y = this.mathRandom(150, 950);
                         } else if (index === 1) {
-                            locationList.x = Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
-                            locationList.y = Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                            locationList.x = this.mathRandom(100, 450);
+                            locationList.y = this.mathRandom(150, 900);
                         } else if (index === 2) {
-                            locationList.x = -Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
-                            locationList.y = -Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                            locationList.x = -this.mathRandom(100, 470);
+                            locationList.y = -this.mathRandom(150, 890);
                         } else {
-                            locationList.x = Math.floor((Math.random() * Math.random() + 1) * 10 * 10 * 2);
-                            locationList.y = -Math.floor((Math.random() * Math.random() * Math.random() + 1) * 10 * 10 * 3);
+                            locationList.x = this.mathRandom(100, 470);
+                            locationList.y = -this.mathRandom(150, 850);
                         }
                         if (type === "high") {
                             locationList.size = 800;

@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
-    Message as message,
-    Notification as notification
+    Message as message
 } from "element-ui";
 
 import {getToken} from "../utils/auth";
@@ -38,7 +37,7 @@ service.interceptors.response.use(response => {
             type: "error"
         });
         setTimeout(() => {
-            window.location = "./";
+            window.location.href = "/";
         }, 3000);
     } else {
         message({message: `${msg}`, type: "error"});
@@ -47,7 +46,7 @@ service.interceptors.response.use(response => {
 });
 
 const getMeta = () => service.get("/v1/meta");
-const getAlertsTotal = () => service.get("/v1/situation/alerts/total");
+const getAlertsTotal = () => service.get("/v1/situation/alerts-test/total");
 // 中间地图接口
 const getAlertsStatsByLocation = locationCode => service.get(`/v1/situation/alerts/stats-by-location/${locationCode}`);
 const getAlertsRecent = range => service.get("/v1/situation/alerts/recent", {params: {range}});

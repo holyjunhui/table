@@ -174,11 +174,11 @@ export default {
 }
 </style>
 <style lang="scss">
-     .text-gradient {
-                display: inline-block;
-                width: 40px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space:nowrap;
-            }
+    //  .text-gradient {
+    //             display: inline-block;
+    //             width: 40px;
+    //             overflow: hidden;
+    //             text-overflow: ellipsis;
+    //             white-space:nowrap;
+    //         }
 </style>
