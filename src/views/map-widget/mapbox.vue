@@ -76,6 +76,11 @@ export default {
             const list = {};
             const alerts = data.alerts;
             const location = data.location;
+            if (!location || !alerts) {
+                // 预设信息
+                list.coordinates = [106.31802875449, 30.118708260134];
+                return;
+            }
             list.coordinates = [+location.lng, +location.lat];
             list.area = location.name;
 

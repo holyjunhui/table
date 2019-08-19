@@ -88,26 +88,26 @@ export default {
                         locationList.region = this.getItemName(item.location_code);
                         // 根据index做象限处理
                         if (index === 0) {
-                            locationList.x = -this.mathRandom(50, 470);
-                            locationList.y = this.mathRandom(150, 950);
+                            locationList.x = -this.mathRandom(80, 470);
+                            locationList.y = this.mathRandom(100, 800);
                         } else if (index === 1) {
-                            locationList.x = this.mathRandom(100, 450);
-                            locationList.y = this.mathRandom(150, 900);
+                            locationList.x = this.mathRandom(90, 450);
+                            locationList.y = this.mathRandom(100, 900);
                         } else if (index === 2) {
                             locationList.x = -this.mathRandom(100, 470);
-                            locationList.y = -this.mathRandom(150, 890);
+                            locationList.y = -this.mathRandom(150, 900);
                         } else {
-                            locationList.x = this.mathRandom(100, 470);
+                            locationList.x = this.mathRandom(80, 450);
                             locationList.y = -this.mathRandom(150, 850);
                         }
                         if (type === "high") {
                             locationList.size = 800;
                         } else if (type === "middle") {
-                            locationList.size = 600;
+                            locationList.size = 700;
                         } else if (type === "low") {
-                            locationList.size = 400;
+                            locationList.size = 600;
                         } else if (type === "info") {
-                            locationList.size = 200;
+                            locationList.size = 500;
                         }
                         array.push(locationList);
                     }

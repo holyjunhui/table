@@ -22,9 +22,8 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
     const body = response.data;
     if (!body.ok) {
-        const msg = body.messages.join(",");
-        message({message: ` ${msg}`, type: "error"});
-        return Promise.reject(new Error(`${msg}`));
+        message({message: ` ${body.msg}`, type: "error"});
+        return Promise.reject(new Error(`${body.msg}`));
     }
 
     return body;
