@@ -46,7 +46,8 @@ service.interceptors.response.use(response => {
 });
 
 const getMeta = () => service.get("/v1/meta");
-const getAlertsTotal = () => service.get("/v1/situation/alerts-test/total");
+// const getAlertsTotal = () => service.get("/v1/situation/alerts-test/total");
+const getAlertsTotal = () => service.get("/v1/situation/alerts/total");
 // 中间地图接口
 const getAlertsStatsByLocation = locationCode => service.get(`/v1/situation/alerts/stats-by-location/${locationCode}`);
 const getAlertsRecent = range => service.get("/v1/situation/alerts/recent", {params: {range}});
