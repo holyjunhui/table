@@ -3,7 +3,7 @@
         <div class="rollTabel-stripeContainer">
             <div class="stripe"></div>
             <template v-for="(v,i) in showNum">
-                <div :key="i" v-if="(i+ 1) % 2 === 0" class="stripe"></div>
+                <div :key="i" v-if="(i + 1) % 2 === 0" class="stripe"></div>
             </template>
         </div>
         <div class="rollTabel-showBox">
@@ -29,23 +29,23 @@ export default {
     props: {
         headData: {
             type: Array,
-            default: () => {
+            "default": () => {
                 return [];
             }
         },
         bodyData: {
             type: Array,
-            default: () => {
+            "default": () => {
                 return [];
             }
         },
         showNum: {
             type: Number,
-            default: 6
+            "default": 6
         },
         interval: {
             type: Number,
-            default: 5000
+            "default": 5000
         }
     },
     components: {Item, tabelHead},
@@ -78,12 +78,12 @@ export default {
             const showItems = this.$refs.rollContainer.children;
 
             // 总数据不足时 不在滚动
-            if (self.bodyData.length <= self.showNum) return;
+            if (self.bodyData.length <= self.showNum)
+                                {return;}
 
             const setTopItemTranslateY = () => {
                 const topItem = showItems[currentIndex];
-                topItem.style.transform = `translateY(${containerHeight -
-                    itemHeight * currentIndex}px)`;
+                topItem.style.transform = `translateY(${containerHeight - itemHeight * currentIndex}px)`;
             };
 
             const setNewData = prevIndex => {
