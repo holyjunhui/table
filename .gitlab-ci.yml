@@ -1,5 +1,5 @@
 variables:
-   BRANCH_NAME: develop
+   BRANCH_NAME: master
 
 cache:
    untracked: true
@@ -23,7 +23,7 @@ build_dist:
     - export AWS_CREDENTIAL_FILE=/home/gitlab-runner/.aws/crendentials
     - export AWS_CONFIG_FILE=/home/gitlab-runner/.aws/config
     # s3://s3-yzt-front/branch-name/directory Note fix here according to branch name
-    - aws --endpoint=http://pub1-bjyt.s3.360.cn s3 sync ./dist s3://s3-yzt-front/develop/situation
+    - aws --endpoint=http://pub1-bjyt.s3.360.cn s3 sync ./dist s3://s3-yzt-front/master/situation
 
   only:
     - test-s3
