@@ -56,7 +56,7 @@ export default {
             this.chartData = this.processData(data);
             // 乱序
             // this.chartData = shuffle(this.chartData);
-            // this.chartData = this.chartData.slice(0, 5);
+            this.chartData = this.chartData.slice(0, 5);
             const ds = new DataSet();
             const dv = ds.createView().source(this.chartData);
             dv.transform({
