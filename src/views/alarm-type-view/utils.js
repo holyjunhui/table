@@ -36,7 +36,7 @@ const drawPieLabel = function drawPieLabel(chart, colors) {
             y: y + 18,
             fontSize: 12, // 字体大小
             fill: label.fill,
-            text: label._data.percent.toFixed(2) + "%" + "\n" + label._data.num,
+            text: (label._data.percent * 100).toFixed(2) + "%" + "\n" + label._data.num,
             textBaseline: "bottom",
             textAlign: "center",
             lineHeight: 20
@@ -114,14 +114,9 @@ const drawPieLabel = function drawPieLabel(chart, colors) {
         while (overlapping) {
             // eslint-disable-next-line no-loop-func
             boxes.forEach(box => {
-                const target =
-                    (Math.min.apply(minY, box.targets) +
-                        Math.max.apply(minY, box.targets)) /
-                    2;
-                box.pos = Math.min(
-                    Math.max(minY, target - box.size / 2),
-                    totalH - box.size
-                );
+                const target =                    (Math.min.apply(minY, box.targets) + Math.max.apply(minY, box.targets)) / 2;
+                box.pos = Math.min(Math.max(minY, target - box.size / 2),
+                    totalH - box.size);
             });
 
             // detect overlapping and join boxes
@@ -134,9 +129,7 @@ const drawPieLabel = function drawPieLabel(chart, colors) {
                     if (previousBox.pos + previousBox.size > box.pos) {
                         // overlapping
                         previousBox.size += box.size;
-                        previousBox.targets = previousBox.targets.concat(
-                            box.targets
-                        );
+                        previousBox.targets = previousBox.targets.concat(box.targets);
 
                         // overflow, shift up
                         if (previousBox.pos + previousBox.size > totalH) {
@@ -222,10 +215,8 @@ const drawPieLabel = function drawPieLabel(chart, colors) {
                 half.sort((a, b) => {
                     return b._percent - a._percent;
                 });
-                half.splice(
-                    maxCountForOneSide,
-                    half.length - maxCountForOneSide
-                );
+                half.splice(maxCountForOneSide,
+                    half.length - maxCountForOneSide);
             }
 
             // step 3: distribute position (x and y)
