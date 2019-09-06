@@ -53,10 +53,12 @@ export default {
             const highSeveritySummaryData = await getAlertsHighSeveritySummary();
             const data = highSeveritySummaryData.data;
             // const data = this.list;
-            this.chartData = this.processData(data);
+            const sliceData = data.slice(0, 5);
+            // this.chartData = this.processData(data);
+            this.chartData = this.processData(sliceData);
             // 乱序
             // this.chartData = shuffle(this.chartData);
-            this.chartData = this.chartData.slice(0, 5);
+            // this.chartData = this.chartData.slice(0, 5);
             const ds = new DataSet();
             const dv = ds.createView().source(this.chartData);
             dv.transform({
