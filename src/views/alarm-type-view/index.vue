@@ -52,11 +52,11 @@ export default {
         async updateChart() {
             const highSeveritySummaryData = await getAlertsHighSeveritySummary();
             const data = highSeveritySummaryData.data;
-            //const data = this.list;
+            // const data = this.list;
             this.chartData = this.processData(data);
             // 乱序
-            this.chartData = shuffle(this.chartData);
-            this.chartData = this.chartData.slice(0, 5);
+            // this.chartData = shuffle(this.chartData);
+            // this.chartData = this.chartData.slice(0, 5);
             const ds = new DataSet();
             const dv = ds.createView().source(this.chartData);
             dv.transform({
@@ -77,9 +77,7 @@ export default {
                 const population = +(num / totalCount).toFixed(2);
                 return {
                     type: (
-                        this.categories.find(
-                            item => item.code === info.category
-                        ) || {}
+                        this.categories.find(item => item.code === info.category) || {}
                     ).name,
                     num,
                     population
@@ -88,7 +86,7 @@ export default {
         },
         getTotalCount(data) {
             return data.reduce((total, info) => {
-                return (total += info.count);
+                return total += info.count;
             }, 0);
         },
         setChartLegend() {
