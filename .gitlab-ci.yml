@@ -1,14 +1,12 @@
-variables:
-   BRANCH_NAME: master
-
 cache:
    untracked: true
-   key: "$BRANCH_NAME"
+   key: ${CI_BUILD_REF_NAME}
    paths:
      - ./node_modules/
      
 stages:
   - build_upload
+  - upload
  
 build_dist:
   stage: build_upload
@@ -22,8 +20,7 @@ build_dist:
     - ls
     - export AWS_CREDENTIAL_FILE=/home/gitlab-runner/.aws/crendentials
     - export AWS_CONFIG_FILE=/home/gitlab-runner/.aws/config
-    # s3://s3-yzt-front/branch-name/directory Note fix here according to branch name
-    - aws --endpoint=http://pub1-bjyt.s3.360.cn s3 sync ./dist s3://s3-yzt-front/master/situation
+    - aws --endpoint=http://pub1-bjyt.s3.360.cn s3 sync ./dist s3://s3-yzt-front/${CI_BUILD_REF_NAME}/situation
 
   only:
     - test-s3
