@@ -8,19 +8,29 @@
                     <p>累计执行扫描数</p>
                     <CountTo
                         class="item-value text-gradient"
+                        :class="{monitorLargerCount: totalMonitorCount.toString().length > 6}"
                         :end-val="totalMonitorCount"
                         separator
+                        :title="totalMonitorCount"
                     />
-                    <span class="text-gradient item-unit">次</span>
+                    <span
+                        class="text-gradient item-unit"
+                        :class="{monitorLargerCount: totalMonitorCount.toString().length > 6}"
+                    >次</span>
                 </div>
                 <div>
                     <p>累计监测页面</p>
                     <CountTo
                         class="item-value text-gradient"
+                        :class="{pageLargerCount: totalMonitorPage.toString().length > 6}"
                         :end-val="totalMonitorPage"
                         separator
+                        :title="totalMonitorPage"
                     />
-                    <span class="text-gradient item-unit">个</span>
+                    <span
+                        class="text-gradient item-unit"
+                        :class="{pageLargerCount: totalMonitorPage.toString().length > 6}"
+                    >个</span>
                 </div>
             </div>
         </div>
@@ -58,7 +68,7 @@ export default {
             const assetsSummaryData = await getAssetsSummary();
             const data = assetsSummaryData.data;
 
-            /*const data = {
+            /* const data = {
                 total_monitor_count: 9560,
                 total_monitor_page: 9214,
                 monitoring: 30950,
@@ -97,7 +107,7 @@ export default {
             const self = this;
             return {
                 offset: 40,
-                htmlTemplate(text, item, index) {
+                htmlTemplate(text, item) {
                     if (self.isClosedItem(item.point)) {
                         return "<div></div>";
                     }
@@ -147,6 +157,7 @@ export default {
 
         getChartColorList() {
             return ["rgb(66,237,248)", "rgb(3,128,255)"];
+            // eslint-disable-next-line no-unreachable
             return [
                 "rgba(0,0,0,0)",
                 "rgb(66,237,248)",
@@ -240,6 +251,12 @@ export default {
             font-family: "汉仪菱心体", sans-serif;
             letter-spacing: 2px;
         }
+        .monitorLargerCount {
+           font-size:16px;
+				}
+        .pageLargerCount {
+           font-size:16px;
+				}
     }
 }
 </style>

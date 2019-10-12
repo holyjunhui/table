@@ -2,13 +2,13 @@
     <Widget title="高危告警类型">
         <div class="alarmTypeView">
             <div class="mountNode" ref="mountNode"></div>
-            <div class="maskBox">
+            <!-- <div class="maskBox">
                 <div class="circle1">
                     <div class="circle2">
                         <div class="circle3"></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </Widget>
 </template>
@@ -33,12 +33,12 @@ export default {
         };
     },
 
-    // async created() {
-    //     await this.updateChart();
-    //     setInterval(() => {
-    //         this.updateChart();
-    //     }, FLUSH_TIME);
-    // },
+    async created() {
+        await this.updateChart();
+        setInterval(() => {
+            this.updateChart();
+        }, FLUSH_TIME);
+    },
     mounted() {
         this.initChart();
         this.updateChart();
@@ -53,7 +53,7 @@ export default {
             const highSeveritySummaryData = await getAlertsHighSeveritySummary();
             const data = highSeveritySummaryData.data;
             // const data = this.list;
-            const sliceData = data.slice(0, 5);
+            const sliceData = data;
             // this.chartData = this.processData(data);
             this.chartData = this.processData(sliceData);
             // 乱序
@@ -67,34 +67,42 @@ export default {
                 dimension: "type",
                 as: "percent"
             });
-            chart.source(dv);
+            chart.source(dv, {
+                num: {
+                    type: "log"
+                }
+            });
             chart.render();
-            this.renderLabel();
+            // this.renderLabel();
         },
         processData(rawData) {
             const tempArr = [];
             const totalCount = this.getTotalCount(rawData);
-            return rawData.map(info => {
+            rawData.forEach(info => {
                 const num = info.count;
                 const population = +(num / totalCount).toFixed(2);
-                return {
-                    type: (
-                        this.categories.find(item => item.code === info.category) || {}
-                    ).name,
-                    num,
-                    population
-                };
+                if (info.category !== "ddos" && info.category !== "threat") {
+                    tempArr.push({
+                        type: (
+                            this.categories.find(item => item.code === info.category) || {}
+                        ).name,
+                        num,
+                        population
+                    });
+                }
             });
+            return tempArr;
         },
         getTotalCount(data) {
             return data.reduce((total, info) => {
+                // eslint-disable-next-line no-return-assign
                 return total += info.count;
             }, 0);
         },
         setChartLegend() {
             chart.legend({
                 position: "right",
-                offsetY: -10,
+                offsetY: 0,
                 offsetX: 17,
                 useHtml: true,
                 hoverable: false,
@@ -136,37 +144,59 @@ export default {
         },
         getLegendColorList() {
             return [
-                "rgb(249,147,51)",
+                "rgb(249,147,91)",
                 "rgb(3,128,255)",
-                "rgb(41,220,135)",
+                "rgb(41,220,235)",
                 "rgb(255,216,46)",
-                "rgb(50,224,200)"
+                "rgb(50,224,100)",
+                "rgb(251,163,0)",
+                "rgb(246,124,52)",
+                "rgb(146,124,52)",
+                "rgb(16,228,234)",
+                "rgb(46,124,52)"
             ];
         },
 
         getColorList() {
             return [
-                "rgb(249,147,51)",
+                "rgb(249,147,91)",
                 "rgb(3,128,255)",
-                "rgb(41,220,135)",
+                "rgb(41,220,235)",
                 "rgb(255,216,46)",
-                "rgb(50,224,200)"
-                // "l(360) 0:rgb(251,163,50) 1:rgb(246,124,52)",
-                // "l(360) 0:rgb(33,102,244) 1:rgb(87,160,251)",
-                // "l(360) 0:rgb(16,228,234) 1:rgb(0,255,234)",
-                // "l(360) 0:rgb(255,223,76) 1:rgb(255,204,0)",
-                // "l(360) 0:rgb(59,237,151) 1:rgb(26,206,121)"
+                "rgb(50,224,100)",
+                "rgb(251,163,0)",
+                "rgb(246,124,52)",
+                "rgb(146,124,52)",
+                "rgb(16,228,234)",
+                "rgb(46,124,52)"
             ];
         },
 
         handleChart() {
             chart
                 .interval()
-                .position("type*population")
+                .position("type*num")
                 .color("type", this.getColorList())
-                .opacity(1);
-
-            chart.tooltip(false);
+                .opacity(1)
+                .label("percent", {
+                    offset: -13,
+                    // autoRotate: false,
+                    formatter(text) {
+                        return (text * 100).toFixed(0) + "%";
+                    },
+                    textStyle: {
+                        textAlign: "center",
+                        shadowBlur: 2,
+                        fill: "#fff"
+                    }
+                })
+                .tooltip("type*num", (item, num) => {
+                    return {
+                        name: item,
+                        value: num
+                    };
+                });
+            // chart.tooltip(false);
         },
         initChart() {
             this.createChart();

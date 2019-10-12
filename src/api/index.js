@@ -16,6 +16,7 @@ const service = axios.create({
 
 service.interceptors.request.use(config => {
     config.headers.Authorization = process.env.NODE_ENV === "production" ? `Bearer ${getToken()}` : "Bearer 360";
+    // config.headers.Authorization = process.env.NODE_ENV === "production" ? `Bearer ${getToken()}` : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzA4NjUyNjUsImp0aSI6IjkiLCJpYXQiOjE1NzA3Nzg4NjUsImlzcyI6Im1hcnZlbC5jbG91ZC5kZXRlY3RpdmUiLCJuYmYiOjE1NzA3Nzg4NjV9.kHkjMS1Y0I8ckXwCaVP1pJD-KL_5QP58SrYsOzi1FSc";
     return config;
 });
 

@@ -1148,7 +1148,7 @@ module.exports = {
          * 禁止在文件中使用 tab
          * @see http://eslint.org/docs/rules/no-tabs
          */
-        "no-tabs": "error",
+        // "no-tabs": "error",
 
         // /**
         //  * 三元运算符

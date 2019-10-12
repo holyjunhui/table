@@ -13,7 +13,7 @@ export default {
         endVal: {
             type: Number,
             required: false,
-            "default": 2017
+            "default": 0
         },
         duration: {
             type: Number,

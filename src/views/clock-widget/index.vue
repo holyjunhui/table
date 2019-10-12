@@ -10,7 +10,7 @@
         <div class="event-summary">
             <div class="summary-item" v-for="(item, index) in events" :key="index">
                 <p class="item-title">{{ item.title }}</p>
-                <CountTo class="item-value text-gradient" :end-val="item.value" separator />
+                <CountTo class="item-value text-gradient" :end-val="item.value || 0" separator />
             </div>
         </div>
     </div>
@@ -28,10 +28,10 @@ export default {
             time: "",
             timer: null,
             events: [
-                {title: "今日处理事件", value: 3966},
-                {title: "今日探查告警量", value: 3358},
-                {title: "今日事件通报", value: 4247},
-                {title: "当前正在处理事件", value: 6651}
+                {title: "今日处理事件", value: 0},
+                {title: "今日探查告警量", value: 0},
+                {title: "今日事件通报", value: 0},
+                {title: "当前正在处理事件", value: 0}
             ]
         };
     },

@@ -29,7 +29,14 @@
         <ul class="status-list">
             <li class="status-item" v-for="item in status" :key="item.status">
                 <h5>{{ (alert_status.find(l => l.code === item.status) || {}).name }}</h5>
-                <p class="text-gradient">{{ item.count }}</p>
+                <p
+                    class="text-gradient"
+                    :class="{isLarge16Count: is16Active,
+                             isLarge12Count: is12Active}"
+                    :title="item.count"
+                >
+                    {{ item.count }}
+                </p>
             </li>
         </ul>
     </Widget>
@@ -52,6 +59,8 @@ export default {
             areaData: [],
             ticks: [],
             status: [],
+            is16Active: false,
+            is12Active: false,
             alertCategory: "all",
             range: "week",
             categories: [
@@ -106,6 +115,14 @@ export default {
         // 列表
         const arrayType = data.data.by_status;
         this.status = arrayType;
+        this.status.forEach(item => {
+            if (item.count.toString().length >= 5) {
+                this.is16Active = true;
+            } else if (item.count.toString().length >= 10) {
+                this.is12Active = true;
+            }
+        });
+        // 根据数据的大小显示不同的font-size
         const monitorData = this.formatter(arrayData);
         this.initAreaChart(monitorData);
 
@@ -344,6 +361,12 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+				.isLarge16Count {
+					font-size: 16px;
+				}
+				.isLarge12Count {
+					font-size: 12px;
+				}
     }
 
     h5 {
