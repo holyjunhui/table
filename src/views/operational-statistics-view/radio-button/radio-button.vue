@@ -11,15 +11,15 @@ export default {
     props: {
         isActivate: {
             type: Boolean,
-            default: false
+            "default": false
         },
         label: {
             type: String,
-            default: false
+            "default": false
         },
         name: {
             type: Number,
-            default: true
+            "default": true
         }
     },
     methods: {

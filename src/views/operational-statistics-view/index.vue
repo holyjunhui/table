@@ -9,6 +9,7 @@
     </Widget>
 </template>
 <script>
+// eslint-disable-next-line init-declarations
 let chart;
 const FLUSH_TIME = 1000 * 60 * 60;
 import G2 from "@antv/g2";
@@ -27,7 +28,7 @@ export default {
         };
     },
 
-    async created() {
+    created() {
         this.updateChart();
         setInterval(() => {
             this.updateChart();
@@ -40,10 +41,7 @@ export default {
         async updateChart() {
             const operationSummaryData = await getOperationSummary();
             const metaData = await getMeta();
-            this.dataList = this.processData(
-                operationSummaryData.data,
-                metaData.data.industry
-            );
+            this.dataList = this.processData(operationSummaryData.data, metaData.data.industry);
 
             this.updateChartData();
         },
@@ -65,26 +63,26 @@ export default {
             const tempArr = [];
             const validated = [];
             const waitValidated = [];
-            tempArr.push(validated);
-            tempArr.push(waitValidated);
-            const typeMap = {
-                validated_count: "已验证",
-                wait_validated_count: "待验证"
-            };
-            for (let i = 0, len = rawData.length; i < len; i++) {
-                const item = rawData[i];
+            const validatedArr = rawData.validated;
+            const waitValidatedArr = rawData.waiting_validated;
+            validatedArr.forEach(item => {
                 const typeInfo = findCodeInfo(item.industry_code);
                 const type = typeInfo.name;
                 validated.push({
                     type,
-                    value: item.validated_count
+                    value: item.count
                 });
-
+            });
+            waitValidatedArr.forEach(item => {
+                const typeInfo = findCodeInfo(item.industry_code);
+                const type = typeInfo.name;
                 waitValidated.push({
                     type,
-                    value: item.wait_validated_count
+                    value: item.count
                 });
-            }
+            });
+            tempArr.push(validated);
+            tempArr.push(waitValidated);
             return tempArr;
         },
         setChartAxis() {
@@ -96,7 +94,7 @@ export default {
                     },
                     htmlTemplate(text) {
                         return `
-            <p class="line-limit-length" title="${text}" style="width:50px;font-size:12px;text-align:center;">${text}</p>
+           <p class="line-limit-length" title="${text}" style="width:50px;font-size:12px;text-align:center;">${text}</p>
           `;
                     }
                 }
