@@ -83,12 +83,15 @@ export default {
             return data.monitoring + data.unmonitoring;
         },
         processData(rawData) {
-            const tempArr = [];
+            // const tempArr = [];
             const map = {
                 monitoring: "已开启监测",
                 unmonitoring: "未开启监测"
             };
             const totalCount = this.getTotalCount(rawData);
+            if (!totalCount) {
+                return;
+            }
             return ["monitoring", "unmonitoring"].map(key => {
                 const count = rawData[key];
                 const percent = +(count / totalCount).toFixed(2);
@@ -101,7 +104,7 @@ export default {
         },
         isClosedItem(info) {
             return false;
-            return info.item.includes("closed");
+            // return info.item.includes("closed");
         },
         getLabelInfo() {
             const self = this;

@@ -72,26 +72,26 @@ export default {
                     "code": "content-change",
                     "name": "页面变更"
                 },
-                {
-                    "code": "ddos",
-                    "name": "DDoS攻击"
-                },
+                // {
+                //     "code": "ddos",
+                //     "name": "DDoS攻击"
+                // },
                 {
                     "code": "illegal-content",
                     "name": "违规内容"
                 },
                 {
                     "code": "spamlink",
-                    "name": "黑链"
+                    "name": "网站黑链"
                 },
                 {
                     "code": "phishing",
                     "name": "钓鱼网站"
                 },
-                {
-                    "code": "threat",
-                    "name": "威胁情报"
-                },
+                // {
+                //     "code": "threat",
+                //     "name": "威胁情报"
+                // },
                 {
                     "code": "trojan",
                     "name": "网页木马"
@@ -166,9 +166,9 @@ export default {
                 "content-change": {
                     alias: "页面变更"
                 },
-                ddos: {
-                    alias: "DDos攻击"
-                },
+                // ddos: {
+                //     alias: "DDos攻击"
+                // },
                 "illegal-content": {
                     alias: "违规内容"
                 },
@@ -176,11 +176,11 @@ export default {
                     alias: "钓鱼网站"
                 },
                 spamlink: {
-                    alias: "黑链"
+                    alias: "网站黑链"
                 },
-                threat: {
-                    alias: "威胁情报"
-                },
+                // threat: {
+                //     alias: "威胁情报"
+                // },
                 trojan: {
                     alias: "网页木马"
                 },
