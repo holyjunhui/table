@@ -21,7 +21,7 @@ export default {
     data() {
         return {
             currentIndex: 0,
-            dataList: [{label: "待验证"}, {label: "已验证"}]
+            dataList: [{label: "已验证"}, {label: "待验证"}]
         };
     },
     methods: {
