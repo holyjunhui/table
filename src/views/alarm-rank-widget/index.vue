@@ -12,7 +12,7 @@ import Widget from "@/components/Widget";
 // import list from "./data";
 // import dataset from "./dataset";
 import {getIndustryOrCityName} from "./chart";
-import {getAlertsRank} from "@/api/";
+import {getAlertsRank} from "@/api/index";
 
 const colorMap = {
     "Asia": G2.Global.colors[0],

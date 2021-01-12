@@ -240,8 +240,8 @@ export default {
 <style lang="scss">
 #map {
     height: 560px;
-    width: 640px;
-
+    width: 630px;
+    margin: 0 auto;
     canvas {
         -webkit-mask-image: radial-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0));
     }
