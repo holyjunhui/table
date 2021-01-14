@@ -39,7 +39,7 @@ export default {
     },
 
     async created() {
-        const data = await getAlertsRank("5001");
+        const data = await getAlertsRank("2101");
         const arrayList = data.data;
         const list = this.formatter(arrayList);
         this.createdChart(list);

@@ -63,13 +63,15 @@ export default {
     background: #03091b url("../assets/images/page-background.png") center no-repeat;
     // width:2000px;
     /*min-width: 2000px;*/
-    /*min-height: 100vh;*/
+    min-height: 100vh;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     .main-layout {
         flex: auto;
+        flex-grow: 0;
         display: flex;
     }
     .left-side,
@@ -79,9 +81,14 @@ export default {
     }
     .bottom-layout {
         flex: auto;
+        flex-grow: 0;
         display: flex;
+        flex-wrap: wrap;
         .widget {
             flex: auto;
+            @media screen and (max-width: 1900px) {
+                min-width: 30%;
+            }
         }
     }
 }

@@ -59,7 +59,7 @@ export default {
             while (rgx.test(num)) {
                 num = num.replace(rgx, "$1,$2");
             }
-            num = num.substr(-7);
+            num = num.substr(-11);
             return num.split("").map(item => {
                 return `<div class="${item === "," ? "separator" : "digital"}"><span>${item}</span></div>`;
             }).join("");
@@ -76,7 +76,7 @@ export default {
         width: 476px;
         height: 84px;
         margin: 0 auto;
-        font-size: 56px;
+        font-size: 46px;
         color: #FFF;
         text-shadow: rgba(255, 255, 255, 0.6) 0 0 7px;
         font-family: "张海山草泥马体", serif;
@@ -96,7 +96,7 @@ export default {
 
         .digital {
             flex: none;
-            width: 70px;
+            width: 50px;
             margin: 0 4px;
             background-color: rgba(0, 108, 255, 0.2);
         }

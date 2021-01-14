@@ -119,6 +119,9 @@ export default {
             background: url("../../assets/images/lines.svg") center bottom
                 no-repeat;
         }
+        @media screen and (max-width: 1450px){
+            font-size: 20px;
+        }
     }
 
     .beijing-time {
@@ -131,6 +134,9 @@ export default {
         border-radius: 3px;
         background: rgba(255, 255, 255, 0.05)
             url("../../assets/images/icon-clock.png") 14px center no-repeat;
+        @media screen and (max-width: 1700px){
+            display: none;
+        }
     }
 
     .event-summary {

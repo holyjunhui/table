@@ -222,6 +222,7 @@ export default {
         left: -40px;
         top: -30px;
         box-sizing: border-box;
+        width: 394px;
     }
     .assestConditionView-bg {
         position: absolute;

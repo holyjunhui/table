@@ -12,6 +12,7 @@ import * as turf from "@turf/turf";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import hechuanGeo from "@/data/hechuan.json";
+import shenyangGeo from "@/data/shenyang.json";
 // import coordArray from "@/data/coord.js";
 
 import popupComponent from "./popup";
@@ -20,8 +21,9 @@ import markerComponent from "./marker";
 const config = {
     token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
     style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
-    zoom: 9.5,
-    center: [106.325, 30.11]
+    zoom: 7.5, // 9.5
+    // center: [106.325, 30.11]   //合川
+    center: [123.433, 41.809]
 };
 
 export default {
@@ -65,7 +67,7 @@ export default {
     methods: {
         async fetchData() {
             const formatterList = [];
-            const data = await getAlertsStatsByLocation("500117");
+            const data = await getAlertsStatsByLocation("2101"); // 500117
             const list = this.formatter(data.data);
             formatterList.push(list);
             this.data = formatterList;
@@ -124,7 +126,7 @@ export default {
                 "source": {
                     "type": "geojson",
                     "lineMetrics": true,
-                    "data": hechuanGeo
+                    "data": shenyangGeo
                 },
                 "layout": {
                     "line-join": "round",
@@ -144,7 +146,7 @@ export default {
                 "type": "fill",
                 "source": {
                     "type": "geojson",
-                    "data": hechuanGeo
+                    "data": shenyangGeo
                 },
                 "layout": {},
                 "paint": {
@@ -156,12 +158,20 @@ export default {
 
         addMaskLayer(map) {
             const bounds = [
-                config.center[0] + 0.9,
-                config.center[1] + 0.8,
-                config.center[0] - 0.9,
-                config.center[1] - 0.8
+                config.center[0] + 5.9,
+                config.center[1] + 5.8,
+                config.center[0] - 5.9,
+                config.center[1] - 5.8
             ];
-            const mask = turf.polygon(hechuanGeo.geometry.coordinates);
+            // const mask = turf.polygon(hechuanGeo.geometry.coordinates);
+            let mask;
+            shenyangGeo.features.forEach(item => {
+                if (mask) {
+                    mask = turf.union(mask, turf.multiPolygon(item.geometry.coordinates));
+                } else {
+                    mask = turf.multiPolygon(item.geometry.coordinates);
+                }
+            });
 
             const polyMask = function polyMask(mask, bounds) {
                 const bboxPoly = turf.bboxPolygon(bounds);
@@ -228,7 +238,6 @@ export default {
 
             this.markers[this.currentIndex].togglePopup();
             const current = this.data[this.currentIndex];
-
             const bearing = Math.atan2(config.center[0] - current.coordinates[0], config.center[1] - current.coordinates[1]) / Math.PI * 180;
             // 计算距离，自动放大
             this.map.easeTo({bearing, duration: 1000, animate: true});
