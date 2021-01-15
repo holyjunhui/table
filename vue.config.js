@@ -10,7 +10,8 @@ module.exports = {
     },
     configureWebpack: config => {
         if (process.env.NODE_ENV === "production") {
-            config.plugins.push(new UglifyJsPlugin());
+            // config.plugins.push(new UglifyJsPlugin());
+            config.optimization.minimizer.push(new UglifyJsPlugin());
         }
     },
 
@@ -23,7 +24,7 @@ module.exports = {
         open: "true",
         // proxy: {
         //     "/v1": {
-        //         target: "https://yzt.360.cn/api", // 这里后台的地址
+        //         target: "https://yuntan.360.cn/api", // 这里后台的地址
         //         ws: false,
         //         changOrigin: true, // 允许跨域
         //         pathRewrite: {

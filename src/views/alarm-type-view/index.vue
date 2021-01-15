@@ -224,6 +224,8 @@ export default {
         background-repeat: no-repeat;
         background-position: 30px 12px;
         background-image: url("../../assets/images/type_circle.png");
+        width: 394px;
+        margin: 0 auto;
     }
 
     .maskBox {

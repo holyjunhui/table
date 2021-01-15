@@ -78,8 +78,7 @@ export default {
             const showItems = this.$refs.rollContainer.children;
 
             // 总数据不足时 不在滚动
-            if (self.bodyData.length <= self.showNum)
-                                {return;}
+            if (self.bodyData.length <= self.showNum) { return; }
 
             const setTopItemTranslateY = () => {
                 const topItem = showItems[currentIndex];
@@ -150,12 +149,14 @@ export default {
     position: relative;
     box-sizing: border-box;
     padding: 9px 20px;
-    width: 422px;
+    min-width: 422px;
     background: rgba(3, 128, 255, 0.1);
+    width: 100%;
 
     .rollTabel-stripeContainer {
         position: absolute;
-        width: 422px - 40px;
+        //width: 422px - 40px;
+        width: calc(100% - 40px);
         .stripe {
             margin-bottom: 26px;
             height: 26px;
