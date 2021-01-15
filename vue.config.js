@@ -10,8 +10,8 @@ module.exports = {
     },
     configureWebpack: config => {
         if (process.env.NODE_ENV === "production") {
-            // config.plugins.push(new UglifyJsPlugin());
-            config.optimization.minimizer.push(new UglifyJsPlugin());
+            config.plugins.push(new UglifyJsPlugin());
+            // config.optimization.minimizer.push(new UglifyJsPlugin());
         }
     },
 
