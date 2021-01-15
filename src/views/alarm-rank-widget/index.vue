@@ -58,7 +58,7 @@ export default {
         },
         async updateData() {
             // 求重庆的排名
-            const data = await getAlertsRank("5001");
+            const data = await getAlertsRank("2101");
             const arrayList = data.data;
             const list = this.formatter(arrayList);
             // this.list = list;
