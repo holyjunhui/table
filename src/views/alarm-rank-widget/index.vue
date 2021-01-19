@@ -58,7 +58,7 @@ export default {
         },
         async updateData() {
             // 求重庆的排名
-            const data = await getAlertsRank("5001");
+            const data = await getAlertsRank("2101");
             const arrayList = data.data;
             const list = this.formatter(arrayList);
             // this.list = list;
@@ -81,37 +81,35 @@ export default {
                 const array = [];
 
                 for (const type in item.count) {
-                    const typeCount = Math.floor(item.count[type] / 100 + 1);
-
-                    for (let i = 0; i <= typeCount; i++) {
-                        const locationList = {};
-                        locationList.region = this.getItemName(item.location_code);
-                        // 根据index做象限处理
-                        if (index === 0) {
-                            locationList.x = -this.mathRandom(80, 470);
-                            locationList.y = this.mathRandom(100, 800);
-                        } else if (index === 1) {
-                            locationList.x = this.mathRandom(90, 450);
-                            locationList.y = this.mathRandom(100, 900);
-                        } else if (index === 2) {
-                            locationList.x = -this.mathRandom(100, 470);
-                            locationList.y = -this.mathRandom(150, 900);
-                        } else {
-                            locationList.x = this.mathRandom(80, 450);
-                            locationList.y = -this.mathRandom(150, 850);
-                        }
-                        if (type === "high") {
-                            locationList.size = 800;
-                        } else if (type === "middle") {
-                            locationList.size = 700;
-                        } else if (type === "low") {
-                            locationList.size = 600;
-                        } else if (type === "info") {
-                            locationList.size = 500;
-                        }
-                        array.push(locationList);
+                    // const typeCount = Math.floor(item.count[type] / 100 + 1);
+                    // for (let i = 0; i <= typeCount; i++) {
+                    const locationList = {};
+                    locationList.region = this.getItemName(item.location_code);
+                    // 根据index做象限处理
+                    if (index === 0) {
+                        locationList.x = -this.mathRandom(80, 470);
+                        locationList.y = this.mathRandom(100, 800);
+                    } else if (index === 1) {
+                        locationList.x = this.mathRandom(90, 450);
+                        locationList.y = this.mathRandom(100, 900);
+                    } else if (index === 2) {
+                        locationList.x = -this.mathRandom(100, 470);
+                        locationList.y = -this.mathRandom(150, 900);
+                    } else {
+                        locationList.x = this.mathRandom(80, 450);
+                        locationList.y = -this.mathRandom(150, 850);
                     }
-
+                    if (type === "high") {
+                        locationList.size = item.count.high;
+                    } else if (type === "middle") {
+                        locationList.size = item.count.middle;
+                    } else if (type === "low") {
+                        locationList.size = item.count.low;
+                    } else if (type === "info") {
+                        locationList.size = item.count.info;
+                    }
+                    array.push(locationList);
+                    // }
                 }
                 return array;
             });

@@ -25,6 +25,7 @@ export default {
         margin: 0;
         font-size: 12px;
         line-height: 22px;
+        word-break: break-all;
     }
 }
 </style>

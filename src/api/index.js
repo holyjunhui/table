@@ -15,9 +15,9 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(config => {
-    // config.headers.Authorization = process.env.NODE_ENV === "production" ? `Bearer ${getToken()}` : "Bearer 360";
+    config.headers.Authorization = process.env.NODE_ENV === "production" ? `Bearer ${getToken()}` : "Bearer 360";
     // config.headers.Authorization = process.env.NODE_ENV === "production" ? `Bearer ${getToken()}` : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4ODc5NTEsImp0aSI6IjkiLCJpYXQiOjE1NzM4MDE1NTEsImlzcyI6Im1hcnZlbC5jbG91ZC5kZXRlY3RpdmUiLCJuYmYiOjE1NzM4MDE1NTF9.SOMrMNE2NkP-8c6Gt9jVQAYH6BZ-1Ie794zr6lFYkvA";
-    config.headers.Authorization = `Bearer ${getToken()}`;
+    // config.headers.Authorization = `Bearer ${getToken()}`;
     return config;
 });
 
@@ -56,7 +56,7 @@ const getAlertsHighSeverity = () => service.get("/v1/situation/alerts/high-sever
 const getAlertsHighSeveritySummary = () => service.get("/v1/situation/alerts/high-severity/summary");
 const getAlertsSpamlink = () => service.get("/v1/situation/alerts/spamlink");
 // 地区告警排名
-const getAlertsRank = location_code => service.get("/v1/situation/alerts/rank", {params: {location_code}});
+const getAlertsRank = location => service.get("/v1/situation/alerts/rank", {params: {location}});
 const getAlertsSummaryToday = () => service.get("/v1/situation/alerts/summary-today");
 const getAssetsRecent = () => service.get("/v1/situation/assets/recent");
 const getAssetsSummary = () => service.get("/v1/situation/assets/summary");

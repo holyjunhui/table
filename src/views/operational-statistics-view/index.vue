@@ -63,8 +63,8 @@ export default {
             const tempArr = [];
             const validated = [];
             const waitValidated = [];
-            const validatedArr = rawData.validated;
-            const waitValidatedArr = rawData.waiting_validated;
+            const validatedArr = rawData.validated || [];
+            const waitValidatedArr = rawData.waiting_validated || [];
             validatedArr.forEach(item => {
                 const typeInfo = findCodeInfo(item.industry_code);
                 const type = typeInfo.name;
@@ -163,8 +163,8 @@ export default {
 .operationalStatisticsView {
     .osv-radioGroup-container {
         position: absolute;
-        top: 42px;
-        right: 45px;
+        top: 56px;
+        right: 16px;
     }
 }
 </style>
