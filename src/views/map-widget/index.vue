@@ -96,7 +96,7 @@ export default {
 
         .digital {
             flex: none;
-            width: 50px;
+            width: 48px;
             margin: 0 4px;
             background-color: rgba(0, 108, 255, 0.2);
         }

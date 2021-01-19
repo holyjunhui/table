@@ -23,7 +23,7 @@ const config = {
     style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
     zoom: 7.5, // 9.5
     // center: [106.325, 30.11]   //合川
-    center: [123.433, 41.809]
+    center: [123.432, 41.809]
 };
 
 export default {
@@ -251,6 +251,9 @@ export default {
     height: 560px;
     width: 630px;
     margin: 0 auto;
+    @media screen and (max-width: 1300px){
+        width: 400px;
+    }
     canvas {
         -webkit-mask-image: radial-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0));
     }
@@ -282,6 +285,7 @@ export default {
 
     .mapboxgl-popup-tip {
         border-top-color: #000;
+        border-bottom-color: #000;
         opacity: 0.8;
     }
 

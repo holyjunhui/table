@@ -121,9 +121,7 @@ export default {
                 useHtml: true,
                 hoverable: false,
                 containerTpl:
-                    '<div class="g2-legend" style="">' +
-                    '<div class="g2-legend-list" style="display:flex;"  > ' +
-                    "</div>",
+                    '<div class="g2-legend" style="">' + '<div class="g2-legend-list" style="display:flex;"  > ' + "</div>",
                 itemTpl: (value, color, checked, index) => {
                     return `
 				<div>
@@ -134,8 +132,9 @@ export default {
                 </div>
               `;
                 },
-                offsetX: 100,
-                offsetY: -120,
+                position: "top-right",
+                // offsetX: 100,
+                // offsetY: -120,
                 "g2-legend": {},
                 "g2-legend-list": {
                     border: "none"

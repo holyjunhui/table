@@ -51,7 +51,7 @@ export default {
     methods: {
         async updateChart() {
             const highSeveritySummaryData = await getAlertsHighSeveritySummary();
-            const data = highSeveritySummaryData.data;
+            const data = highSeveritySummaryData.data || [];
             // const data = this.list;
             const sliceData = data;
             // this.chartData = this.processData(data);
