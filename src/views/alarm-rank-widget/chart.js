@@ -17,6 +17,9 @@ export const getIndustryOrCityName = {
                     for (let j = 0; j < province.length; j++) {
                         if (province[j].code === cityCode) {
                             const xian = province[j].children;
+                            // if (key.length <= 4) {
+                            //     return province[j].name;
+                            // }
                             for (let k = 0; k < xian.length; k++) {
                                 if (xian[k].code === key) {
                                     return xian[k].name;

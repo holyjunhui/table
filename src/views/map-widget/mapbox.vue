@@ -13,6 +13,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import hechuanGeo from "@/data/hechuan.json";
 import shenyangGeo from "@/data/shenyang.json";
+import xianGeo from "@/data/xian.json"
 // import coordArray from "@/data/coord.js";
 
 import popupComponent from "./popup";
@@ -23,7 +24,8 @@ const config = {
     style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
     zoom: 7.5, // 9.5
     // center: [106.325, 30.11]   //合川
-    center: [123.432, 41.809]
+    // center: [123.432, 41.809]  // 沈阳
+    center: [108.953, 34.278]
 };
 
 export default {
@@ -67,7 +69,7 @@ export default {
     methods: {
         async fetchData() {
             const formatterList = [];
-            const data = await getAlertsStatsByLocation("2101"); // 500117
+            const data = await getAlertsStatsByLocation("6101"); // 500117合川  2101沈阳
             const list = this.formatter(data.data);
             formatterList.push(list);
             this.data = formatterList;
@@ -126,7 +128,7 @@ export default {
                 "source": {
                     "type": "geojson",
                     "lineMetrics": true,
-                    "data": shenyangGeo
+                    "data": xianGeo
                 },
                 "layout": {
                     "line-join": "round",
@@ -146,7 +148,7 @@ export default {
                 "type": "fill",
                 "source": {
                     "type": "geojson",
-                    "data": shenyangGeo
+                    "data": xianGeo
                 },
                 "layout": {},
                 "paint": {
@@ -165,7 +167,7 @@ export default {
             ];
             // const mask = turf.polygon(hechuanGeo.geometry.coordinates);
             let mask;
-            shenyangGeo.features.forEach(item => {
+            xianGeo.features.forEach(item => {
                 if (mask) {
                     mask = turf.union(mask, turf.multiPolygon(item.geometry.coordinates));
                 } else {

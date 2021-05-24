@@ -39,7 +39,7 @@ export default {
     },
 
     async created() {
-        const data = await getAlertsRank("2101");
+        const data = await getAlertsRank("6101");
         const arrayList = data.data;
         const list = this.formatter(arrayList);
         this.createdChart(list);
@@ -58,7 +58,7 @@ export default {
         },
         async updateData() {
             // 求重庆的排名
-            const data = await getAlertsRank("2101");
+            const data = await getAlertsRank("6101");
             const arrayList = data.data;
             const list = this.formatter(arrayList);
             // this.list = list;
