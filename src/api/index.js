@@ -60,6 +60,18 @@ const getAlertsSummaryToday = () => service.get("/v1/situation/alerts/summary-to
 const getAssetsRecent = () => service.get("/v1/situation/assets/recent");
 const getAssetsSummary = () => service.get("/v1/situation/assets/summary");
 const getOperationSummary = () => service.get("/v1/situation/operation/summary");
+/**
+ * 登录之后获取信息
+ */
+const getUserInfo =  () => {
+    return service({
+        url: "/v1/user-info",
+        method: "get",
+        params: {
+            token: getToken()
+        }
+    });
+};
 
 export {
     getMeta,
@@ -73,5 +85,6 @@ export {
     getAlertsSummaryToday,
     getAssetsRecent,
     getAssetsSummary,
-    getOperationSummary
+    getOperationSummary,
+    getUserInfo
 };

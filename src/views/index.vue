@@ -53,6 +53,9 @@ export default {
         Example,
         CertHeader
     },
+    beforeCreate() {
+        this.$store.dispatch("getGeoConfig");
+    },
     created() {
         getMetaList() || this.$store.dispatch("initMeta");
     }

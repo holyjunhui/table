@@ -113,7 +113,7 @@ export default {
         // 告警线形图
         const arrayData = data.data.by_date;
         // 列表
-        const arrayType = data.data.by_status;
+        const arrayType = data.data.by_status || [];
         this.status = arrayType;
         this.status.forEach(item => {
             if (item.count.toString().length >= 5) {

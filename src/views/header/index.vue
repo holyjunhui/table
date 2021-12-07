@@ -1,7 +1,15 @@
 <template>
-    <h1>西安市网站监测态势感知平台</h1>
+    <h1>{{ title }}网站监测态势感知平台</h1>
 </template>
-
+<script>
+export default {
+    computed: {
+      title(){
+        return this.$store.state.geoConfig.title;
+      }
+    }
+};
+</script>
 <style lang="scss" scoped>
 h1 {
     margin: 0;

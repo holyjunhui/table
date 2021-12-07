@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import {getUserInfo} from "@/api/";
+
 const FLUSH_TIME = 1000 * 60 * 60;
 
 import G2 from "@antv/g2";
@@ -13,6 +15,7 @@ import Widget from "@/components/Widget";
 // import dataset from "./dataset";
 import {getIndustryOrCityName} from "./chart";
 import {getAlertsRank} from "@/api/index";
+import {geojsonMap} from "@/views/map-widget/data";
 
 const colorMap = {
     "Asia": G2.Global.colors[0],
@@ -29,7 +32,8 @@ export default {
             list: [],
             // dataset,
             areaChart: "",
-            cityNameList: []
+            cityNameList: [],
+            geoConfig: {}
         };
     },
     computed: {
@@ -39,7 +43,10 @@ export default {
     },
 
     async created() {
-        const data = await getAlertsRank("6101");
+        const userInfo = await getUserInfo();
+        this.geoConfig = geojsonMap[userInfo.data.id];
+
+        const data = await getAlertsRank(this.geoConfig.code);
         const arrayList = data.data;
         const list = this.formatter(arrayList);
         this.createdChart(list);
@@ -58,7 +65,7 @@ export default {
         },
         async updateData() {
             // 求重庆的排名
-            const data = await getAlertsRank("6101");
+            const data = await getAlertsRank(this.geoConfig.code);
             const arrayList = data.data;
             const list = this.formatter(arrayList);
             // this.list = list;

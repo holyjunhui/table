@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {getAlertsStatsByLocation} from "@/api/";
+import {getAlertsStatsByLocation, getUserInfo} from "@/api/";
 import Vue from "vue";
 import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
@@ -13,20 +13,24 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import hechuanGeo from "@/data/hechuan.json";
 import shenyangGeo from "@/data/shenyang.json";
-import xianGeo from "@/data/xian.json"
+import xianGeo from "@/data/xian.json";
+import changchunGeo from "@/data/changchun.json";
 // import coordArray from "@/data/coord.js";
 
 import popupComponent from "./popup";
 import markerComponent from "./marker";
+import {geojsonMap} from "@/views/map-widget/data";
 
-const config = {
-    token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
-    style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
-    zoom: 7.5, // 9.5
-    // center: [106.325, 30.11]   //合川
-    // center: [123.432, 41.809]  // 沈阳
-    center: [108.953, 34.278]
-};
+
+
+// const config = {
+//     token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
+//     style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
+//     zoom: 7.5, // 9.5
+//     // center: [106.325, 30.11]   //合川
+//     // center: [123.432, 41.809]  // 沈阳
+//     center: [108.953, 34.278]
+// };
 
 export default {
     name: "Mapbox",
@@ -39,14 +43,30 @@ export default {
             pauseAnimate: false,
             duration: 20000,
             markers: [],
-            currentIndex: 0
+            currentIndex: 0,
+            config: {
+                token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
+                style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
+                zoom: 7.5,
+                center: [108.953, 34.278]
+            },
+            geoConfig: {}
         };
     },
-    created() {
-        this.fetchData();
-
-    },
+    // async beforeCreate() {
+    //     const userInfo = await getUserInfo();
+    //     console.log(userInfo, userInfo.data.id, geojsonMap[userInfo.data.id])
+    //     this.geoConfig = geojsonMap[userInfo.data.id];
+    //     this.config.center = this.geoConfig.center;
+    // },
+    // created() {
+    //     this.fetchData();
+    // },
     async mounted() {
+        const userInfo = await getUserInfo();
+        this.geoConfig = geojsonMap[userInfo.data.id];
+        this.config.center = this.geoConfig.center;
+
         await this.fetchData();
         await this.initMap();
         this.initMapLayer(this.map);
@@ -69,7 +89,7 @@ export default {
     methods: {
         async fetchData() {
             const formatterList = [];
-            const data = await getAlertsStatsByLocation("6101"); // 500117合川  2101沈阳
+            const data = await getAlertsStatsByLocation(this.geoConfig.code); // 500117合川  2101沈阳  6101西安
             const list = this.formatter(data.data);
             formatterList.push(list);
             this.data = formatterList;
@@ -96,14 +116,14 @@ export default {
             return list;
         },
         initMap() {
-            mapboxgl.accessToken = config.token;
+            mapboxgl.accessToken = this.config.token;
             this.map = new mapboxgl.Map({
                 container: this.$refs.mapbox,
-                style: config.style,
-                minZoom: config.zoom - 0.1,
-                maxZoom: config.zoom + 0.1,
-                center: config.center,
-                zoom: config.zoom,
+                style: this.config.style,
+                minZoom: this.config.zoom - 0.1,
+                maxZoom: this.config.zoom + 0.1,
+                center: this.config.center,
+                zoom: this.config.zoom,
                 pitch: 50,
                 bearing: 0,
                 interactive: false
@@ -128,7 +148,7 @@ export default {
                 "source": {
                     "type": "geojson",
                     "lineMetrics": true,
-                    "data": xianGeo
+                    "data": this.geoConfig.geo
                 },
                 "layout": {
                     "line-join": "round",
@@ -148,7 +168,7 @@ export default {
                 "type": "fill",
                 "source": {
                     "type": "geojson",
-                    "data": xianGeo
+                    "data": this.geoConfig.geo
                 },
                 "layout": {},
                 "paint": {
@@ -160,14 +180,14 @@ export default {
 
         addMaskLayer(map) {
             const bounds = [
-                config.center[0] + 5.9,
-                config.center[1] + 5.8,
-                config.center[0] - 5.9,
-                config.center[1] - 5.8
+                this.config.center[0] + 5.9,
+                this.config.center[1] + 5.8,
+                this.config.center[0] - 5.9,
+                this.config.center[1] - 5.8
             ];
             // const mask = turf.polygon(hechuanGeo.geometry.coordinates);
             let mask;
-            xianGeo.features.forEach(item => {
+            this.geoConfig.geo.features.forEach(item => {
                 if (mask) {
                     mask = turf.union(mask, turf.multiPolygon(item.geometry.coordinates));
                 } else {
@@ -218,7 +238,7 @@ export default {
         addCenterPoint(map) {
             const point = document.createElement("div");
             point.className = "center-marker";
-            new mapboxgl.Marker(point).setLngLat(config.center).addTo(map);
+            new mapboxgl.Marker(point).setLngLat(this.config.center).addTo(map);
         },
 
         startAnimate() {
@@ -240,7 +260,7 @@ export default {
 
             this.markers[this.currentIndex].togglePopup();
             const current = this.data[this.currentIndex];
-            const bearing = Math.atan2(config.center[0] - current.coordinates[0], config.center[1] - current.coordinates[1]) / Math.PI * 180;
+            const bearing = Math.atan2(this.config.center[0] - current.coordinates[0], this.config.center[1] - current.coordinates[1]) / Math.PI * 180;
             // 计算距离，自动放大
             this.map.easeTo({bearing, duration: 1000, animate: true});
         }
