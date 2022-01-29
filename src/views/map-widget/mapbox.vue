@@ -11,17 +11,16 @@ import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import hechuanGeo from "@/data/hechuan.json";
-import shenyangGeo from "@/data/shenyang.json";
-import xianGeo from "@/data/xian.json";
-import changchunGeo from "@/data/changchun.json";
+// import hechuanGeo from "@/data/hechuan.json";
+// import chinaGeo from "@/data/china.json";
+// import shenyangGeo from "@/data/shenyang.json";
+// import xianGeo from "@/data/xian.json";
+// import changchunGeo from "@/data/changchun.json";
 // import coordArray from "@/data/coord.js";
 
 import popupComponent from "./popup";
 import markerComponent from "./marker";
 import {geojsonMap} from "@/views/map-widget/data";
-
-
 
 // const config = {
 //     token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
@@ -47,7 +46,7 @@ export default {
             config: {
                 token: "pk.eyJ1IjoieGlzaXRhbiIsImEiOiJjanhlMnlpbmkwa3FsM3BvMGc3amI3dGJzIn0.bnZCEqJZiS_JslbODiGhlQ",
                 style: "mapbox://styles/xisitan/cjxeadugr0hin1ds1z5zzdg0o",
-                zoom: 7.5,
+                zoom: 7.5, // 控制地图大小
                 center: [108.953, 34.278]
             },
             geoConfig: {}
@@ -65,6 +64,8 @@ export default {
     async mounted() {
         const userInfo = await getUserInfo();
         this.geoConfig = geojsonMap[userInfo.data.id];
+        console.log("this.geoconfig", this.geoConfig);
+        this.config.zoom = this.geoConfig.userId === 781 ? 2.5 : 7.5;
         this.config.center = this.geoConfig.center;
 
         await this.fetchData();
@@ -128,7 +129,7 @@ export default {
                 bearing: 0,
                 interactive: false
             });
-
+            // this.map.dragRotate.disable();
             return new Promise(resolve => this.map.on("load", resolve));
         },
 
@@ -194,7 +195,6 @@ export default {
                     mask = turf.multiPolygon(item.geometry.coordinates);
                 }
             });
-
             const polyMask = function polyMask(mask, bounds) {
                 const bboxPoly = turf.bboxPolygon(bounds);
                 return turf.difference(bboxPoly, mask);
@@ -204,8 +204,8 @@ export default {
                 "type": "geojson",
                 "data": polyMask(mask, bounds)
             });
-
-            map.addLayer({
+            // 阴影，781是全国地图不需要
+            this.geoConfig.userId !== 781 && map.addLayer({
                 "id": "zmask",
                 "source": "mask",
                 "type": "fill",
@@ -250,19 +250,21 @@ export default {
                 }
             }, this.duration);
         },
-
+        // 控制地图旋转
         mapAnimation() {
             this.markers.forEach(marker => {
                 if (marker.getPopup().isOpen()) {
                     marker.togglePopup();
                 }
             });
-
+            // 弹出框
             this.markers[this.currentIndex].togglePopup();
-            const current = this.data[this.currentIndex];
-            const bearing = Math.atan2(this.config.center[0] - current.coordinates[0], this.config.center[1] - current.coordinates[1]) / Math.PI * 180;
-            // 计算距离，自动放大
-            this.map.easeTo({bearing, duration: 1000, animate: true});
+            if (this.geoConfig.userId !== 781) {
+                const current = this.data[this.currentIndex];
+                const bearing = Math.atan2(this.config.center[0] - current.coordinates[0], this.config.center[1] - current.coordinates[1]) / Math.PI * 180;
+                // 计算距离，自动放大
+                this.map.easeTo({bearing, duration: 1000, animate: true});
+            }
         }
     }
 };
