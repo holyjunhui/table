@@ -95,7 +95,10 @@
 </template>
 
 <script>
-import {downHomeData, getHomeData} from "@/api/index";
+import {getHomeData} from "@/api/index";
+import dayjs from "dayjs";
+// const utc = require("dayjs/plugin/utc");
+// dayjs.extend(utc);
 export default {
     data() {
         return {
@@ -113,19 +116,18 @@ export default {
     // },
     methods: {
         getHomeData() {
-            const start = this.form.date && this.form.date[0];
-            const end = this.form.date && this.form.date[1];
+            const start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
+            const end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
             getHomeData({start, end}).then(res => {
                 this.tableData = res.data;
             });
         },
         downHomeData() {
-            const start = this.form.date && this.form.date[0];
-            const end = this.form.date && this.form.date[1];
+            const start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
+            const end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
             const origin = window.location.origin;
-            console.log("origin", origin, window.location);
-
-            window.location.href = `${origin}/jinshan/report_export?start=${start}&end=${end}`;
+            window.open(`${origin}/jinshan/report_export?start=${start}&end=${end}`);
+            // window.location.href = `${origin}/jinshan/report_export?start=${start}&end=${end}`;
         },
         handleSearch(type) {
             this.$refs.form.validate(valid => {
