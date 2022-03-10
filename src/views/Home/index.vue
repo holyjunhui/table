@@ -26,18 +26,18 @@
                 border
                 :header-cell-style="headerStyle"
                 :cell-style="cellStyle"
-                style="font-size: 18px;"
+                style="font-size: 15px;"
             >
                 <el-table-column label="YING LONG POWER ">
                     <el-table-column
                         prop="index0"
                         label=""
-                        width="180"
+                        width="160"
                     />
                     <el-table-column
                         prop="index1"
                         label=""
-                        width="180"
+                        width="160"
                     />
                 </el-table-column>
                 <el-table-column
@@ -54,18 +54,22 @@
                 />
                 <el-table-column
                     prop="index5"
+                    width="120"
                     label="二级合计（损耗XX%）"
                 />
                 <el-table-column
                     prop="index6"
+                    width="100"
                     label=""
                 />
                 <el-table-column
                     prop="index7"
+                    width="125"
                     label=""
                 />
                 <el-table-column
                     prop="index8"
+                    width="240"
                     label=""
                 />
 
@@ -118,17 +122,16 @@ export default {
         downHomeData() {
             const start = this.form.date && this.form.date[0];
             const end = this.form.date && this.form.date[1];
-            downHomeData({start, end}).then(res => {
-                window.open(res.data);
-            });
+            const origin = window.location.origin;
+            console.log("origin", origin, window.location);
+
+            window.location.href = `${origin}/jinshan/report_export?start=${start}&end=${end}`;
         },
         handleSearch(type) {
-            console.log("submit!", this.form.date);
             this.$refs.form.validate(valid => {
                 if (valid) {
                     type === "search" ? this.getHomeData() : this.downHomeData();
                 } else {
-                    console.log("error submit!!");
                     return false;
                 }
             });

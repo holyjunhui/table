@@ -23,12 +23,12 @@ module.exports = {
   devServer: {
     open: "true",
     proxy: {
-      "/js": {
-        target: "http://123.206.122.198:10082", // 这里后台的地址
+      "/jinshan": {
+        target: "http://123.206.122.198:11880/", // 这里后台的地址
         ws: false,
         changOrigin: true, // 允许跨域
         pathRewrite: {
-          "^/js": "" // 请求的时候使用这个api就可以
+          "^/jinshan": "" // 请求的时候使用这个api就可以
         }
       }
     }

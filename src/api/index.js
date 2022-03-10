@@ -86,7 +86,7 @@ const getUserInfo = () => {
  */
 const getHomeData = params => {
   return service({
-    url: "/js/report_record",
+    url: "/jinshan/report_record",
     method: "get",
     params
   });
@@ -97,7 +97,7 @@ const getHomeData = params => {
  */
 const downHomeData = params => {
   return service({
-    url: "/js/report_export",
+    url: "/jinshan/report_export",
     method: "get",
     params
   });
