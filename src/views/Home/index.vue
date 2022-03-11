@@ -138,113 +138,163 @@ export default {
                 }
             });
         },
-        headerStyle({row, column, rowIndex, columnIndex}) {
+        headerStyle(item) {
+            const {rowIndex} = item;
             if (rowIndex === 1) {
                 return {display: "none"};
             }
         },
-        cellStyle({row, column, rowIndex, columnIndex}) {
+        cellStyle(item) {
+            const {rowIndex, columnIndex} = item;
             if (columnIndex === 0) {
                 if (rowIndex === 0) {
                     return {
-                        background: "#5AB032"
+                        background: "#5AB032",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
+
                     };
                 } else if (rowIndex === 50) {
                     return {
-                        background: "#FFDA48"
+                        background: "#FFDA48",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if (rowIndex === 56) {
                     return {
-                        background: "#93BFE3"
+                        background: "#93BFE3",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
             } else if (columnIndex === 1) {
                 if ([0, 10, 22, 31].includes(rowIndex)) {
                     return {
-                        background: "#5AB032"
+                        background: "#5AB032",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
                     return {
-                        background: "#FFDA48"
+                        background: "#FFDA48",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([56, 58].includes(rowIndex)) {
                     return {
-                        background: "#93BFE3"
+                        background: "#93BFE3",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
             } else if (columnIndex === 5) {
                 if ([0].includes(rowIndex)) {
                     return {
-                        background: "#5AB032"
+                        background: "#5AB032",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([50].includes(rowIndex)) {
                     return {
-                        background: "#FFDA48"
+                        background: "#FFDA48",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([56].includes(rowIndex)) {
                     return {
-                        background: "#93BFE3"
+                        background: "#93BFE3",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
             } else if (columnIndex === 6) {
                 if ([0, 22].includes(rowIndex)) {
                     return {
-                        background: "#9ED287"
+                        background: "#9ED287",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([50, 52, 54].includes(rowIndex)) {
                     return {
-                        background: "#FFE68D"
+                        background: "#FFE68D",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([56, 58].includes(rowIndex)) {
                     return {
-                        background: "#B7D8F1"
+                        background: "#B7D8F1",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
             } else if (columnIndex === 7) {
                 if ([0, 8, 10, 17, 22, 31].includes(rowIndex)) {
                     return {
-                        background: "#DFF0D9"
+                        background: "#DFF0D9",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
                     return {
-                        background: "#FFE68D"
+                        background: "#FFE68D",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([56, 57, 58, 59].includes(rowIndex)) {
                     return {
-                        background: "#B7D8F1"
+                        background: "#B7D8F1",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
             } else if (columnIndex === 8) {
                 if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
                     return {
-                        background: "#FFF1CB"
+                        background: "#FFF1CB",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([56, 57, 58, 59].includes(rowIndex)) {
                     return {
-                        background: "#DAEBF7"
+                        background: "#DAEBF7",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
                 return {
-                    background: "#DFF0D9"
+                    background: "#DFF0D9",
+                    borderBottom: "1px solid #000",
+                    borderRight: "1px solid #000"
                 };
 
             } else if (columnIndex === 12) {
                 if ([0].includes(rowIndex)) {
                     return {
-                        background: "#DFF0D9"
+                        background: "#DFF0D9",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
                     return {
-                        background: "#FFE68D"
+                        background: "#FFE68D",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 } else if ([56, 57, 58, 59].includes(rowIndex)) {
                     return {
-                        background: "#B7D8F1"
+                        background: "#B7D8F1",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
                     };
                 }
             }
+            return {
+                borderBottom: "1px solid #000",
+                borderRight: "1px solid #000"
+            };
         },
-        objectSpanMethod({row, column, rowIndex, columnIndex}) {
+        objectSpanMethod(item) {
+            const {rowIndex, columnIndex} = item;
             if (columnIndex === 0) {
                 if (rowIndex === 0) {
                     return {
@@ -593,7 +643,15 @@ export default {
 		.table-wrap {
 			margin-top: 20px;
 			background: #fff;
-
+			// .el-table--border::after, .el-table--group::after {
+			// 	width: 0;
+			// }
+			.el-table__body-wrapper{
+				border-top: 1px solid #000;
+				border-bottom: 1px solid #000;
+				border-left: 1px solid #000;
+			}
 		}
 	}
+
 </style>
