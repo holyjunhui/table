@@ -26,26 +26,28 @@
                 border
                 :header-cell-style="headerStyle"
                 :cell-style="cellStyle"
-                style="font-size: 15px;"
+                style="font-size: 14px;"
             >
                 <el-table-column label="YING LONG POWER ">
                     <el-table-column
                         prop="index0"
                         label=""
-                        width="160"
+                        min-width="145"
                     />
                     <el-table-column
                         prop="index1"
                         label=""
-                        width="160"
+                        min-width="160"
                     />
                 </el-table-column>
                 <el-table-column
                     prop="index2"
+                    min-width="170"
                     :label="start"
                 />
                 <el-table-column
                     prop="index3"
+                    min-width="170"
                     :label="end"
                 />
                 <el-table-column
@@ -54,7 +56,7 @@
                 />
                 <el-table-column
                     prop="index5"
-                    width="120"
+                    min-width="180"
                     label="二级合计（损耗XX%）"
                 />
                 <el-table-column
@@ -75,10 +77,12 @@
 
                 <el-table-column
                     prop="index9"
+                    min-width="170"
                     :label="start"
                 />
                 <el-table-column
                     prop="index10"
+                    min-width="170"
                     :label="end"
                 />
                 <el-table-column
