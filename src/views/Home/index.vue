@@ -42,11 +42,11 @@
                 </el-table-column>
                 <el-table-column
                     prop="index2"
-                    label="时间1抄见数"
+                    :label="start"
                 />
                 <el-table-column
                     prop="index3"
-                    label="时间2抄见数"
+                    :label="end"
                 />
                 <el-table-column
                     prop="index4"
@@ -75,11 +75,11 @@
 
                 <el-table-column
                     prop="index9"
-                    label="时间1抄见数"
+                    :label="start"
                 />
                 <el-table-column
                     prop="index10"
-                    label="时间2抄见数"
+                    :label="end"
                 />
                 <el-table-column
                     prop="index11"
@@ -105,6 +105,8 @@ export default {
             form: {
                 date: ""
             },
+            start: "时间1抄见数",
+            end: "时间2抄见数",
             rules: {
                 date: [{required: true, message: "请选择日期", trigger: "change"}]
             },
@@ -116,22 +118,21 @@ export default {
     // },
     methods: {
         getHomeData() {
-            const start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
-            const end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
-            getHomeData({start, end}).then(res => {
+
+            getHomeData({start: this.start, end: this.end}).then(res => {
                 this.tableData = res.data;
             });
         },
         downHomeData() {
-            const start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
-            const end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
             const origin = window.location.origin;
-            window.open(`${origin}/jinshan/report_export?start=${start}&end=${end}`);
+            window.open(`${origin}/jinshan/report_export?start=${this.start}&end=${this.end}`);
             // window.location.href = `${origin}/jinshan/report_export?start=${start}&end=${end}`;
         },
         handleSearch(type) {
             this.$refs.form.validate(valid => {
                 if (valid) {
+                    this.start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
+                    this.end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
                     type === "search" ? this.getHomeData() : this.downHomeData();
                 } else {
                     return false;
