@@ -4,6 +4,7 @@
             <el-form :inline="true" :rules="rules" :model="form" ref="form" class="demo-form-inline">
                 <el-form-item prop="date" label="日期范围：">
                     <el-date-picker
+                        size="small"
                         unlink-panels
                         v-model="form.date"
                         type="datetimerange"
@@ -14,86 +15,147 @@
                     />
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="handleSearch('search')" type="primary">查询</el-button>
-                    <el-button @click="handleSearch('down')">下载</el-button>
+                    <el-button size="small" @click="handleSearch('search')" type="primary">查询</el-button>
+                    <el-button size="small" @click="handleSearch('all')">All下载</el-button>
+                    <el-button size="small" @click="handleSearch('ying')">YingLong下载</el-button>
                 </el-form-item>
             </el-form>
         </div>
         <div class="table-wrap">
-            <el-table
-                :data="tableData"
-                :span-method="objectSpanMethod"
-                border
-                :header-cell-style="headerStyle"
-                :cell-style="cellStyle"
-                style="font-size: 14px;"
-            >
-                <el-table-column label="YING LONG POWER ">
-                    <el-table-column
-                        prop="index0"
-                        label=""
-                        min-width="145"
-                    />
-                    <el-table-column
-                        prop="index1"
-                        label=""
-                        min-width="160"
-                    />
-                </el-table-column>
-                <el-table-column
-                    prop="index2"
-                    min-width="170"
-                    :label="start"
-                />
-                <el-table-column
-                    prop="index3"
-                    min-width="170"
-                    :label="end"
-                />
-                <el-table-column
-                    prop="index4"
-                    label="用量"
-                />
-                <el-table-column
-                    prop="index5"
-                    min-width="180"
-                    label="二级合计（损耗XX%）"
-                />
-                <el-table-column
-                    prop="index6"
-                    width="100"
-                    label=""
-                />
-                <el-table-column
-                    prop="index7"
-                    width="125"
-                    label=""
-                />
-                <el-table-column
-                    prop="index8"
-                    width="240"
-                    label=""
-                />
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane label="All" name="first">
+                    <el-table
+                        :data="tableData"
+                        :span-method="objectSpanMethod"
+                        border
+                        :header-cell-style="headerStyle"
+                        :cell-style="cellStyle"
+                        style="font-size: 14px;"
+                    >
+                        <el-table-column label="YING LONG POWER ">
+                            <el-table-column
+                                prop="index0"
+                                label=""
+                                min-width="280"
+                            />
+                            <el-table-column
+                                prop="index1"
+                                label=""
+                                min-width="160"
+                            />
+                        </el-table-column>
+                        <el-table-column
+                            prop="index2"
+                            min-width="220"
+                            :label="start + ' 抄见数'"
+                        />
+                        <el-table-column
+                            prop="index3"
+                            min-width="220"
+                            :label="end + ' 抄见数'"
+                        />
+                        <el-table-column
+                            prop="index4"
+                            label="用量"
+                        />
+                        <el-table-column
+                            prop="index5"
+                            min-width="180"
+                            label="二级合计（损耗XX%）"
+                        />
+                        <el-table-column
+                            prop="index6"
+                            width="100"
+                            label=""
+                        />
+                        <el-table-column
+                            prop="index7"
+                            width="125"
+                            label=""
+                        />
+                        <el-table-column
+                            prop="index8"
+                            width="125"
+                            label=""
+                        />
+                        <el-table-column
+                            prop="index9"
+                            width="125"
+                            label=""
+                        />
+                        <el-table-column
+                            prop="index10"
+                            width="240"
+                            label=""
+                        />
 
-                <el-table-column
-                    prop="index9"
-                    min-width="170"
-                    :label="start"
-                />
-                <el-table-column
-                    prop="index10"
-                    min-width="170"
-                    :label="end"
-                />
-                <el-table-column
-                    prop="index11"
-                    label="用量"
-                />
-                <el-table-column
-                    prop="index12"
-                    label="三级合计"
-                />
-            </el-table>
+                        <el-table-column
+                            prop="index11"
+                            min-width="220"
+                            :label="start + ' 抄见数'"
+                        />
+                        <el-table-column
+                            prop="index12"
+                            min-width="220"
+                            :label="end + ' 抄见数'"
+                        />
+                        <el-table-column
+                            prop="index13"
+                            label="用量"
+                        />
+                        <el-table-column
+                            prop="index14"
+                            label="三级合计"
+                        />
+                    </el-table>
+                </el-tab-pane>
+                <el-tab-pane label="YingLong" name="second">
+                    <el-table
+                        :show-header="false"
+                        :data="secondTableData"
+                        :span-method="YinLongObjectSpanMethod"
+                        border
+                        :header-cell-style="headerStyle"
+                        :cell-style="secondCellStyle"
+                        style="font-size: 14px;"
+                    >
+                        <el-table-column label="">
+                            <el-table-column
+                                prop="index0"
+                                align="center"
+                            />
+                            <el-table-column
+                                prop="index1"
+                                align="center"
+                            />
+
+                            <el-table-column
+                                prop="index2"
+                                align="center"
+                            />
+                            <el-table-column
+                                prop="index3"
+                                align="center"
+                            />
+                            <el-table-column
+                                align="center"
+                                prop="index4"
+                                width="140"
+                            />
+                            <el-table-column
+                                align="center"
+                                prop="index5"
+                                width="140"
+                            />
+                            <el-table-column
+                                prop="index6"
+                                align="center"
+                                width="450"
+                            />
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+            </el-tabs>
         </div>
     </div>
 </template>
@@ -109,35 +171,38 @@ export default {
             form: {
                 date: ""
             },
-            start: "时间1抄见数",
-            end: "时间2抄见数",
+            start: "时间1",
+            end: "时间2",
             rules: {
                 date: [{required: true, message: "请选择日期", trigger: "change"}]
             },
-            tableData: []
+            tableData: [],
+            secondTableData: [],
+            activeName: "first"
         };
     },
-    // mounted() {
-    //     this.getHomeData();
-    // },
+    mounted() {
+        this.getHomeData();
+    },
     methods: {
         getHomeData() {
 
             getHomeData({start: this.start, end: this.end}).then(res => {
-                this.tableData = res.data;
+                this.tableData = res.data.all;
+                this.secondTableData = res.data.YING;
             });
         },
-        downHomeData() {
+        downHomeData(type) {
             const origin = window.location.origin;
-            window.open(`${origin}/jinshan/report_export?start=${this.start}&end=${this.end}`);
-            // window.location.href = `${origin}/jinshan/report_export?start=${start}&end=${end}`;
+
+            type === "all" ? window.open(`${origin}/jinshan/report_export?start=${this.start}&end=${this.end}`) : window.open(`${origin}/jinshan/report_yinglong_export?start=${this.start}&end=${this.end}`);
         },
         handleSearch(type) {
             this.$refs.form.validate(valid => {
                 if (valid) {
                     this.start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
                     this.end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
-                    type === "search" ? this.getHomeData() : this.downHomeData();
+                    type === "search" ? this.getHomeData() : this.downHomeData(type);
                 } else {
                     return false;
                 }
@@ -199,15 +264,8 @@ export default {
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
                     };
-                } else if ([50].includes(rowIndex)) {
+                } else if ([50, 51].includes(rowIndex)) {
                     return {
-                        background: "#FFDA48",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([56].includes(rowIndex)) {
-                    return {
-                        background: "#93BFE3",
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
                     };
@@ -219,79 +277,51 @@ export default {
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
                     };
-                } else if ([50, 52, 54].includes(rowIndex)) {
+                } else if ([50, 51].includes(rowIndex)) {
                     return {
-                        background: "#FFE68D",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([56, 58].includes(rowIndex)) {
-                    return {
-                        background: "#B7D8F1",
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
                     };
                 }
             } else if (columnIndex === 7) {
-                if ([0, 8, 10, 17, 22, 31].includes(rowIndex)) {
+                if ([50, 51].includes(rowIndex)) {
                     return {
-                        background: "#DFF0D9",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
-                    return {
-                        background: "#FFE68D",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([56, 57, 58, 59].includes(rowIndex)) {
-                    return {
-                        background: "#B7D8F1",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                }
-            } else if (columnIndex === 8) {
-                if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
-                    return {
-                        background: "#FFF1CB",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([56, 57, 58, 59].includes(rowIndex)) {
-                    return {
-                        background: "#DAEBF7",
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
                     };
                 }
                 return {
-                    background: "#DFF0D9",
+                    background: "#B7D8F1",
                     borderBottom: "1px solid #000",
                     borderRight: "1px solid #000"
                 };
 
-            } else if (columnIndex === 12) {
-                if ([0].includes(rowIndex)) {
+            } else if (columnIndex === 8) {
+                if ([50, 51].includes(rowIndex)) {
                     return {
-                        background: "#DFF0D9",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([50, 51, 52, 53, 54, 55].includes(rowIndex)) {
-                    return {
-                        background: "#FFE68D",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-                    };
-                } else if ([56, 57, 58, 59].includes(rowIndex)) {
-                    return {
-                        background: "#B7D8F1",
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
                     };
                 }
+                return {
+                    background: "#FFF1CB",
+                    borderBottom: "1px solid #000",
+                    borderRight: "1px solid #000"
+                };
+
+            } else if (columnIndex === 9) {
+                if ([50, 51].includes(rowIndex)) {
+                    return {
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
+                    };
+                }
+                return {
+                    background: "#DDEBF7",
+                    borderBottom: "1px solid #000",
+                    borderRight: "1px solid #000"
+                };
+
             }
             return {
                 borderBottom: "1px solid #000",
@@ -474,12 +504,12 @@ export default {
                     };
                 } else if (rowIndex === 50) {
                     return {
-                        rowspan: 6,
+                        rowspan: 1,
                         colspan: 1
                     };
-                } else if (rowIndex === 56) {
+                } else if (rowIndex === 51) {
                     return {
-                        rowspan: 4,
+                        rowspan: 1,
                         colspan: 1
                     };
                 }
@@ -500,27 +530,17 @@ export default {
                     };
                 } else if (rowIndex === 50) {
                     return {
-                        rowspan: 2,
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 51) {
+                    return {
+                        rowspan: 1,
                         colspan: 1
                     };
                 } else if (rowIndex === 52) {
                     return {
-                        rowspan: 2,
-                        colspan: 1
-                    };
-                } else if (rowIndex === 54) {
-                    return {
-                        rowspan: 2,
-                        colspan: 1
-                    };
-                } else if (rowIndex === 56) {
-                    return {
-                        rowspan: 2,
-                        colspan: 1
-                    };
-                } else if (rowIndex === 58) {
-                    return {
-                        rowspan: 2,
+                        rowspan: 1,
                         colspan: 1
                     };
                 }
@@ -529,6 +549,37 @@ export default {
                     colspan: 0
                 };
             } else if (columnIndex === 7) {
+                if (rowIndex === 0) {
+                    return {
+                        rowspan: 22,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 22) {
+                    return {
+                        rowspan: 28,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 50) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 51) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 52) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                }
+                return {
+                    rowspan: 0,
+                    colspan: 0
+                };
+            } else if (columnIndex === 8) {
                 if (rowIndex === 0) {
                     return {
                         rowspan: 8,
@@ -559,7 +610,12 @@ export default {
                         rowspan: 19,
                         colspan: 1
                     };
-                } else if ([50, 51, 52, 53, 54, 55, 56, 57, 58, 59].includes(rowIndex)) {
+                } else if (rowIndex === 50) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 51) {
                     return {
                         rowspan: 1,
                         colspan: 1
@@ -569,19 +625,53 @@ export default {
                     rowspan: 0,
                     colspan: 0
                 };
-            } else if (columnIndex === 8) {
-                return {
-                    rowspan: 1,
-                    colspan: 1
-                };
             } else if (columnIndex === 9) {
-
+                if (rowIndex === 0) {
+                    return {
+                        rowspan: 8,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 8) {
+                    return {
+                        rowspan: 2,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 10) {
+                    return {
+                        rowspan: 7,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 17) {
+                    return {
+                        rowspan: 5,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 22) {
+                    return {
+                        rowspan: 9,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 31) {
+                    return {
+                        rowspan: 19,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 50) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                } else if (rowIndex === 51) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                }
                 return {
-                    rowspan: 1,
-                    colspan: 1
+                    rowspan: 0,
+                    colspan: 0
                 };
             } else if (columnIndex === 10) {
-
                 return {
                     rowspan: 1,
                     colspan: 1
@@ -593,6 +683,18 @@ export default {
                     colspan: 1
                 };
             } else if (columnIndex === 12) {
+
+                return {
+                    rowspan: 1,
+                    colspan: 1
+                };
+            } else if (columnIndex === 13) {
+
+                return {
+                    rowspan: 1,
+                    colspan: 1
+                };
+            } else if (columnIndex === 14) {
                 if (rowIndex === 0) {
                     return {
                         rowspan: 50,
@@ -630,6 +732,130 @@ export default {
                 };
             }
 
+        },
+        YinLongObjectSpanMethod(item) {
+            const {rowIndex, columnIndex} = item;
+            if (rowIndex === 0) {
+                return {
+                    rowspan: 1,
+                    colspan: 7
+                };
+
+            } else if (rowIndex === 1) {
+                return {
+                    rowspan: 1,
+                    colspan: 7
+                };
+            } else if (rowIndex === 2) {
+                if (columnIndex === 0) {
+                    return {
+                        rowspan: 1,
+                        colspan: 6
+                    };
+                } else if (columnIndex === 6) {
+                    return {
+                        rowspan: 1,
+                        colspan: 1
+                    };
+                }
+                return {
+                    rowspan: 0,
+                    colspan: 0
+                };
+            } else if (rowIndex === 3) {
+                if (columnIndex === 0) {
+                    return {
+                        rowspan: 1,
+                        colspan: 6
+                    };
+                } else if (columnIndex === 6) {
+                    return {
+                        rowspan: 5,
+                        colspan: 1
+                    };
+                }
+                return {
+                    rowspan: 0,
+                    colspan: 0
+                };
+            } else if (rowIndex === 4) {
+                if (columnIndex === 0) {
+                    return {
+                        rowspan: 1,
+                        colspan: 4
+                    };
+                } else if (columnIndex === 4) {
+                    return {
+                        rowspan: 1,
+                        colspan: 2
+                    };
+                }
+                return {
+                    rowspan: 0,
+                    colspan: 0
+                };
+            } else if (rowIndex === 5) {
+                if (columnIndex === 0) {
+                    return {
+                        rowspan: 1,
+                        colspan: 4
+                    };
+                } else if (columnIndex === 4) {
+                    return {
+                        rowspan: 1,
+                        colspan: 2
+                    };
+                }
+                return {
+                    rowspan: 0,
+                    colspan: 0
+                };
+            }
+            return {
+                rowspan: 1,
+                colspan: 1
+            };
+
+        },
+        secondCellStyle(item) {
+            const {rowIndex, columnIndex} = item;
+            if (rowIndex === 0) {
+                return {
+                    background: "#F9AB6B",
+                    borderBottom: "1px solid #000",
+                    borderRight: "1px solid #000"
+
+                };
+            } else if (rowIndex === 2) {
+                return {
+                    background: "#FFD966",
+                    borderBottom: "1px solid #000",
+                    borderRight: "1px solid #000"
+
+                };
+            } else if (rowIndex === 4) {
+                if (columnIndex !== 6) {
+                    return {
+                        background: "#FFF2CC",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
+
+                    };
+                }
+            } else if (rowIndex === 6) {
+                if (columnIndex !== 6) {
+                    return {
+                        background: "#DDEBF7",
+                        borderBottom: "1px solid #000",
+                        borderRight: "1px solid #000"
+
+                    };
+                }
+            }
+            return {
+                borderBottom: "1px solid #000",
+                borderRight: "1px solid #000"
+            };
         }
     }
 };
