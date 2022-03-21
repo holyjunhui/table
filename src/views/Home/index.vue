@@ -181,9 +181,9 @@ export default {
             activeName: "first"
         };
     },
-    mounted() {
-        this.getHomeData();
-    },
+    // mounted() {
+    //     this.getHomeData();
+    // },
     methods: {
         getHomeData() {
 
