@@ -22,9 +22,10 @@
             </el-form>
         </div>
         <div class="table-wrap">
-            <el-tabs type="border-card" v-model="activeName">
+            <el-tabs type="border-card" v-model="activeName" @tab-click="handleChange">
                 <el-tab-pane label="All" name="first">
                     <el-table
+												v-if="tableData.length"
                         :data="tableData"
                         :span-method="objectSpanMethod"
                         border
@@ -108,9 +109,12 @@
                             label="三级合计"
                         />
                     </el-table>
+                    <div v-else><el-empty description="暂无数据" :image-size="50"/></div>
+
                 </el-tab-pane>
                 <el-tab-pane label="YingLong" name="second">
                     <el-table
+												v-if="secondTableData.length"
                         :show-header="false"
                         :data="secondTableData"
                         :span-method="YinLongObjectSpanMethod"
@@ -154,6 +158,12 @@
                             />
                         </el-table-column>
                     </el-table>
+                    <div v-else><el-empty description="暂无数据" :image-size="50"/></div>
+                </el-tab-pane>
+                <el-tab-pane label="图表" name="three">
+                    <div class="chart-container" v-if="pieData.length" ref="chart" :style="{width: '100%'}" auto-size>
+                    </div>
+                    <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -169,7 +179,7 @@ export default {
     data() {
         return {
             form: {
-                date: ""
+                date: ["2022-05-03 00:00:00", "2022-06-14 23:59:59"]
             },
             start: "时间1",
             end: "时间2",
@@ -178,18 +188,91 @@ export default {
             },
             tableData: [],
             secondTableData: [],
-            activeName: "first"
+            activeName: "first",
+            pieData: []
         };
     },
-    // mounted() {
-    //     this.getHomeData();
-    // },
+    mounted() {
+        // this.initChart();
+    },
     methods: {
+        handleChange(v) {
+            if (v.name === "three") {
+                setTimeout(() => {
+                    this.pieData.length && this.initChart();
+                }, 50);
+            }
+        },
+        initChart() {
+            const myChart = this.$eCharts.init(this.$refs.chart);
+            const option = {
+                title: {
+                    text: "YING LONG POWER",
+                    left: "center"
+                },
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{b} : {c} KWH ({d}%)"
+                },
+                legend: {
+                    orient: "vertical",
+                    left: "left"
+                },
+                series: [
+                    {
+                        name: "YING LONG POWER",
+                        type: "pie",
+                        radius: "55%",
+                        center: ["50%", "60%"],
+                        data: this.pieData,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: "rgba(0, 0, 0, 0.5)"
+                            }
+                        }
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+
+            myChart.on("click", params => {
+                if (params.data) {
+                    if (params.data.child) {
+                        myChart.setOption({
+                            series: [{
+                                data: params.data.child
+                            }],
+                            // 返回按钮
+                            graphic: [
+                                {
+                                    type: "text",
+                                    right: "3%",
+                                    top: "3%",
+                                    style: {
+                                        text: "返回",
+                                        fontSize: 16,
+                                        fill: "red"
+                                    },
+                                    onclick: () => {
+                                        myChart.setOption(option);
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                }
+            });
+        },
+
         getHomeData() {
 
             getHomeData({start: this.start, end: this.end}).then(res => {
                 this.tableData = res.data.all;
                 this.secondTableData = res.data.YING;
+                this.pieData = res.data.pie;
             });
         },
         downHomeData(type) {
@@ -882,6 +965,10 @@ export default {
 				border-bottom: 1px solid #000;
 				border-left: 1px solid #000;
 			}
+		}
+		.chart-container {
+			width: 100%;
+			min-height: 500px;
 		}
 	}
 

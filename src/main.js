@@ -4,6 +4,8 @@ import router from "./router";
 import dayjs from "dayjs";
 import ElementUI from "element-ui";
 
+import * as echarts from "echarts";
+Vue.prototype.$eCharts = echarts;
 import "element-ui/lib/theme-chalk/index.css";
 import "./style/style.scss";
 import "normalize.css";
