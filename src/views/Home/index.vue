@@ -25,7 +25,7 @@
             <el-tabs type="border-card" v-model="activeName" @tab-click="handleChange">
                 <el-tab-pane label="All" name="first">
                     <el-table
-												v-if="tableData.length"
+                        v-if="tableData.length"
                         :data="tableData"
                         :span-method="objectSpanMethod"
                         border
@@ -109,12 +109,11 @@
                             label="三级合计"
                         />
                     </el-table>
-                    <div v-else><el-empty description="暂无数据" :image-size="50"/></div>
-
+                    <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
                 </el-tab-pane>
                 <el-tab-pane label="YingLong" name="second">
                     <el-table
-												v-if="secondTableData.length"
+                        v-if="secondTableData.length"
                         :show-header="false"
                         :data="secondTableData"
                         :span-method="YinLongObjectSpanMethod"
@@ -158,12 +157,10 @@
                             />
                         </el-table-column>
                     </el-table>
-                    <div v-else><el-empty description="暂无数据" :image-size="50"/></div>
-                </el-tab-pane>
-                <el-tab-pane label="图表" name="three">
+                    <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
+                    <el-divider />
                     <div class="chart-container" v-if="pieData.length" ref="chart" :style="{width: '100%'}" auto-size>
                     </div>
-                    <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -173,8 +170,7 @@
 <script>
 import {getHomeData} from "@/api/index";
 import dayjs from "dayjs";
-// const utc = require("dayjs/plugin/utc");
-// dayjs.extend(utc);
+
 export default {
     data() {
         return {
@@ -197,43 +193,28 @@ export default {
     },
     methods: {
         handleChange(v) {
-            if (v.name === "three") {
+            if (v.name === "second") {
                 setTimeout(() => {
                     this.pieData.length && this.initChart();
-                }, 50);
+                }, 500);
             }
         },
         initChart() {
             const myChart = this.$eCharts.init(this.$refs.chart);
             const option = {
-                title: {
-                    text: "YING LONG POWER",
-                    left: "center"
-                },
                 tooltip: {
                     trigger: "item",
-                    formatter: "{b} : {c} KWH ({d}%)"
+                    formatter: "{b} : {c} KWH"
                 },
-                legend: {
-                    orient: "vertical",
-                    left: "left"
-                },
-                series: [
-                    {
-                        name: "YING LONG POWER",
-                        type: "pie",
-                        radius: "55%",
-                        center: ["50%", "60%"],
-                        data: this.pieData,
-                        emphasis: {
-                            itemStyle: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: "rgba(0, 0, 0, 0.5)"
-                            }
-                        }
+                series: {
+                    type: "sunburst",
+                    data: this.pieData,
+                    radius: [0, "100%"],
+                    label: {
+                        rotate: "radial",
+                        formatter: "{b}: {@score}"
                     }
-                ]
+                }
             };
 
             myChart.setOption(option);
@@ -272,9 +253,20 @@ export default {
             getHomeData({start: this.start, end: this.end}).then(res => {
                 this.tableData = res.data.all;
                 this.secondTableData = res.data.YING;
-                this.pieData = res.data.pie;
+                this.pieData = res.data.pie.map(item => this.mapTree(item));
             });
         },
+        mapTree(org) {
+            const haveChildren = Array.isArray(org.child) && org.child.length > 0;
+            return {
+                // 分别将我们查询出来的值做出改变他的key
+                name: org.name,
+                value: org.value,
+                // 判断它是否存在子集，若果存在就进行再次进行遍历操作，知道不存在子集便对其他的元素进行操作
+                children: haveChildren ? org.child.map(i => this.mapTree(i)) : []
+            };
+        },
+
         downHomeData(type) {
             const origin = window.location.origin;
 
@@ -286,6 +278,11 @@ export default {
                     this.start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
                     this.end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
                     type === "search" ? this.getHomeData() : this.downHomeData(type);
+                    if (this.activeName === "second") {
+                        setTimeout(() => {
+                            this.pieData.length && this.initChart();
+                        }, 500);
+                    }
                 } else {
                     return false;
                 }
