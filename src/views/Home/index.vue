@@ -204,7 +204,7 @@ export default {
             const option = {
                 tooltip: {
                     trigger: "item",
-                    formatter: "{b} : {c} KWH"
+                    formatter: "{b} {c} KWH"
                 },
                 series: {
                     type: "sunburst",
@@ -212,7 +212,7 @@ export default {
                     radius: [0, "100%"],
                     label: {
                         rotate: "radial",
-                        formatter: "{b}: {@score}"
+                        formatter: "{b} {@score}"
                     }
                 }
             };
@@ -258,10 +258,15 @@ export default {
         },
         mapTree(org) {
             const haveChildren = Array.isArray(org.child) && org.child.length > 0;
+            const name = org.name.endsWith("POWER") ? org.name.slice(0, org.name.indexOf("POWER")) : org.name;
             return {
                 // 分别将我们查询出来的值做出改变他的key
-                name: org.name,
+                name,
                 value: org.value,
+                // itemStyle: {
+                //     color: "#fc8452"
+
+                // },
                 // 判断它是否存在子集，若果存在就进行再次进行遍历操作，知道不存在子集便对其他的元素进行操作
                 children: haveChildren ? org.child.map(i => this.mapTree(i)) : []
             };
