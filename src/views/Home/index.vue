@@ -236,7 +236,7 @@ export default {
                     label: {
                         rotate: "radial",
                         // color: "#fff",
-                        formatter: "{b} {@score}"
+                        fontSize: 11
                     }
                 }
             };
