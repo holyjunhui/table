@@ -112,17 +112,63 @@
                     <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
                 </el-tab-pane>
                 <el-tab-pane label="YingLong" name="second">
-                    <div class="yinglong-wrap">
-                        <div class="yinglong-table">
+                    <div class="yinglong-wrap" v-if="pieData.length">
+                        <div class="chart-wrap">
+                            <div class="block-wrap">
+                                <div class="first-block-wrap">
+                                    <div class="one">
+                                        <h3>{{ blockData[0] && blockData[0].name }}</h3>
+                                        <span>{{ blockData[0] && blockData[0].value }} KWH</span>
+                                    </div>
+                                    <div class="two">
+                                        <h3>{{ blockData[1] && blockData[1].name }}</h3>
+                                        <span>{{ blockData[1] && blockData[1].value }} KWH</span>
+                                    </div>
+                                </div>
+                                <div class="second-block-wrap">
+                                    <h3>{{ blockData[2] && blockData[2].name }}</h3>
+                                    <span>{{ blockData[2] && blockData[2].value }} KWH</span>
+                                </div>
+                                <div class="three-block-wrap">
+                                    <div class="one">
+                                        <h3>{{ blockData[3] && blockData[3].name }}</h3>
+                                        <span>{{ blockData[3] && blockData[3].value }} KWH</span>
+                                    </div>
+                                    <div class="two">
+                                        <h3>{{ blockData[4] && blockData[4].name }}</h3>
+                                        <span>{{ blockData[4] && blockData[4].value }} KWH</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="yinglong-table">
+                                <div
+                                    class="chart-container"
+                                    v-if="pieData.length"
+                                    ref="chart"
+                                    :style="{width: '100%'}"
+                                    auto-size
+                                >
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="other-container"
+                            ref="otherChart"
+                            v-if="secondTableData.length"
+                            auto-size
+                        >
+                        </div>
+                        <div class="yinglong-list">
                             <el-table
                                 v-if="secondTableData.length"
                                 :show-header="false"
                                 :data="secondTableData"
                                 :span-method="YinLongObjectSpanMethod"
                                 border
+                                size="small"
                                 :header-cell-style="headerStyle"
                                 :cell-style="secondCellStyle"
-                                style="font-size: 14px;"
+                                style="font-size: 10px;"
                             >
                                 <el-table-column label="">
                                     <el-table-column
@@ -145,40 +191,22 @@
                                     <el-table-column
                                         align="center"
                                         prop="index4"
-                                        width="120"
                                     />
                                     <el-table-column
                                         align="center"
                                         prop="index5"
-                                        width="120"
                                     />
                                     <el-table-column
                                         prop="index6"
                                         align="center"
-                                        min-width="200"
+                                        width="110"
                                     />
                                 </el-table-column>
                             </el-table>
                             <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
                         </div>
-                        <div
-                            class="chart-container"
-                            v-if="pieData.length"
-                            ref="chart"
-                            :style="{width: '100%'}"
-                            auto-size
-                        >
-                        </div>
                     </div>
-                    <el-divider v-if="secondTableData.length" />
-                    <div
-                        class="other-container"
-                        ref="otherChart"
-                        v-if="secondTableData.length"
-                        :style="{width: '100%'}"
-                        auto-size
-                    >
-                    </div>
+                    <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -202,8 +230,9 @@ export default {
             },
             tableData: [],
             secondTableData: [],
-            activeName: "first",
+            activeName: "second",
             pieData: [],
+            blockData: [],
             barData: {
                 xais: [],
                 yais: []
@@ -222,7 +251,7 @@ export default {
         initChart() {
             const myChart = this.$eCharts.init(this.$refs.chart);
             const otherChart = this.$eCharts.init(this.$refs.otherChart);
-
+            const colors = ["#ee9ca7", "#4e54c8"];
             const option = {
                 tooltip: {
                     trigger: "item",
@@ -230,13 +259,13 @@ export default {
                 },
                 series: {
                     type: "sunburst",
-                    // color: colors,
+                    color: colors,
                     data: this.pieData,
                     radius: [0, "100%"],
                     label: {
                         rotate: "radial",
-                        // color: "#fff",
-                        fontSize: 11
+                        color: "#fff",
+                        fontSize: 10
                     }
                 }
             };
@@ -318,35 +347,15 @@ export default {
             getHomeData({start: this.start, end: this.end}).then(res => {
                 this.tableData = res.data.all;
                 this.secondTableData = res.data.YING;
-                this.pieData = res.data.pie.map((item, index) => this.mapTree(item, index, 0));
+                this.pieData = res.data.pie.map(item => this.mapTree(item));
                 this.barData = res.data.pie_data || {
                     xais: [],
                     yais: []
                 };
             });
         },
-        mapTree(org, num, level) {
-            // const colors = [
-            //     "#FF7853",
-            //     "#ebb40f",
-            //     "#187a2f",
-            //     "#0aa3b5",
-            //     "#da1d23",
-            //     "#37A2DA",
-            //     "#32C5E9",
-            //     "#67E0E3",
-            //     "#9FE6B8",
-            //     "#FFDB5C",
-            //     "#ff9f7f",
-            //     "#fb7293",
-            //     "#E062AE",
-            //     "#E690D1",
-            //     "#e7bcf3",
-            //     "#9d96f5",
-            //     "#8378EA",
-            //     "#96BFFF"
-            // ];
-
+        mapTree(org) {
+            this.blockData.push(org);
             const haveChildren = Array.isArray(org.child) && org.child.length > 0;
             const name = org.name.endsWith("POWER") ? org.name.slice(0, org.name.indexOf("POWER")) : org.name;
             return {
@@ -358,7 +367,7 @@ export default {
 
                 // },
                 // 判断它是否存在子集，若果存在就进行再次进行遍历操作，知道不存在子集便对其他的元素进行操作
-                children: haveChildren ? org.child.map((i, l) => this.mapTree(i, l, level + 1)) : []
+                children: haveChildren ? org.child.map(i => this.mapTree(i)) : []
             };
         },
 
@@ -998,14 +1007,14 @@ export default {
             const {rowIndex, columnIndex} = item;
             if (rowIndex === 0) {
                 return {
-                    background: "#F9AB6B",
+                    background: "#ee9ca7",
                     borderBottom: "1px solid #000",
                     borderRight: "1px solid #000"
 
                 };
             } else if (rowIndex === 2) {
                 return {
-                    background: "#FFD966",
+                    background: "#8f94fb",
                     borderBottom: "1px solid #000",
                     borderRight: "1px solid #000"
 
@@ -1013,7 +1022,7 @@ export default {
             } else if (rowIndex === 4) {
                 if (columnIndex !== 6) {
                     return {
-                        background: "#FFF2CC",
+                        background: "#4ac29a",
                         borderBottom: "1px solid #000",
                         borderRight: "1px solid #000"
 
@@ -1038,6 +1047,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+	.el-button {
+			box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+	}
 	.container {
 		padding: 20px;
 		background: #f8f9fd;
@@ -1059,25 +1071,84 @@ export default {
 			}
 		}
 		.yinglong-wrap {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			width: 100%;
-			overflow: auto;
-			.yinglong-table {
-				flex: 4;
-			}
-			.chart-container {
-				flex: 2;
+			background: rgba(0, 0, 0, 0.1);
+			padding-bottom: 10px;
+			.chart-wrap {
 				display: flex;
-				justify-content: center;
+				justify-content: space-between;
 				align-items: center;
-				min-height: 450px;
+				width: 100%;
+				overflow: auto;
+				.block-wrap {
+					display: flex;
+					flex: 3;
+					margin: 20px 10px 10px 20px;
+					padding: 25px;
+					background: #fff;
+					justify-content: space-between;
+					align-items: center;
+					.first-block-wrap, .second-block-wrap, .three-block-wrap {
+						flex: 2
+					}
+					.two-block-wrap {
+						margin: 0 10px;
+					}
+					.one, .two, .second-block-wrap {
+						color: #fff;
+						box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+						margin-bottom: 20px;
+						border-radius: 10px;
+						padding: 20px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						flex-flow: column nowrap;
+						h3 {
+							font-size: 18px;
+						}
+						span {
+							font-size: 24px;
+						}
+					}
+					.one {
+						background: linear-gradient(to right, #ee9ca7,#ffdde1);
+
+					}
+					.two {
+						background: linear-gradient(to right, #4e54c8,#8f94fb);
+					}
+
+					.second-block-wrap {
+						background: linear-gradient(to right, #4ac29a, #bdfff3);
+						align-self: stretch;
+						margin: 0 20px 20px 20px;
+
+					}
+				}
+				.yinglong-table {
+					flex: 2;
+					background: #fff;
+					margin: 20px 20px 10px 10px;
+					padding: 10px;
+				}
+				.chart-container {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					min-height: 320px;
+				}
 			}
-		}
-		.other-container {
-			width: 100%;
-			min-height: 450px;
+			.other-container {
+				min-height: 450px;
+				background: #fff;
+				margin: 10px 20px 10px 20px;
+				padding: 20px;
+			}
+			.yinglong-list {
+				padding: 10px;
+				margin: 10px 10px 0 10px;
+
+			}
 		}
 	}
 
