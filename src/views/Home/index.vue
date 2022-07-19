@@ -191,7 +191,7 @@ export default {
             activeName: "second",
             pieData: [],
             blockData: [],
-            barData: {
+            lineData: {
                 xais: [],
                 yais: []
             }
@@ -250,7 +250,7 @@ export default {
                 xAxis: [
                     {
                         type: "category",
-                        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                        data: this.lineData.xais,
                         boundaryGap: false
                     }
                 ],
@@ -282,7 +282,7 @@ export default {
                         emphasis: {
                             focus: "series"
                         },
-                        data: [140, 232, 101, 264, 90, 340, 250]
+                        data: this.lineData.yais
                     }
                 ]
             };
@@ -325,7 +325,7 @@ export default {
                 this.tableData = res.data.all;
                 this.secondTableData = res.data.YING;
                 this.pieData = res.data.pie.map(item => this.mapTree(item));
-                this.barData = res.data.pie_data || {
+                this.lineData = res.data.pie_data || {
                     xais: [],
                     yais: []
                 };
