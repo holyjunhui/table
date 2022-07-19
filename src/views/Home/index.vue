@@ -115,34 +115,36 @@
                     <div class="yinglong-wrap" v-if="pieData.length">
                         <div class="chart-wrap">
                             <div class="block-wrap">
-                                <div class="first-block-wrap">
-                                    <div class="one">
-                                        <h3>{{ blockData[0] && blockData[0].name }}</h3>
-                                        <span>{{ blockData[0] && blockData[0].value }} KWH</span>
+                                <div class="block-container">
+                                    <div class="first-block-wrap">
+                                        <div class="one">
+                                            <h3>{{ blockData[0] && blockData[0].name }}</h3>
+                                            <span>{{ blockData[0] && blockData[0].value }} KWH</span>
+                                        </div>
+                                        <div class="two">
+                                            <h3>{{ blockData[1] && blockData[1].name }}</h3>
+                                            <span>{{ blockData[1] && blockData[1].value }} KWH</span>
+                                        </div>
                                     </div>
-                                    <div class="two">
-                                        <h3>{{ blockData[1] && blockData[1].name }}</h3>
-                                        <span>{{ blockData[1] && blockData[1].value }} KWH</span>
+                                    <div class="second-block-wrap">
+                                        <h3>{{ blockData[2] && blockData[2].name }}</h3>
+                                        <span>{{ blockData[2] && blockData[2].value }} KWH</span>
                                     </div>
-                                </div>
-                                <div class="second-block-wrap">
-                                    <h3>{{ blockData[2] && blockData[2].name }}</h3>
-                                    <span>{{ blockData[2] && blockData[2].value }} KWH</span>
-                                </div>
-                                <div class="three-block-wrap">
-                                    <div class="one">
-                                        <h3>{{ blockData[3] && blockData[3].name }}</h3>
-                                        <span>{{ blockData[3] && blockData[3].value }} KWH</span>
-                                    </div>
-                                    <div class="two">
-                                        <h3>{{ blockData[4] && blockData[4].name }}</h3>
-                                        <span>{{ blockData[4] && blockData[4].value }} KWH</span>
+                                    <div class="three-block-wrap">
+                                        <div class="one">
+                                            <h3>{{ blockData[3] && blockData[3].name }}</h3>
+                                            <span>{{ blockData[3] && blockData[3].value }} KWH</span>
+                                        </div>
+                                        <div class="two">
+                                            <h3>{{ blockData[4] && blockData[4].name }}</h3>
+                                            <span>{{ blockData[4] && blockData[4].value }} KWH</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="yinglong-table">
                                 <div
-                                    class="chart-container"
+                                    class="pie-container"
                                     v-if="pieData.length"
                                     ref="chart"
                                     :style="{width: '100%'}"
@@ -151,59 +153,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="other-container"
-                            ref="otherChart"
-                            v-if="secondTableData.length"
-                            auto-size
-                        >
-                        </div>
-                        <div class="yinglong-list">
-                            <el-table
+                        <div class="yinglong-line">
+                            <div
+                                class="other-container"
+                                ref="otherChart"
                                 v-if="secondTableData.length"
-                                :show-header="false"
-                                :data="secondTableData"
-                                :span-method="YinLongObjectSpanMethod"
-                                border
-                                size="small"
-                                :header-cell-style="headerStyle"
-                                :cell-style="secondCellStyle"
-                                style="font-size: 10px;"
+                                :style="{width: '99%'}"
+                                auto-size
                             >
-                                <el-table-column label="">
-                                    <el-table-column
-                                        prop="index0"
-                                        align="center"
-                                    />
-                                    <el-table-column
-                                        prop="index1"
-                                        align="center"
-                                    />
-
-                                    <el-table-column
-                                        prop="index2"
-                                        align="center"
-                                    />
-                                    <el-table-column
-                                        prop="index3"
-                                        align="center"
-                                    />
-                                    <el-table-column
-                                        align="center"
-                                        prop="index4"
-                                    />
-                                    <el-table-column
-                                        align="center"
-                                        prop="index5"
-                                    />
-                                    <el-table-column
-                                        prop="index6"
-                                        align="center"
-                                        width="110"
-                                    />
-                                </el-table-column>
-                            </el-table>
-                            <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
+                            </div>
                         </div>
                     </div>
                     <div v-else><el-empty description="暂无数据" :image-size="50" /></div>
@@ -277,7 +235,10 @@ export default {
                 tooltip: {
                     trigger: "axis",
                     axisPointer: {
-                        type: "shadow"
+                        type: "cross",
+                        label: {
+                            backgroundColor: "#6a7985"
+                        }
                     }
                 },
                 grid: {
@@ -289,10 +250,8 @@ export default {
                 xAxis: [
                     {
                         type: "category",
-                        data: this.barData.xais || [],
-                        axisTick: {
-                            alignWithLabel: true
-                        }
+                        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                        boundaryGap: false
                     }
                 ],
                 yAxis: [
@@ -302,10 +261,28 @@ export default {
                 ],
                 series: [
                     {
-                        name: "Direct",
-                        type: "bar",
-                        barWidth: "50%",
-                        data: this.barData.yais || []
+                        type: "line",
+                        lineStyle: {
+                            width: 0
+                        },
+                        showSymbol: false,
+                        areaStyle: {
+                            opacity: 0.8,
+                            color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: "rgb(128, 255, 165)"
+                                },
+                                {
+                                    offset: 1,
+                                    color: "rgb(1, 191, 236)"
+                                }
+                            ])
+                        },
+                        emphasis: {
+                            focus: "series"
+                        },
+                        data: [140, 232, 101, 264, 90, 340, 250]
                     }
                 ]
             };
@@ -362,10 +339,7 @@ export default {
                 // 分别将我们查询出来的值做出改变他的key
                 name,
                 value: org.value,
-                // itemStyle: {
-                //     color: colors[this.num++]
 
-                // },
                 // 判断它是否存在子集，若果存在就进行再次进行遍历操作，知道不存在子集便对其他的元素进行操作
                 children: haveChildren ? org.child.map(i => this.mapTree(i)) : []
             };
@@ -1075,80 +1049,82 @@ export default {
 			padding-bottom: 10px;
 			.chart-wrap {
 				display: flex;
-				justify-content: space-between;
-				align-items: center;
 				width: 100%;
 				overflow: auto;
 				.block-wrap {
-					display: flex;
-					flex: 3;
-					margin: 20px 10px 10px 20px;
-					padding: 25px;
-					background: #fff;
-					justify-content: space-between;
-					align-items: center;
-					.first-block-wrap, .second-block-wrap, .three-block-wrap {
-						flex: 2
-					}
-					.two-block-wrap {
-						margin: 0 10px;
-					}
-					.one, .two, .second-block-wrap {
-						color: #fff;
-						box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-						margin-bottom: 20px;
-						border-radius: 10px;
-						padding: 20px;
+					flex: 2;
+					background: transparent;
+
+					.block-container {
 						display: flex;
-						align-items: center;
-						justify-content: center;
-						flex-flow: column nowrap;
-						h3 {
-							font-size: 18px;
+						margin: 20px 10px 10px 20px;
+						padding: 25px;
+						background-color: #fff;
+						.first-block-wrap, .second-block-wrap, .three-block-wrap {
+							flex: 2
 						}
-						span {
-							font-size: 24px;
+						.one, .two, .second-block-wrap {
+							color: #fff;
+							box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+							margin-bottom: 20px;
+							border-radius: 10px;
+							padding: 20px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							flex-flow: column nowrap;
+							h3 {
+								font-size: 16px;
+							}
+							span {
+								font-size: 24px;
+							}
 						}
-					}
-					.one {
-						background: linear-gradient(to right, #ee9ca7,#ffdde1);
+						.one {
+							background: linear-gradient(to right, #ee9ca7,#ffdde1);
+							height: 124.28px;
+							box-sizing: border-box;
 
-					}
-					.two {
-						background: linear-gradient(to right, #4e54c8,#8f94fb);
-					}
+						}
+						.two {
+							background: linear-gradient(to right, #4e54c8,#8f94fb);
+							height: 124.28px;
+							box-sizing: border-box;
+						}
 
-					.second-block-wrap {
-						background: linear-gradient(to right, #4ac29a, #bdfff3);
-						align-self: stretch;
-						margin: 0 20px 20px 20px;
+						.second-block-wrap {
+							background: linear-gradient(to right, #4ac29a, #bdfff3);
+							align-self: stretch;
+							margin: 0 20px 20px 20px;
 
+						}
 					}
 				}
 				.yinglong-table {
 					flex: 2;
 					background: #fff;
 					margin: 20px 20px 10px 10px;
-					padding: 10px;
+					padding-top: 10px;
 				}
-				.chart-container {
+				.pie-container {
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					min-height: 320px;
+					height: 310px;
+					margin-bottom: 20px;
 				}
 			}
-			.other-container {
-				min-height: 450px;
-				background: #fff;
-				margin: 10px 20px 10px 20px;
-				padding: 20px;
+			.yinglong-line {
+					padding: 10px;
+					background-color: #fff;
+					margin: 0 20px;
+					padding: 10px;
 			}
-			.yinglong-list {
-				padding: 10px;
-				margin: 10px 10px 0 10px;
+			.other-container {
+					height: 345px;
 
 			}
+
 		}
 	}
 
