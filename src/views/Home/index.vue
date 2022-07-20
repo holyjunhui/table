@@ -127,86 +127,92 @@
                         <div class="chart-wrap">
                             <div class="block-wrap">
                                 <div class="block-container">
-                                    <div class="first-block-wrap">
-                                        <div class="one">
-                                            <h3>{{ blockData[0] && blockData[0].name }}</h3>
-                                            <span>{{ blockData[0] && blockData[0].value }}</span>
+                                    <h3>YING LONG POWER</h3>
+                                    <div class="block-content-container">
+                                        <div class="first-block-wrap">
+                                            <div class="one">
+                                                <h3>{{ blockData[0] && blockData[0].name }}</h3>
+                                                <span>{{ blockData[0] && blockData[0].value }}</span>
+                                            </div>
+                                            <div class="two">
+                                                <h3>{{ blockData[1] && blockData[1].name }}</h3>
+                                                <span>{{ blockData[1] && blockData[1].value }}</span>
+                                            </div>
                                         </div>
-                                        <div class="two">
-                                            <h3>{{ blockData[1] && blockData[1].name }}</h3>
-                                            <span>{{ blockData[1] && blockData[1].value }}</span>
+                                        <div class="second-block-wrap">
+                                            <h3>{{ blockData[2] && blockData[2].name }}</h3>
+                                            <span>{{ blockData[2] && blockData[2].value }}</span>
                                         </div>
-                                    </div>
-                                    <div class="second-block-wrap">
-                                        <h3>{{ blockData[2] && blockData[2].name }}</h3>
-                                        <span>{{ blockData[2] && blockData[2].value }}</span>
-                                    </div>
-                                    <div class="three-block-wrap">
-                                        <div class="one">
-                                            <h3>{{ blockData[3] && blockData[3].name }}</h3>
-                                            <span>{{ blockData[3] && blockData[3].value }}</span>
-                                        </div>
-                                        <div class="two">
-                                            <h3>{{ blockData[4] && blockData[4].name }}</h3>
-                                            <span>{{ blockData[4] && blockData[4].value }}</span>
+                                        <div class="three-block-wrap">
+                                            <div class="one">
+                                                <h3>{{ blockData[3] && blockData[3].name }}</h3>
+                                                <span>{{ blockData[3] && blockData[3].value }}</span>
+                                            </div>
+                                            <div class="two">
+                                                <h3>{{ blockData[4] && blockData[4].name }}</h3>
+                                                <span>{{ blockData[4] && blockData[4].value }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="yinglong-table">
-                                <div
-                                    class="pie-container"
-                                    v-if="pieData.length"
-                                    ref="chart"
-                                    :style="{width: '40%'}"
-                                    auto-size
-                                >
+                                <div class="yinglong-pie-wrap">
+                                    <h3>YING LONG POWER</h3>
+                                    <div
+                                        class="pie-container"
+                                        v-if="pieData.length"
+                                        ref="chart"
+                                        auto-size
+                                    >
+                                    </div>
                                 </div>
-                                <el-table
-                                    v-if="secondTableData.length"
-                                    :show-header="false"
-                                    :data="secondTableData"
-                                    :span-method="YinLongObjectSpanMethod"
+                                <div class="yinglong-table-container">
+                                    <img src="../../assets/images/logo.jpg" alt="logo" class="yinglong-logo" />
+                                    <el-table
+                                        v-if="secondTableData.length"
+                                        :show-header="false"
+                                        :data="secondTableData"
+                                        :span-method="YinLongObjectSpanMethod"
+                                        size="mini"
+                                        :header-cell-style="headerStyle"
+                                        :cell-style="secondCellStyle"
+                                        height="240"
+                                        style="font-size: 8px; line-height: 14px"
+                                    >
+                                        <el-table-column label="">
+                                            <el-table-column
+                                                prop="index0"
+                                                align="center"
+                                            />
+                                            <el-table-column
+                                                prop="index1"
+                                                align="center"
+                                            />
 
-                                    size="mini"
-                                    :header-cell-style="headerStyle"
-                                    :cell-style="secondCellStyle"
-                                    height="300"
-                                    style="font-size: 8px; line-height: 14px"
-                                >
-                                    <el-table-column label="">
-                                        <el-table-column
-                                            prop="index0"
-                                            align="center"
-                                        />
-                                        <el-table-column
-                                            prop="index1"
-                                            align="center"
-                                        />
-
-                                        <el-table-column
-                                            prop="index2"
-                                            align="center"
-                                        />
-                                        <el-table-column
-                                            prop="index3"
-                                            align="center"
-                                        />
-                                        <el-table-column
-                                            align="center"
-                                            prop="index4"
-                                        />
-                                        <el-table-column
-                                            align="center"
-                                            prop="index5"
-                                        />
-                                        <el-table-column
-                                            prop="index6"
-                                            align="center"
-                                            width="110"
-                                        />
-                                    </el-table-column>
-                                </el-table>
+                                            <el-table-column
+                                                prop="index2"
+                                                align="center"
+                                            />
+                                            <el-table-column
+                                                prop="index3"
+                                                align="center"
+                                            />
+                                            <el-table-column
+                                                align="center"
+                                                prop="index4"
+                                            />
+                                            <el-table-column
+                                                align="center"
+                                                prop="index5"
+                                            />
+                                            <el-table-column
+                                                prop="index6"
+                                                align="center"
+                                            />
+                                        </el-table-column>
+                                    </el-table>
+                                </div>
                             </div>
                         </div>
                         <div class="yinglong-line">
@@ -1092,8 +1098,8 @@ export default {
                     return {
                         background: "#4ac29a",
                         borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-
+                        borderRight: "1px solid #000",
+                        padding: 0
                     };
                 }
             } else if (rowIndex === 6) {
@@ -1148,49 +1154,52 @@ export default {
 				.block-wrap {
 					flex: 2;
 					background: transparent;
-
 					.block-container {
-						display: flex;
-						margin: 20px 10px 10px 20px;
-						padding: 25px;
 						background-color: #fff;
-						.first-block-wrap, .second-block-wrap, .three-block-wrap {
-							flex: 2
-						}
-						.one, .two, .second-block-wrap {
-							color: #fff;
-							box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-							margin-bottom: 20px;
-							border-radius: 10px;
-							padding: 20px;
+						margin: 20px 10px 10px 20px;
+						padding: 5px 25px 5px 25px;
+						.block-content-container {
 							display: flex;
-							align-items: center;
-							justify-content: center;
-							flex-flow: column nowrap;
-							h3 {
-								font-size: 18px;
+							.first-block-wrap, .second-block-wrap, .three-block-wrap {
+								flex: 2
 							}
-							span {
-								font-size: 20px;
+							.one, .two, .second-block-wrap {
+								color: #fff;
+								box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+								margin-bottom: 20px;
+								border-radius: 10px;
+								padding: 20px;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								flex-flow: column nowrap;
+								h3 {
+									font-size: 18px;
+									text-align: center;
+								}
+								span {
+									font-size: 20px;
+									text-align: center;
+								}
 							}
-						}
-						.one {
-							background: linear-gradient(to right, #ee9ca7,#ffdde1);
-							height: 124.28px;
-							box-sizing: border-box;
+							.one {
+								background: linear-gradient(to right, #ee9ca7,#ffdde1);
+								height: 124.28px;
+								box-sizing: border-box;
 
-						}
-						.two {
-							background: linear-gradient(to right, #4e54c8,#8f94fb);
-							height: 124.28px;
-							box-sizing: border-box;
-						}
+							}
+							.two {
+								background: linear-gradient(to right, #4e54c8,#8f94fb);
+								height: 124.28px;
+								box-sizing: border-box;
+							}
 
-						.second-block-wrap {
-							background: linear-gradient(to right, #4ac29a, #bdfff3);
-							align-self: stretch;
-							margin: 0 20px 20px 20px;
+							.second-block-wrap {
+								background: linear-gradient(to right, #4ac29a, #bdfff3);
+								align-self: stretch;
+								margin: 0 20px 20px 20px;
 
+							}
 						}
 					}
 				}
@@ -1201,15 +1210,20 @@ export default {
 					align-items: center;
 					background: #fff;
 					margin: 20px 20px 10px 10px;
-					padding-top: 10px;
-
-				}
-				.pie-container {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					height: 310px;
-					margin-bottom: 20px;
+					.yinglong-pie-wrap {
+						position: relative;
+						flex:2;
+						h3 {
+							position: absolute;
+							left: 25px;
+						}
+						.pie-container {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							height: 350px;
+						}
+					}
 				}
 			}
 			.yinglong-line {
@@ -1220,7 +1234,6 @@ export default {
 			}
 			.other-container {
 					height: 345px;
-
 			}
 
 		}
@@ -1228,24 +1241,45 @@ export default {
 
 </style>
 <style lang="scss" >
-		.el-table {
-			&::before {
-				height: 0 !important;
-			}
-			border: none;
-			.el-table__body-wrapper {
-				overflow: hidden !important;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				.el-table__body {
-					transform: scale(0.9);
-					.el-table__row {
-						.el-table__cell {
+.yinglong-table-container {
+	position: relative;
+	flex: 3;
+	height: 100%;
+	background: #fff;
+	.yinglong-logo {
+		width: 300px;
+		height: 80px;
+		position: relative;
+		top: 40px;
+		z-index: 200;
+	}
+	.el-table {
+		&::before {
+			height: 0 !important;
+		}
+		border: none;
+		.el-table__body-wrapper {
+			width: 350px;
+			overflow: hidden !important;
+			display: flex;
+			justify-content: center;
+			align-items: flex-end;
+			.el-table__body {
+				width: 350px !important;
+				transform: scale(0.6);
+				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+
+				.el-table__row {
+					.el-table__cell {
+						padding: 0;
+						.cell {
+							line-height: 20px;
 							padding: 0;
 						}
 					}
 				}
 			}
 		}
+	}
+}
 </style>
