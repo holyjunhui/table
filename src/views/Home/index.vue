@@ -2,18 +2,29 @@
     <div class="container">
         <div class="search">
             <el-form :inline="true" :rules="rules" :model="form" ref="form" class="demo-form-inline">
-                <el-form-item prop="date" label="日期范围：">
+                <el-form-item prop="start" label="日期范围：">
                     <el-date-picker
                         size="small"
-                        unlink-panels
-                        v-model="form.date"
-                        type="datetimerange"
-                        range-separator="-"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期"
-                        :default-time="[&quot;00:00:00&quot;,&quot;23:59:59&quot;]"
+                        v-model="form.start"
+                        type="datetime"
+                        placeholder="请输入日期"
+                        default-time="00:00:00"
                     />
                 </el-form-item>
+                <el-form-item>
+                    <span>-</span>
+                </el-form-item>
+                <el-form-item prop="end">
+                    <el-date-picker
+                        size="small"
+                        props="end"
+                        v-model="form.end"
+                        type="datetime"
+                        placeholder="请输入日期"
+                        default-time="23:59:59"
+                    />
+                </el-form-item>
+
                 <el-form-item>
                     <el-button size="small" @click="handleSearch('search')" type="primary">查询</el-button>
                     <el-button size="small" @click="handleSearch('all')">All下载</el-button>
@@ -119,25 +130,25 @@
                                     <div class="first-block-wrap">
                                         <div class="one">
                                             <h3>{{ blockData[0] && blockData[0].name }}</h3>
-                                            <span>{{ blockData[0] && blockData[0].value }} KWH</span>
+                                            <span>{{ blockData[0] && blockData[0].value }}</span>
                                         </div>
                                         <div class="two">
                                             <h3>{{ blockData[1] && blockData[1].name }}</h3>
-                                            <span>{{ blockData[1] && blockData[1].value }} KWH</span>
+                                            <span>{{ blockData[1] && blockData[1].value }}</span>
                                         </div>
                                     </div>
                                     <div class="second-block-wrap">
                                         <h3>{{ blockData[2] && blockData[2].name }}</h3>
-                                        <span>{{ blockData[2] && blockData[2].value }} KWH</span>
+                                        <span>{{ blockData[2] && blockData[2].value }}</span>
                                     </div>
                                     <div class="three-block-wrap">
                                         <div class="one">
                                             <h3>{{ blockData[3] && blockData[3].name }}</h3>
-                                            <span>{{ blockData[3] && blockData[3].value }} KWH</span>
+                                            <span>{{ blockData[3] && blockData[3].value }}</span>
                                         </div>
                                         <div class="two">
                                             <h3>{{ blockData[4] && blockData[4].name }}</h3>
-                                            <span>{{ blockData[4] && blockData[4].value }} KWH</span>
+                                            <span>{{ blockData[4] && blockData[4].value }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -147,10 +158,55 @@
                                     class="pie-container"
                                     v-if="pieData.length"
                                     ref="chart"
-                                    :style="{width: '100%'}"
+                                    :style="{width: '40%'}"
                                     auto-size
                                 >
                                 </div>
+                                <el-table
+                                    v-if="secondTableData.length"
+                                    :show-header="false"
+                                    :data="secondTableData"
+                                    :span-method="YinLongObjectSpanMethod"
+
+                                    size="mini"
+                                    :header-cell-style="headerStyle"
+                                    :cell-style="secondCellStyle"
+                                    height="300"
+                                    style="font-size: 8px; line-height: 14px"
+                                >
+                                    <el-table-column label="">
+                                        <el-table-column
+                                            prop="index0"
+                                            align="center"
+                                        />
+                                        <el-table-column
+                                            prop="index1"
+                                            align="center"
+                                        />
+
+                                        <el-table-column
+                                            prop="index2"
+                                            align="center"
+                                        />
+                                        <el-table-column
+                                            prop="index3"
+                                            align="center"
+                                        />
+                                        <el-table-column
+                                            align="center"
+                                            prop="index4"
+                                        />
+                                        <el-table-column
+                                            align="center"
+                                            prop="index5"
+                                        />
+                                        <el-table-column
+                                            prop="index6"
+                                            align="center"
+                                            width="110"
+                                        />
+                                    </el-table-column>
+                                </el-table>
                             </div>
                         </div>
                         <div class="yinglong-line">
@@ -179,16 +235,18 @@ export default {
     data() {
         return {
             form: {
-                date: []
+                start: "",
+                end: ""
             },
-            start: "时间1",
-            end: "时间2",
+            start: "",
+            end: "",
             rules: {
-                date: [{required: true, message: "请选择日期", trigger: "change"}]
+                start: [{required: true, message: "请选择日期", trigger: "change"}],
+                end: [{required: true, message: "请选择日期", trigger: "change"}]
             },
             tableData: [],
             secondTableData: [],
-            activeName: "second",
+            activeName: "first",
             pieData: [],
             blockData: [],
             lineData: {
@@ -213,7 +271,7 @@ export default {
             const option = {
                 tooltip: {
                     trigger: "item",
-                    formatter: "{b} {c} KWH"
+                    formatter: "{b} {c}"
                 },
                 series: {
                     type: "sunburst",
@@ -324,6 +382,38 @@ export default {
             getHomeData({start: this.start, end: this.end}).then(res => {
                 this.tableData = res.data.all;
                 this.secondTableData = res.data.YING;
+                const r = res.data.YING;
+                const blockData = [
+                    {
+                        name: r[2].index0,
+                        value: r[3].index0
+                    },
+                    {
+                        name: r[4].index0,
+                        value: r[5].index0
+                    },
+
+                    {
+                        name: r[0].index0,
+                        value: r[1].index0
+                    },
+
+                    {
+                        name: r[2].index6,
+                        value: r[3].index6
+                    },
+                    {
+                        name: r[4].index4,
+                        value: r[5].index4
+                    }
+                ];
+                this.blockData = blockData.map(item => {
+                    const name = item.name.indexOf("POWER") !== -1 ? item.name.slice(0, item.name.indexOf("POWER")) : item.name;
+                    return {
+                        ...item,
+                        name
+                    };
+                });
                 this.pieData = res.data.pie.map(item => this.mapTree(item));
                 this.lineData = res.data.pie_data || {
                     xais: [],
@@ -332,7 +422,6 @@ export default {
             });
         },
         mapTree(org) {
-            this.blockData.push(org);
             const haveChildren = Array.isArray(org.child) && org.child.length > 0;
             const name = org.name.endsWith("POWER") ? org.name.slice(0, org.name.indexOf("POWER")) : org.name;
             return {
@@ -352,15 +441,20 @@ export default {
         },
 
         handleSearch(type) {
+
             this.$refs.form.validate(valid => {
                 if (valid) {
-                    this.start = dayjs(this.form.date && this.form.date[0]).format("YYYY-MM-DD HH:mm:ss");
-                    this.end = dayjs(this.form.date && this.form.date[1]).format("YYYY-MM-DD HH:mm:ss");
-                    type === "search" ? this.getHomeData() : this.downHomeData(type);
-                    if (this.activeName === "second") {
-                        setTimeout(() => {
-                            this.pieData.length && this.initChart();
-                        }, 500);
+                    if (this.form.end.valueOf() > this.form.start.valueOf()) {
+                        this.start = dayjs(this.form.start).format("YYYY-MM-DD HH:mm:ss");
+                        this.end = dayjs(this.form.end).format("YYYY-MM-DD HH:mm:ss");
+                        type === "search" ? this.getHomeData() : this.downHomeData(type);
+                        if (this.activeName === "second") {
+                            setTimeout(() => {
+                                this.pieData.length && this.initChart();
+                            }, 500);
+                        }
+                    } else {
+                        this.$message.warning("结束日期比开始日期早");
                     }
                 } else {
                     return false;
@@ -1074,10 +1168,10 @@ export default {
 							justify-content: center;
 							flex-flow: column nowrap;
 							h3 {
-								font-size: 16px;
+								font-size: 18px;
 							}
 							span {
-								font-size: 24px;
+								font-size: 20px;
 							}
 						}
 						.one {
@@ -1102,9 +1196,13 @@ export default {
 				}
 				.yinglong-table {
 					flex: 2;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
 					background: #fff;
 					margin: 20px 20px 10px 10px;
 					padding-top: 10px;
+
 				}
 				.pie-container {
 					display: flex;
@@ -1128,4 +1226,26 @@ export default {
 		}
 	}
 
+</style>
+<style lang="scss" >
+		.el-table {
+			&::before {
+				height: 0 !important;
+			}
+			border: none;
+			.el-table__body-wrapper {
+				overflow: hidden !important;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				.el-table__body {
+					transform: scale(0.9);
+					.el-table__row {
+						.el-table__cell {
+							padding: 0;
+						}
+					}
+				}
+			}
+		}
 </style>
