@@ -127,7 +127,7 @@
                         <div class="chart-wrap">
                             <div class="block-wrap">
                                 <div class="block-container">
-                                    <h3>YING LONG POWER</h3>
+                                    <h3>能耗统计</h3>
                                     <div class="block-content-container">
                                         <div class="first-block-wrap">
                                             <div class="one">
@@ -158,7 +158,7 @@
                             </div>
                             <div class="yinglong-table">
                                 <div class="yinglong-pie-wrap">
-                                    <h3>YING LONG POWER</h3>
+                                    <h3>能耗占比</h3>
                                     <div
                                         class="pie-container"
                                         v-if="pieData.length"
@@ -1127,6 +1127,8 @@ export default {
 	.container {
 		padding: 20px;
 		background: #f8f9fd;
+		min-width: 1234px;
+		overflow: auto;
 		.search {
 			padding: 0 20px;
 			background: #fff;
@@ -1137,7 +1139,10 @@ export default {
 		.table-wrap {
 			margin-top: 20px;
 			background: #fff;
-
+			width: 100%;
+			.el-tabs {
+				width: 100%;
+			}
 			.el-table__body-wrapper{
 				border-top: 1px solid #000;
 				border-bottom: 1px solid #000;
@@ -1147,10 +1152,12 @@ export default {
 		.yinglong-wrap {
 			background: rgba(0, 0, 0, 0.1);
 			padding-bottom: 10px;
+			min-width: 1234px;
+			overflow: auto;
 			.chart-wrap {
 				display: flex;
-				width: 100%;
-				overflow: auto;
+				justify-content: space-between;
+				align-items: center;
 				.block-wrap {
 					flex: 2;
 					background: transparent;
@@ -1212,16 +1219,18 @@ export default {
 					margin: 20px 20px 10px 10px;
 					.yinglong-pie-wrap {
 						position: relative;
-						flex:2;
+						min-width: 240px;
 						h3 {
 							position: absolute;
 							left: 25px;
+							top: -10px;
+							z-index: 200;
 						}
 						.pie-container {
 							display: flex;
 							justify-content: center;
 							align-items: center;
-							height: 350px;
+							height: 300px;
 						}
 					}
 				}
@@ -1231,6 +1240,7 @@ export default {
 					background-color: #fff;
 					margin: 0 20px;
 					padding: 10px;
+					width: auto;
 			}
 			.other-container {
 					height: 345px;
@@ -1243,30 +1253,29 @@ export default {
 <style lang="scss" >
 .yinglong-table-container {
 	position: relative;
-	flex: 3;
+	flex: 1;
 	height: 100%;
 	background: #fff;
 	.yinglong-logo {
-		width: 300px;
+		min-width: 300px;
 		height: 80px;
 		position: relative;
 		top: 40px;
 		z-index: 200;
 	}
 	.el-table {
+		margin-top: 25px;
 		&::before {
 			height: 0 !important;
 		}
 		border: none;
 		.el-table__body-wrapper {
-			width: 350px;
 			overflow: hidden !important;
-			display: flex;
-			justify-content: center;
-			align-items: flex-end;
+			position: relative;
 			.el-table__body {
-				width: 350px !important;
-				transform: scale(0.6);
+				position: relative;
+				left: -30px;
+				transform: scale(0.8);
 				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
 
 				.el-table__row {
