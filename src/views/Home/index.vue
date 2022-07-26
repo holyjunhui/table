@@ -127,30 +127,86 @@
                         <div class="chart-wrap">
                             <div class="block-wrap">
                                 <div class="block-container">
-                                    <h3>能耗统计</h3>
+                                    <div class="yinglong-time">
+                                        <h3 class="title">能耗统计</h3>
+                                        <span>{{ start + ' - ' + end }}</span>
+                                    </div>
                                     <div class="block-content-container">
+                                        <div class="second-block-wrap">
+                                            <h4>{{ blockData[0] && blockData[0].name }}</h4>
+                                            <span>{{ blockData[0] && blockData[0].value + ' KWH' }}</span>
+                                            <div class="block-content">
+                                                <p>{{ blockData[1] && blockData[1].name }} <span>{{ (((blockData[1].value) / (blockData[1].value + blockData[1].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                <p>{{ blockData[2] && blockData[2].name }} <span>{{ (((blockData[2].value) / (blockData[2].value + blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                            </div>
+                                            <div
+                                                class="block-line"
+                                                ref="blokcLine1"
+                                            >
+                                            </div>
+                                        </div>
                                         <div class="first-block-wrap">
                                             <div class="one">
-                                                <h3>{{ blockData[0] && blockData[0].name }}</h3>
-                                                <span>{{ blockData[0] && blockData[0].value }}</span>
+                                                <h4>{{ blockData[1] && blockData[1].name }}</h4>
+                                                <span>{{ blockData[1] && blockData[1].value + ' KWH' }}</span>
+
+                                                <div class="block-content">
+                                                    <p>{{ blockData[3] && blockData[3].name }} <span>{{ (((blockData[3].value) / (blockData[3].value + blockData[3].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[4] && blockData[4].name }} <span>{{ (((blockData[4].value) / (blockData[4].value + blockData[4].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                </div>
+                                                <div
+                                                    class="block-line"
+                                                    ref="blokcLine2"
+                                                >
+                                                </div>
                                             </div>
                                             <div class="two">
-                                                <h3>{{ blockData[1] && blockData[1].name }}</h3>
-                                                <span>{{ blockData[1] && blockData[1].value }}</span>
+                                                <h4>{{ blockData[2] && blockData[2].name }}</h4>
+                                                <span>{{ blockData[2] && blockData[2].value + ' KWH' }}</span>
+                                                <div class="block-content">
+                                                    <p>{{ blockData[2] && blockData[2].name }} <span>{{ (((blockData[2].value) / (blockData[2].value + blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p></p>
+                                                </div>
+                                                <div
+                                                    class="block-line"
+                                                    ref="blokcLine3"
+                                                >
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="second-block-wrap">
-                                            <h3>{{ blockData[2] && blockData[2].name }}</h3>
-                                            <span>{{ blockData[2] && blockData[2].value }}</span>
-                                        </div>
+
                                         <div class="three-block-wrap">
                                             <div class="one">
-                                                <h3>{{ blockData[3] && blockData[3].name }}</h3>
-                                                <span>{{ blockData[3] && blockData[3].value }}</span>
+                                                <h4>{{ blockData[3] && blockData[3].name }}</h4>
+                                                <span>{{ blockData[3] && blockData[3].value + ' KWH' }}</span>
+                                                <div class="block-content">
+                                                    <p>{{ blockData[9] && blockData[9].name }} <span>{{ (((blockData[9].value) / (blockData[9].value + blockData[9].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[10] && blockData[10].name }} <span>{{ (((blockData[10].value) / (blockData[10].value + blockData[10].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                </div>
+                                                <div
+                                                    class="block-line"
+                                                    ref="blokcLine4"
+                                                >
+                                                </div>
                                             </div>
                                             <div class="two">
-                                                <h3>{{ blockData[4] && blockData[4].name }}</h3>
-                                                <span>{{ blockData[4] && blockData[4].value }}</span>
+                                                <h4>{{ blockData[4] && blockData[4].name }}</h4>
+                                                <span>{{ blockData[4] && blockData[4].value + ' KWH' }}</span>
+                                                <div class="block-content4">
+                                                    <div>
+                                                        <p>{{ blockData[5] && blockData[5].name }} <span>{{ (((blockData[5].value) / (blockData[5].value + blockData[5].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                        <p>{{ blockData[6] && blockData[6].name }} <span>{{ (((blockData[6].value) / (blockData[6].value + blockData[6].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    </div>
+                                                    <div>
+                                                        <p>{{ blockData[7] && blockData[7].name }} <span>{{ (((blockData[7].value) / (blockData[7].value + blockData[7].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                        <p>{{ blockData[8] && blockData[8].name }} <span>{{ (((blockData[8].value) / (blockData[8].value + blockData[8].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="block-line"
+                                                    ref="blokcLine5"
+                                                >
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -180,35 +236,42 @@
                                         height="240"
                                         style="font-size: 8px; line-height: 14px"
                                     >
-                                        <el-table-column label="">
+                                        <el-table-column>
                                             <el-table-column
                                                 prop="index0"
                                                 align="center"
+                                                width="50px"
                                             />
                                             <el-table-column
                                                 prop="index1"
                                                 align="center"
+                                                width="50px"
                                             />
 
                                             <el-table-column
                                                 prop="index2"
                                                 align="center"
+                                                width="50px"
                                             />
                                             <el-table-column
                                                 prop="index3"
                                                 align="center"
+                                                width="50px"
                                             />
                                             <el-table-column
                                                 align="center"
                                                 prop="index4"
+                                                width="40px"
                                             />
                                             <el-table-column
                                                 align="center"
                                                 prop="index5"
+                                                width="50px"
                                             />
                                             <el-table-column
                                                 prop="index6"
                                                 align="center"
+                                                width="80px"
                                             />
                                         </el-table-column>
                                     </el-table>
@@ -216,6 +279,10 @@
                             </div>
                         </div>
                         <div class="yinglong-line">
+                            <div class="yinglong-time">
+                                <h3>YING LONG POWER</h3>
+                                <span>{{ start + ' - ' + end }}</span>
+                            </div>
                             <div
                                 class="other-container"
                                 ref="otherChart"
@@ -257,7 +324,9 @@ export default {
             blockData: [],
             lineData: {
                 xais: [],
-                yais: []
+                yais: [],
+                yais2: []
+
             }
         };
     },
@@ -273,7 +342,13 @@ export default {
         initChart() {
             const myChart = this.$eCharts.init(this.$refs.chart);
             const otherChart = this.$eCharts.init(this.$refs.otherChart);
-            const colors = ["#ee9ca7", "#4e54c8"];
+            const blockLineChart1 = this.$eCharts.init(this.$refs.blokcLine1);
+            const blockLineChart2 = this.$eCharts.init(this.$refs.blokcLine2);
+            const blockLineChart3 = this.$eCharts.init(this.$refs.blokcLine3);
+            const blockLineChart4 = this.$eCharts.init(this.$refs.blokcLine4);
+            const blockLineChart5 = this.$eCharts.init(this.$refs.blokcLine5);
+
+            const colors = ["#4ac29a", "#4e54c8", "#C2756F"];
             const option = {
                 tooltip: {
                     trigger: "item",
@@ -293,9 +368,6 @@ export default {
             };
 
             const otherOption = {
-                title: {
-                    text: "YING LONG POWER"
-                },
                 tooltip: {
                     trigger: "axis",
                     axisPointer: {
@@ -335,11 +407,11 @@ export default {
                             color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
                                 {
                                     offset: 0,
-                                    color: "rgb(128, 255, 165)"
+                                    color: "#9D86E9"
                                 },
                                 {
                                     offset: 1,
-                                    color: "rgb(1, 191, 236)"
+                                    color: "#9D86E9"
                                 }
                             ])
                         },
@@ -347,12 +419,85 @@ export default {
                             focus: "series"
                         },
                         data: this.lineData.yais
+                    },
+                    {
+                        type: "line",
+                        lineStyle: {
+                            width: 0
+                        },
+                        showSymbol: false,
+                        areaStyle: {
+                            opacity: 0.8,
+                            color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: "#DDD4F0"
+                                },
+                                {
+                                    offset: 1,
+                                    color: "#B7B8EE"
+                                }
+                            ])
+                        },
+                        emphasis: {
+                            focus: "series"
+                        },
+                        data: this.lineData.yais2
                     }
                 ]
+            };
+            const blockLineOption = num => {
+                return {
+                    xAxis: {
+                        type: "category",
+                        show: false,
+                        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "ff", "aa", "fda", "fea"]
+                    },
+                    yAxis: {
+                        type: "value",
+                        show: false
+                    },
+                    grid: {
+                        top: "1%",
+                        left: "1%",
+                        right: "1%",
+                        bottom: "1%",
+                        containLabel: true
+                    },
+                    series: [
+                        {
+                            data: [20, 30, 24, 35, 30, 23, 29, 20, 35, 30, 25],
+                            type: "line",
+                            stack: "Total",
+                            showSymbol: false,
+                            // areaStyle: {
+                            //     opacity: 0.8,
+                            //     color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+                            //         {
+                            //             offset: 0,
+                            //             color: "#DDD4F0"
+                            //         },
+                            //         {
+                            //             offset: 1,
+                            //             color: "#9D86E9"
+                            //         }
+                            //     ])
+                            // },
+                            lineStyle: {
+                                color: colors[num]
+                            }
+                        }
+                    ]
+                };
             };
 
             myChart.setOption(option);
             otherChart.setOption(otherOption);
+            blockLineChart1.setOption(blockLineOption(0));
+            blockLineChart2.setOption(blockLineOption(2));
+            blockLineChart3.setOption(blockLineOption(1));
+            blockLineChart4.setOption(blockLineOption(2));
+            blockLineChart5.setOption(blockLineOption(1));
 
             myChart.on("click", params => {
                 if (params.data) {
@@ -390,40 +535,68 @@ export default {
                 this.secondTableData = res.data.YING;
                 const r = res.data.YING;
                 const blockData = [
-                    {
-                        name: r[2].index0,
-                        value: r[3].index0
-                    },
-                    {
-                        name: r[4].index0,
-                        value: r[5].index0
-                    },
 
                     {
                         name: r[0].index0,
                         value: r[1].index0
                     },
-
+                    {
+                        name: r[2].index0,
+                        value: r[3].index0
+                    },
                     {
                         name: r[2].index6,
                         value: r[3].index6
                     },
+
                     {
                         name: r[4].index4,
                         value: r[5].index4
+                    },
+                    {
+                        name: r[4].index0,
+                        value: r[5].index0
+                    },
+                    {
+                        name: r[6].index0,
+                        value: r[7].index0
+                    },
+                    {
+                        name: r[6].index1,
+                        value: r[7].index1
+                    },
+                    {
+                        name: r[6].index2,
+                        value: r[7].index2
+                    },
+                    {
+                        name: r[6].index3,
+                        value: r[7].index3
+                    },
+                    {
+                        name: r[6].index4,
+                        value: r[7].index4
+                    },
+                    {
+                        name: r[6].index5,
+                        value: r[7].index5
                     }
                 ];
                 this.blockData = blockData.map(item => {
                     const name = item.name.indexOf("POWER") !== -1 ? item.name.slice(0, item.name.indexOf("POWER")) : item.name;
+                    const value = item.value.indexOf("KWH") !== -1 ? item.value.slice(0, item.value.indexOf("KWH")) : item.value;
                     return {
                         ...item,
-                        name
+                        name,
+                        value: +value
                     };
                 });
+
                 this.pieData = res.data.pie.map(item => this.mapTree(item));
                 this.lineData = res.data.pie_data || {
                     xais: [],
-                    yais: []
+                    yais: [],
+                    yais2: []
                 };
             });
         },
@@ -451,8 +624,8 @@ export default {
             this.$refs.form.validate(valid => {
                 if (valid) {
                     if (this.form.end.valueOf() > this.form.start.valueOf()) {
-                        this.start = dayjs(this.form.start).format("YYYY-MM-DD HH:mm:ss");
-                        this.end = dayjs(this.form.end).format("YYYY-MM-DD HH:mm:ss");
+                        this.start = dayjs(this.form.start).format("YYYY-MM-DD");
+                        this.end = dayjs(this.form.end).format("YYYY-MM-DD");
                         type === "search" ? this.getHomeData() : this.downHomeData(type);
                         if (this.activeName === "second") {
                             setTimeout(() => {
@@ -1081,7 +1254,7 @@ export default {
             const {rowIndex, columnIndex} = item;
             if (rowIndex === 0) {
                 return {
-                    background: "#ee9ca7",
+                    background: "#C2756F",
                     borderBottom: "1px solid #000",
                     borderRight: "1px solid #000"
 
@@ -1154,6 +1327,21 @@ export default {
 			padding-bottom: 10px;
 			min-width: 1234px;
 			overflow: auto;
+			.yinglong-time {
+				display: flex;
+				justify-content: space-between;
+				padding: 10px 0px;
+				padding-bottom: 5px;
+				border-bottom: 3px solid #9F99F5;
+				margin-bottom: 10px;
+				h3 {
+						margin: 0px;
+				}
+				span {
+					margin-right: 20px;
+					font-size: 16px;
+				}
+			}
 			.chart-wrap {
 				display: flex;
 				justify-content: space-between;
@@ -1161,12 +1349,27 @@ export default {
 				.block-wrap {
 					flex: 2;
 					background: transparent;
+					margin: 20px 20px 10px 20px;
+					box-shadow: 0px 0px 5px 10px rgba(0, 0, 0, 0.2);
+					border-radius: 20px;
 					.block-container {
 						background-color: #fff;
-						margin: 20px 10px 10px 20px;
-						padding: 5px 25px 5px 25px;
+						border-radius: 20px;
+						padding: 0px 25px 0px 25px;
+						.title {
+							margin: 0;
+						}
 						.block-content-container {
 							display: flex;
+
+							.block-line {
+								height: 40px;
+								position: relative;
+								bottom: -15px;
+							}
+							.first-block-wrap {
+								margin: 0 20px 0px 20px;
+							}
 							.first-block-wrap, .second-block-wrap, .three-block-wrap {
 								flex: 2
 							}
@@ -1175,37 +1378,104 @@ export default {
 								box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 								margin-bottom: 20px;
 								border-radius: 10px;
-								padding: 20px;
-								display: flex;
-								align-items: center;
-								justify-content: center;
+								padding: 10px;
 								flex-flow: column nowrap;
-								h3 {
-									font-size: 18px;
-									text-align: center;
+								position: relative;
+								h4 {
+									font-size: 16px;
+									line-height: 20px;
+									margin: 0 0 0 10px;
 								}
 								span {
-									font-size: 20px;
-									text-align: center;
+									font-size: 16px;
+									margin-left: 10px;
+
 								}
 							}
 							.one {
-								background: linear-gradient(to right, #ee9ca7,#ffdde1);
-								height: 124.28px;
+								background: linear-gradient(to right, #DB8F87,#E4A19F);
 								box-sizing: border-box;
-
+								display: flex;
+								justify-content: space-between;
+								.block-content {
+									p {
+										display: flex;
+										justify-content: flex-end;
+										margin: 5px 0;
+										font-size: 12px;
+										span {
+											font-size: 12px;
+										}
+									}
+								}
 							}
 							.two {
-								background: linear-gradient(to right, #4e54c8,#8f94fb);
-								height: 124.28px;
+								background: linear-gradient(to right, #726ED7,#9E9AEB);
 								box-sizing: border-box;
+								display: flex;
+								justify-content: space-between;
+								.block-content {
+									margin: 15px 10px 20px 10px;
+									p {
+										display: flex;
+										justify-content: flex-end;
+										margin: 5px 0;
+										font-size: 14px;
+										span {
+											font-size: 14px;
+										}
+									}
+								}
+								.block-content4 {
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+										div {
+											flex: 1;
+											margin-right: 10px;
+											p {
+												display: flex;
+												justify-content: space-between;
+												font-size: 12px;
+												margin-left: 10px;
+												span {
+													font-size: 12px;
+												}
+											}
+										}
+								}
 							}
 
 							.second-block-wrap {
-								background: linear-gradient(to right, #4ac29a, #bdfff3);
+								background: linear-gradient(to right, #86D0C6, #B8E8E7);
 								align-self: stretch;
-								margin: 0 20px 20px 20px;
-
+								margin: 0 0px 20px 20px;
+								display: flex;
+								justify-content: space-between;
+								h4 {
+									margin: 20px 10px;
+									font-size: 20px;
+								}
+								span {
+									font-size: 18px;
+								}
+								.block-line {
+									height: 100px;
+									position: relative;
+									top: 0;
+								}
+								.block-content {
+									margin-bottom: 15px;
+									p {
+										text-align: right;
+										margin: 5px 0;
+										font-size: 14px;
+										span {
+											margin-left: 50px;
+											font-size: 14px;
+										}
+									}
+								}
 							}
 						}
 					}
@@ -1213,33 +1483,42 @@ export default {
 				.yinglong-table {
 					flex: 2;
 					display: flex;
-					justify-content: space-between;
+					align-self: stretch;
 					align-items: center;
 					background: #fff;
 					margin: 20px 20px 10px 10px;
+					box-shadow: 0px 0px 5px 10px rgba(0, 0, 0, 0.2);
+					border-radius: 20px;
+
 					.yinglong-pie-wrap {
 						position: relative;
-						min-width: 240px;
+						min-width: 300px;
+						margin-left: 25px;
 						h3 {
 							position: absolute;
-							left: 25px;
+							min-width: 240px;
+							left: 0px;
 							top: -10px;
 							z-index: 200;
+							padding-bottom: 5px;
+							border-bottom: 3px solid #9F99F5;
 						}
 						.pie-container {
 							display: flex;
 							justify-content: center;
 							align-items: center;
-							height: 300px;
+							margin-top: 30px;
+							height: 350px;
 						}
 					}
 				}
 			}
 			.yinglong-line {
-					padding: 10px;
+					padding: 10px 20px;
 					background-color: #fff;
-					margin: 0 20px;
-					padding: 10px;
+					box-shadow: 0px 0px 5px 10px rgba(0, 0, 0, 0.2);
+					border-radius: 20px;
+					margin: 15px 20px;
 					width: auto;
 			}
 			.other-container {
@@ -1253,8 +1532,9 @@ export default {
 <style lang="scss" >
 .yinglong-table-container {
 	position: relative;
-	flex: 1;
 	height: 100%;
+	width: 50%;
+	margin-left: 20px;
 	background: #fff;
 	.yinglong-logo {
 		min-width: 300px;
