@@ -136,8 +136,8 @@
                                             <h4>{{ blockData[0] && blockData[0].name }}</h4>
                                             <span>{{ blockData[0] && blockData[0].value + ' KWH' }}</span>
                                             <div class="block-content">
-                                                <p>{{ blockData[1] && blockData[1].name }} <span>{{ (((blockData[1].value) / (blockData[1].value + blockData[1].value)) * 100).toFixed(2) + '%' }}</span></p>
-                                                <p>{{ blockData[2] && blockData[2].name }} <span>{{ (((blockData[2].value) / (blockData[2].value + blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                <p>{{ blockData[1] && blockData[1].name }} <span>{{ (((blockData[1].value) / (blockData[1].value + blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                <p>{{ blockData[2] && blockData[2].name }} <span>{{ (((blockData[2].value) / (blockData[1].value + blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
                                             </div>
                                             <div
                                                 class="block-line"
@@ -151,8 +151,8 @@
                                                 <span>{{ blockData[1] && blockData[1].value + ' KWH' }}</span>
 
                                                 <div class="block-content">
-                                                    <p>{{ blockData[3] && blockData[3].name }} <span>{{ (((blockData[3].value) / (blockData[3].value + blockData[3].value)) * 100).toFixed(2) + '%' }}</span></p>
-                                                    <p>{{ blockData[4] && blockData[4].name }} <span>{{ (((blockData[4].value) / (blockData[4].value + blockData[4].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[3] && blockData[3].name }} <span>{{ (((blockData[3].value) / (blockData[3].value + blockData[4].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[4] && blockData[4].name }} <span>{{ (((blockData[4].value) / (blockData[3].value + blockData[4].value)) * 100).toFixed(2) + '%' }}</span></p>
                                                 </div>
                                                 <div
                                                     class="block-line"
@@ -164,7 +164,7 @@
                                                 <h4>{{ blockData[2] && blockData[2].name }}</h4>
                                                 <span>{{ blockData[2] && blockData[2].value + ' KWH' }}</span>
                                                 <div class="block-content">
-                                                    <p>{{ blockData[2] && blockData[2].name }} <span>{{ (((blockData[2].value) / (blockData[2].value + blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[2] && blockData[2].name }} <span>{{ (((blockData[2].value) / (blockData[2].value)) * 100).toFixed(2) + '%' }}</span></p>
                                                     <p></p>
                                                 </div>
                                                 <div
@@ -180,8 +180,8 @@
                                                 <h4>{{ blockData[3] && blockData[3].name }}</h4>
                                                 <span>{{ blockData[3] && blockData[3].value + ' KWH' }}</span>
                                                 <div class="block-content">
-                                                    <p>{{ blockData[9] && blockData[9].name }} <span>{{ (((blockData[9].value) / (blockData[9].value + blockData[9].value)) * 100).toFixed(2) + '%' }}</span></p>
-                                                    <p>{{ blockData[10] && blockData[10].name }} <span>{{ (((blockData[10].value) / (blockData[10].value + blockData[10].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[9] && blockData[9].name }} <span>{{ (((blockData[9].value) / (blockData[9].value + blockData[10].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                    <p>{{ blockData[10] && blockData[10].name }} <span>{{ (((blockData[10].value) / (blockData[9].value + blockData[10].value)) * 100).toFixed(2) + '%' }}</span></p>
                                                 </div>
                                                 <div
                                                     class="block-line"
@@ -194,12 +194,12 @@
                                                 <span>{{ blockData[4] && blockData[4].value + ' KWH' }}</span>
                                                 <div class="block-content4">
                                                     <div>
-                                                        <p>{{ blockData[5] && blockData[5].name }} <span>{{ (((blockData[5].value) / (blockData[5].value + blockData[5].value)) * 100).toFixed(2) + '%' }}</span></p>
-                                                        <p>{{ blockData[6] && blockData[6].name }} <span>{{ (((blockData[6].value) / (blockData[6].value + blockData[6].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                        <p>{{ blockData[5] && blockData[5].name }} <span>{{ (((blockData[5].value) / (blockData[5].value + blockData[6].value + blockData[7].value + blockData[8].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                        <p>{{ blockData[6] && blockData[6].name }} <span>{{ (((blockData[6].value) / (blockData[5].value + blockData[6].value + blockData[7].value + blockData[8].value)) * 100).toFixed(2) + '%' }}</span></p>
                                                     </div>
                                                     <div>
-                                                        <p>{{ blockData[7] && blockData[7].name }} <span>{{ (((blockData[7].value) / (blockData[7].value + blockData[7].value)) * 100).toFixed(2) + '%' }}</span></p>
-                                                        <p>{{ blockData[8] && blockData[8].name }} <span>{{ (((blockData[8].value) / (blockData[8].value + blockData[8].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                        <p>{{ blockData[7] && blockData[7].name }} <span>{{ (((blockData[7].value) / (blockData[5].value + blockData[6].value + blockData[7].value + blockData[8].value)) * 100).toFixed(2) + '%' }}</span></p>
+                                                        <p>{{ blockData[8] && blockData[8].name }} <span>{{ (((blockData[8].value) / (blockData[5].value + blockData[6].value + blockData[7].value + blockData[8].value)) * 100).toFixed(2) + '%' }}</span></p>
                                                     </div>
                                                 </div>
                                                 <div
@@ -570,6 +570,7 @@ export default {
                         value: +value
                     };
                 });
+                console.log("blockData", this.blockData);
                 const barData = this.blockData.slice(5);
                 const xAxis = [];
                 const yAxis = [];
