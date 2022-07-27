@@ -225,56 +225,7 @@
                                 </div>
                                 <div class="yinglong-table-container">
                                     <img src="../../assets/images/logo.jpg" alt="logo" class="yinglong-logo" />
-                                    <el-table
-                                        v-if="secondTableData.length"
-                                        :show-header="false"
-                                        :data="secondTableData"
-                                        :span-method="YinLongObjectSpanMethod"
-                                        size="mini"
-                                        :header-cell-style="headerStyle"
-                                        :cell-style="secondCellStyle"
-                                        height="240"
-                                        style="font-size: 8px; line-height: 14px"
-                                    >
-                                        <el-table-column>
-                                            <el-table-column
-                                                prop="index0"
-                                                align="center"
-                                                width="50px"
-                                            />
-                                            <el-table-column
-                                                prop="index1"
-                                                align="center"
-                                                width="50px"
-                                            />
-
-                                            <el-table-column
-                                                prop="index2"
-                                                align="center"
-                                                width="50px"
-                                            />
-                                            <el-table-column
-                                                prop="index3"
-                                                align="center"
-                                                width="50px"
-                                            />
-                                            <el-table-column
-                                                align="center"
-                                                prop="index4"
-                                                width="40px"
-                                            />
-                                            <el-table-column
-                                                align="center"
-                                                prop="index5"
-                                                width="50px"
-                                            />
-                                            <el-table-column
-                                                prop="index6"
-                                                align="center"
-                                                width="80px"
-                                            />
-                                        </el-table-column>
-                                    </el-table>
+                                    <div class="yinglong-bar" ref="barChart"></div>
                                 </div>
                             </div>
                         </div>
@@ -322,6 +273,10 @@ export default {
             activeName: "first",
             pieData: [],
             blockData: [],
+            barData: {
+                xAxis: [],
+                yAxis: []
+            },
             lineData: {
                 xais: [],
                 yais: [],
@@ -341,6 +296,7 @@ export default {
         },
         initChart() {
             const myChart = this.$eCharts.init(this.$refs.chart);
+            const barChart = this.$eCharts.init(this.$refs.barChart);
             const otherChart = this.$eCharts.init(this.$refs.otherChart);
             const blockLineChart1 = this.$eCharts.init(this.$refs.blokcLine1);
             const blockLineChart2 = this.$eCharts.init(this.$refs.blokcLine2);
@@ -446,6 +402,41 @@ export default {
                     }
                 ]
             };
+
+            const barOption = {
+
+                tooltip: {
+                    trigger: "axis",
+                    axisPointer: {
+                        type: "shadow"
+                    }
+                },
+                grid: {
+                    top: "30",
+                    left: "1%",
+                    right: "1%",
+                    bottom: "20",
+                    containLabel: true
+                },
+                xAxis: {
+                    type: "value",
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    type: "category",
+                    data: this.barData.yAxis
+                },
+                series: [
+                    {
+                        name: "2011",
+                        type: "bar",
+                        itemStyle: {
+                            color: "#726ED7"
+                        },
+                        data: this.barData.xAxis
+                    }
+                ]
+            };
             const blockLineOption = num => {
                 return {
                     xAxis: {
@@ -480,11 +471,12 @@ export default {
 
             myChart.setOption(option);
             otherChart.setOption(otherOption);
+            barChart.setOption(barOption);
             blockLineChart1.setOption(blockLineOption(0));
             blockLineChart2.setOption(blockLineOption(2));
             blockLineChart3.setOption(blockLineOption(1));
             blockLineChart4.setOption(blockLineOption(2));
-            blockLineChart5.setOption(blockLineOption(1));
+            blockLineChart5.setOption(blockLineOption(2));
 
             myChart.on("click", params => {
                 if (params.data) {
@@ -578,7 +570,18 @@ export default {
                         value: +value
                     };
                 });
-
+                const barData = this.blockData.slice(5);
+                const xAxis = [];
+                const yAxis = [];
+                barData.forEach(item => {
+                    yAxis.push(item.name);
+                    xAxis.push(item.value);
+                });
+                this.barData = {
+                    xAxis,
+                    yAxis
+                };
+                console.log("this.barData", this.barData);
                 this.pieData = res.data.pie.map(item => this.mapTree(item));
                 this.lineData = res.data.pie_data || {
                     xais: [],
@@ -1152,130 +1155,6 @@ export default {
                 };
             }
 
-        },
-        YinLongObjectSpanMethod(item) {
-            const {rowIndex, columnIndex} = item;
-            if (rowIndex === 0) {
-                return {
-                    rowspan: 1,
-                    colspan: 7
-                };
-
-            } else if (rowIndex === 1) {
-                return {
-                    rowspan: 1,
-                    colspan: 7
-                };
-            } else if (rowIndex === 2) {
-                if (columnIndex === 0) {
-                    return {
-                        rowspan: 1,
-                        colspan: 6
-                    };
-                } else if (columnIndex === 6) {
-                    return {
-                        rowspan: 1,
-                        colspan: 1
-                    };
-                }
-                return {
-                    rowspan: 0,
-                    colspan: 0
-                };
-            } else if (rowIndex === 3) {
-                if (columnIndex === 0) {
-                    return {
-                        rowspan: 1,
-                        colspan: 6
-                    };
-                } else if (columnIndex === 6) {
-                    return {
-                        rowspan: 5,
-                        colspan: 1
-                    };
-                }
-                return {
-                    rowspan: 0,
-                    colspan: 0
-                };
-            } else if (rowIndex === 4) {
-                if (columnIndex === 0) {
-                    return {
-                        rowspan: 1,
-                        colspan: 4
-                    };
-                } else if (columnIndex === 4) {
-                    return {
-                        rowspan: 1,
-                        colspan: 2
-                    };
-                }
-                return {
-                    rowspan: 0,
-                    colspan: 0
-                };
-            } else if (rowIndex === 5) {
-                if (columnIndex === 0) {
-                    return {
-                        rowspan: 1,
-                        colspan: 4
-                    };
-                } else if (columnIndex === 4) {
-                    return {
-                        rowspan: 1,
-                        colspan: 2
-                    };
-                }
-                return {
-                    rowspan: 0,
-                    colspan: 0
-                };
-            }
-            return {
-                rowspan: 1,
-                colspan: 1
-            };
-
-        },
-        secondCellStyle(item) {
-            const {rowIndex, columnIndex} = item;
-            if (rowIndex === 0) {
-                return {
-                    background: "#C2756F",
-                    borderBottom: "1px solid #000",
-                    borderRight: "1px solid #000"
-
-                };
-            } else if (rowIndex === 2) {
-                return {
-                    background: "#8f94fb",
-                    borderBottom: "1px solid #000",
-                    borderRight: "1px solid #000"
-
-                };
-            } else if (rowIndex === 4) {
-                if (columnIndex !== 6) {
-                    return {
-                        background: "#4ac29a",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000",
-                        padding: 0
-                    };
-                }
-            } else if (rowIndex === 6) {
-                if (columnIndex !== 6) {
-                    return {
-                        background: "#DDEBF7",
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000"
-
-                    };
-                }
-            }
-            return {
-                borderBottom: "1px solid #000",
-                borderRight: "1px solid #000"
-            };
         }
     }
 };
@@ -1464,6 +1343,12 @@ export default {
 									}
 								}
 							}
+
+							.three-block-wrap {
+								.two {
+									background: linear-gradient(to right, #DB8F87,#E4A19F);
+								}
+							}
 						}
 					}
 				}
@@ -1480,7 +1365,7 @@ export default {
 					.yinglong-pie-wrap {
 						position: relative;
 						min-width: 300px;
-						margin-left: 25px;
+						margin-left: 15px;
 						h3 {
 							position: absolute;
 							min-width: 240px;
@@ -1498,6 +1383,26 @@ export default {
 							height: 350px;
 						}
 					}
+
+					.yinglong-table-container {
+						position: relative;
+						height: 95%;
+						width: 50%;
+						flex: 1;
+						margin: 0 10px;
+						background: #fff;
+						.yinglong-logo {
+							min-width: 300px;
+							height: 80px;
+							position: relative;
+							top: 15px;
+							z-index: 200;
+						}
+						.yinglong-bar {
+							height: 290px;
+
+						}
+					}
 				}
 			}
 			.yinglong-line {
@@ -1507,55 +1412,12 @@ export default {
 					border-radius: 20px;
 					margin: 15px 20px;
 					width: auto;
-			}
-			.other-container {
-					height: 345px;
-			}
-
-		}
-	}
-
-</style>
-<style lang="scss" >
-.yinglong-table-container {
-	position: relative;
-	height: 100%;
-	width: 50%;
-	margin-left: 20px;
-	background: #fff;
-	.yinglong-logo {
-		min-width: 300px;
-		height: 80px;
-		position: relative;
-		top: 40px;
-		z-index: 200;
-	}
-	.el-table {
-		margin-top: 25px;
-		&::before {
-			height: 0 !important;
-		}
-		border: none;
-		.el-table__body-wrapper {
-			overflow: hidden !important;
-			position: relative;
-			.el-table__body {
-				position: relative;
-				left: -30px;
-				transform: scale(0.8);
-				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
-
-				.el-table__row {
-					.el-table__cell {
-						padding: 0;
-						.cell {
-							line-height: 20px;
-							padding: 0;
-						}
-					}
+				.other-container {
+						height: 345px;
 				}
 			}
+
 		}
 	}
-}
+
 </style>
