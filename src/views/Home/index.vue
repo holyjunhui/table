@@ -470,19 +470,6 @@ export default {
                             type: "line",
                             stack: "Total",
                             showSymbol: false,
-                            // areaStyle: {
-                            //     opacity: 0.8,
-                            //     color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
-                            //         {
-                            //             offset: 0,
-                            //             color: "#DDD4F0"
-                            //         },
-                            //         {
-                            //             offset: 1,
-                            //             color: "#9D86E9"
-                            //         }
-                            //     ])
-                            // },
                             lineStyle: {
                                 color: colors[num]
                             }
@@ -624,8 +611,8 @@ export default {
             this.$refs.form.validate(valid => {
                 if (valid) {
                     if (this.form.end.valueOf() > this.form.start.valueOf()) {
-                        this.start = dayjs(this.form.start).format("YYYY-MM-DD");
-                        this.end = dayjs(this.form.end).format("YYYY-MM-DD");
+                        this.start = dayjs(this.form.start).format("YYYY-MM-DD HH:mm:ss");
+                        this.end = dayjs(this.form.end).format("YYYY-MM-DD HH:mm:ss");
                         type === "search" ? this.getHomeData() : this.downHomeData(type);
                         if (this.activeName === "second") {
                             setTimeout(() => {
