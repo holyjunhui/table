@@ -335,7 +335,7 @@ export default {
                 },
                 grid: {
                     left: "3%",
-                    right: "4%",
+                    right: "3%",
                     bottom: "3%",
                     containLabel: true
                 },
@@ -413,8 +413,8 @@ export default {
                 },
                 grid: {
                     top: "30",
-                    left: "1%",
-                    right: "1%",
+                    left: "2%",
+                    right: "3%",
                     bottom: "20",
                     containLabel: true
                 },
@@ -1220,7 +1220,7 @@ export default {
 					box-shadow: 0px 0px 5px 10px rgba(0, 0, 0, 0.2);
 					border-radius: 20px;
 					.block-container {
-						background-color: #fff;
+						background-color: rgba(255,255,255, 0.6);
 						border-radius: 20px;
 						padding: 0px 25px 0px 25px;
 						.title {
@@ -1260,7 +1260,7 @@ export default {
 								}
 							}
 							.one {
-								background: linear-gradient(to right, #DB8F87,#E4A19F);
+								background: linear-gradient(to right, #DB8F87,#f36762);
 								box-sizing: border-box;
 								display: flex;
 								justify-content: space-between;
@@ -1277,12 +1277,12 @@ export default {
 								}
 							}
 							.two {
-								background: linear-gradient(to right, #726ED7,#9E9AEB);
+								background: linear-gradient(to right, #726ED7,#6961f2);
 								box-sizing: border-box;
 								display: flex;
 								justify-content: space-between;
 								.block-content {
-									margin: 15px 10px 20px 10px;
+									margin: 5px 10px 5px 10px;
 									p {
 										display: flex;
 										justify-content: flex-end;
@@ -1304,7 +1304,7 @@ export default {
 												display: flex;
 												justify-content: space-between;
 												font-size: 12px;
-												margin-left: 10px;
+												margin: 5px 0;
 												span {
 													font-size: 12px;
 												}
@@ -1314,7 +1314,7 @@ export default {
 							}
 
 							.second-block-wrap {
-								background: linear-gradient(to right, #86D0C6, #B8E8E7);
+								background: #12998e;
 								align-self: stretch;
 								margin: 0 0px 20px 20px;
 								display: flex;
@@ -1347,7 +1347,7 @@ export default {
 
 							.three-block-wrap {
 								.two {
-									background: linear-gradient(to right, #DB8F87,#E4A19F);
+									background: linear-gradient(to right, #DB8F87,#f36762);
 								}
 							}
 						}
@@ -1358,7 +1358,7 @@ export default {
 					display: flex;
 					align-self: stretch;
 					align-items: center;
-					background: #fff;
+					background: rgba(255,255,255, 0.6);
 					margin: 20px 20px 10px 10px;
 					box-shadow: 0px 0px 5px 10px rgba(0, 0, 0, 0.2);
 					border-radius: 20px;
@@ -1366,11 +1366,13 @@ export default {
 					.yinglong-pie-wrap {
 						position: relative;
 						min-width: 300px;
-						margin-left: 15px;
+						padding-left: 15px;
+						border-radius: 20px;
+						background: rgba(255,255,255, 0.6);
 						h3 {
 							position: absolute;
 							min-width: 240px;
-							left: 0px;
+							left: 25px;
 							top: -10px;
 							z-index: 200;
 							padding-bottom: 5px;
@@ -1381,17 +1383,17 @@ export default {
 							justify-content: center;
 							align-items: center;
 							margin-top: 30px;
-							height: 350px;
+							height: 337px;
 						}
 					}
 
 					.yinglong-table-container {
 						position: relative;
-						height: 95%;
 						width: 50%;
 						flex: 1;
-						margin: 0 10px;
-						background: #fff;
+						padding: 0 0 0 10px;
+						border-radius: 20px;
+						background: rgba(255,255,255, 0.6);
 						.yinglong-logo {
 							min-width: 300px;
 							height: 80px;
@@ -1400,21 +1402,21 @@ export default {
 							z-index: 200;
 						}
 						.yinglong-bar {
-							height: 290px;
+							height: 292px;
 
 						}
 					}
 				}
 			}
 			.yinglong-line {
-					padding: 10px 20px;
-					background-color: #fff;
+					padding: 10px 25px;
+					background-color: rgba(255,255,255, 0.6);
 					box-shadow: 0px 0px 5px 10px rgba(0, 0, 0, 0.2);
 					border-radius: 20px;
 					margin: 15px 20px;
 					width: auto;
 				.other-container {
-						height: 345px;
+						height: 320px;
 				}
 			}
 
