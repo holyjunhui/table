@@ -357,17 +357,18 @@ export default {
                         lineStyle: {
                             width: 0
                         },
+                        color: ["#6961f2"],
                         showSymbol: false,
                         areaStyle: {
                             opacity: 0.8,
                             color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
                                 {
                                     offset: 0,
-                                    color: "#9D86E9"
+                                    color: "#726ED7"
                                 },
                                 {
                                     offset: 1,
-                                    color: "#9D86E9"
+                                    color: "#6961f2"
                                 }
                             ])
                         },
@@ -381,17 +382,18 @@ export default {
                         lineStyle: {
                             width: 0
                         },
+                        color: ["#f36762"],
                         showSymbol: false,
                         areaStyle: {
                             opacity: 0.8,
                             color: new this.$eCharts.graphic.LinearGradient(0, 0, 0, 1, [
                                 {
                                     offset: 0,
-                                    color: "#DDD4F0"
+                                    color: "#DB8F87"
                                 },
                                 {
                                     offset: 1,
-                                    color: "#B7B8EE"
+                                    color: "#f36762"
                                 }
                             ])
                         },
@@ -431,7 +433,7 @@ export default {
                         name: "2011",
                         type: "bar",
                         itemStyle: {
-                            color: "#726ED7"
+                            color: "#DB8F87"
                         },
                         data: this.barData.xAxis
                     }
